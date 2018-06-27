@@ -12,12 +12,12 @@
 	</settings>
 
 	<typeAliases>
-		<typeAlias alias="SysPermission" type="com.youguu.sys.pojo.SysPermission" />
-		<typeAlias alias="SysRole" type="com.youguu.sys.pojo.SysRole" />
-		<typeAlias alias="SysRolePermission" type="com.youguu.sys.pojo.SysRolePermission" />
-		<typeAlias alias="SysUser" type="com.youguu.sys.pojo.SysUser" />
-		<typeAlias alias="SysUserRole" type="com.youguu.sys.pojo.SysUserRole" />
-		<typeAlias alias="SysLog" type="com.youguu.sys.pojo.SysLog" />
+		<typeAlias alias="SysPermission" type="com.viewol.sys.pojo.SysPermission" />
+		<typeAlias alias="SysRole" type="com.viewol.sys.pojo.SysRole" />
+		<typeAlias alias="SysRolePermission" type="com.viewol.sys.pojo.SysRolePermission" />
+		<typeAlias alias="SysUser" type="com.viewol.sys.pojo.SysUser" />
+		<typeAlias alias="SysUserRole" type="com.viewol.sys.pojo.SysUserRole" />
+		<typeAlias alias="SysLog" type="com.viewol.sys.pojo.SysLog" />
 		<typeAlias alias="SysApi" type="com.youguu.api.pojo.SysApi" />
 		<typeAlias alias="SysApiTemplate" type="com.youguu.api.pojo.SysApiTemplate" />
 		<typeAlias alias="SysApiResource" type="com.youguu.api.pojo.SysApiResource" />

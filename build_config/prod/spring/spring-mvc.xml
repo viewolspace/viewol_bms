@@ -28,11 +28,11 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
-            <bean class="com.youguu.sys.interceptor.RepeatInterceptor"/>
+            <bean class="com.viewol.sys.interceptor.RepeatInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 
-    <bean id="springContextUtil" class="com.youguu.common.SpringContextUtil" scope="singleton"></bean>
+    <bean id="springContextUtil" class="com.viewol.common.SpringContextUtil" scope="singleton"></bean>
 
     <!-- 定义视图解析器 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="viewResolver">
@@ -40,6 +40,6 @@
         <property name="suffix" value=".jsp"></property>
     </bean>
 
-    <!--<bean id="exceptionResolver" class="com.youguu.MyExceptionResolver"></bean>-->
+    <!--<bean id="exceptionResolver" class="com.viewol.exception.MyExceptionResolver"></bean>-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 </beans>
