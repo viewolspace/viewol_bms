@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysApi">
+    <resultMap type="SysApi" id="SysApiResultMap">
+        <result property="id" column="id"/>
+        <result property="projectId" column="project_id"/>
+        <result property="serviceId" column="service_id"/>
+        <result property="apiName" column="api_name"/>
+        <result property="apiUrl" column="api_url"/>
+        <result property="requestMethod" column="request_method"/>
+        <result property="apiDetail" column="api_detail"/>
+        <result property="apiStatus" column="api_status"/>
+        <result property="apiDeveloper" column="api_developer"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createTime" column="create_time"/>
+
+    </resultMap>
+
+    <insert id="insert" parameterType="SysApi">
+        insert into sys_api
+        (project_id,service_id,api_name,api_url,request_method,api_detail,api_status,api_developer,update_time,create_time)
+        VALUES
+        (#{projectId},#{serviceId},#{apiName},#{apiUrl},#{requestMethod},#{apiDetail},#{apiStatus},#{apiDeveloper},#{updateTime},#{createTime})
+        <selectKey resultType="int" keyProperty="id">
+            select LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <delete id="delete" parameterType="int">
+		delete from sys_api where id=#{id}
+	</delete>
+
+    <update id="update" parameterType="SysApi">
+		update sys_api
+		set
+		project_id=#{projectId},
+		service_id=#{serviceId},
+		api_name=#{apiName},
+		api_url=#{apiUrl},
+		request_method=#{requestMethod},
+		api_detail=#{apiDetail},
+		api_status=#{apiStatus},
+		api_developer=#{apiDeveloper},
+		update_time=#{updateTime}
+		where id=#{id}
+	</update>
+
+    <select id="select" parameterType="int" resultMap="SysApiResultMap">
+		select id,project_id,service_id,api_name,api_url,request_method,api_detail,api_status,api_developer,update_time,create_time
+		from sys_api
+		where id=#{id}
+	</select>
+
+
+    <sql id="sql_show">
+		select id,project_id,service_id,api_name,api_url,request_method,api_detail,api_status,api_developer,update_time,create_time
+	</sql>
+
+    <sql id="sql_where">
+        from sys_api
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="projectId > 0 ">
+                AND project_id = #{projectId}
+            </if>
+            <if test="serviceId > 0 ">
+                AND service_id = #{serviceId}
+            </if>
+            <if test="apiName != null and apiName != '' ">
+                AND api_name = #{apiName}
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="sql_count">
+		select count(1)
+	</sql>
+
+    <sql id="sql_order">
+        <if test="cols!=null">
+            ORDER BY ${cols}
+        </if>
+    </sql>
+
+    <select id="querySysApiByPage_count" parameterType="map" resultType="int">
+        <include refid="sql_count"/>
+        <include refid="sql_where"/>
+    </select>
+
+    <select id="querySysApiByPage" parameterType="map" resultMap="SysApiResultMap">
+        <include refid="sql_show"/>
+        <include refid="sql_where"/>
+        <include refid="sql_order"/>
+    </select>
+
+</mapper>

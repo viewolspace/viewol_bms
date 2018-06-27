@@ -1,0 +1,48 @@
+.layadmin-link {
+    color: #029789 !important;
+}
+
+.layadmin-user-jump-change {
+    float: right;
+    padding-right: 16px;
+}
+
+.layadmin-user-login-other {
+    position: relative;
+    font-size: 0;
+    line-height: 38px;
+    padding-top: 20px
+}
+
+.layadmin-user-login-other>* {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    font-size: 14px
+}
+
+.layadmin-user-login-other .layui-icon {
+    position: relative;
+    top: 2px;
+    font-size: 26px
+}
+
+.layadmin-user-login-other a:hover {
+    opacity: .8
+}
+
+.layadmin-user-login-other img {
+    width: 30px;
+    height: 30px;
+}
+
+.quickFlip {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 320px;
+    max-height: 400px;
+}

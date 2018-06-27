@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<settings>
+		<setting name="cacheEnabled" value="true" />
+		<setting name="lazyLoadingEnabled" value="false" />
+		<setting name="useGeneratedKeys" value="true" />
+		<setting name="logPrefix" value="database.game" />
+		<setting name="mapUnderscoreToCamelCase" value="false" />
+	</settings>
+
+	<typeAliases>
+		<typeAlias alias="SysPermission" type="com.youguu.sys.pojo.SysPermission" />
+		<typeAlias alias="SysRole" type="com.youguu.sys.pojo.SysRole" />
+		<typeAlias alias="SysRolePermission" type="com.youguu.sys.pojo.SysRolePermission" />
+		<typeAlias alias="SysUser" type="com.youguu.sys.pojo.SysUser" />
+		<typeAlias alias="SysUserRole" type="com.youguu.sys.pojo.SysUserRole" />
+		<typeAlias alias="SysLog" type="com.youguu.sys.pojo.SysLog" />
+		<typeAlias alias="SysApi" type="com.youguu.api.pojo.SysApi" />
+		<typeAlias alias="SysApiTemplate" type="com.youguu.api.pojo.SysApiTemplate" />
+		<typeAlias alias="SysApiResource" type="com.youguu.api.pojo.SysApiResource" />
+	</typeAliases>
+	
+	<plugins>
+		<plugin interceptor="com.youguu.core.dao.StatementInterceptor" />
+		<plugin interceptor="com.youguu.core.dao.ResultSetInterceptor" />
+	</plugins>
+	
+	<mappers>
+		<mapper resource="mybatis/sys_permission_mapper.xml" />
+		<mapper resource="mybatis/sys_role_mapper.xml" />
+		<mapper resource="mybatis/sys_role_permission_mapper.xml" />
+		<mapper resource="mybatis/sys_user_mapper.xml" />
+		<mapper resource="mybatis/sys_user_role_mapper.xml" />
+		<mapper resource="mybatis/sys_log_mapper.xml" />
+		<mapper resource="mybatis/sys_api_mapper.xml" />
+		<mapper resource="mybatis/sys_api_template_mapper.xml" />
+		<mapper resource="mybatis/sys_api_resource_mapper.xml" />
+	</mappers>
+</configuration>

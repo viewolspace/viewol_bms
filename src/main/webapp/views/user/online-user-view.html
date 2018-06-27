@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>系统用户添加</title>
+	<link rel="stylesheet" href="../../frame/layui/css/layui.css">
+</head>
+
+<body>
+<div>
+<form id="online-user-form" class="layui-form" action="">
+	<div class="layui-form-item">
+		<label class="layui-form-label" style="width: 150px;">SessionId</label>
+		<div class="layui-input-block">
+			<input type="text" name="sessionId" autocomplete="off" disabled class="layui-input" style="width: 300px;">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label" style="width: 150px;">Session创建时间</label>
+		<div class="layui-input-block">
+			<input type="text" name="startTime" autocomplete="off" disabled class="layui-input" style="width: 300px;">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label" style="width: 150px;">Session最后交互时间</label>
+		<div class="layui-input-block">
+			<input type="text" name="lastAccess" autocomplete="off" disabled class="layui-input" style="width: 300px;">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label" style="width: 150px;">Session超时时间</label>
+		<div class="layui-input-block">
+			<input type="text" name="timeout" autocomplete="off" disabled class="layui-input" style="width: 300px;">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label" style="width: 150px;">Session 状态</label>
+		<div class="layui-input-block">
+			<input type="text" name="sessionStatus" autocomplete="off" disabled class="layui-input" style="width: 300px;">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label" style="width: 150px;">主机IP</label>
+		<div class="layui-input-block">
+			<input type="text" name="host" autocomplete="off" disabled class="layui-input" style="width: 300px;">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label" style="width: 150px;">真实姓名</label>
+		<div class="layui-input-block">
+			<input type="text" name="realName" autocomplete="off" disabled class="layui-input" style="width: 300px;">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label" style="width: 150px;">手机号</label>
+		<div class="layui-input-block">
+			<input type="text" name="phone" autocomplete="off" disabled class="layui-input" style="width: 300px;">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label" style="width: 150px;">最后登录时间</label>
+		<div class="layui-input-block">
+			<input type="text" name="lastLoginTime" autocomplete="off" disabled class="layui-input" style="width: 300px;">
+		</div>
+	</div>
+
+</form>
+</div>
+<script type="text/javascript" src="../../js/common/module-manage.js"></script>
+<script type="text/javascript" charset="utf8" src="../../frame/moment.js"></script>
+<script type="text/javascript" charset="utf8" src="../../frame/layui/layui.js"></script>
+<script src="../../js/controller/user/online-user-view.js"></script>
+</body>
+
+</html>

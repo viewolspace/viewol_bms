@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysRolePermission">
+    <resultMap type="SysRolePermission" id="SysRolePermissionResultMap">
+        <result property="id" column="id"/>
+        <result property="rid" column="rid"/>
+        <result property="pid" column="pid"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <insert id="batchSaveSysRolePermission" useGeneratedKeys="true" parameterType="java.util.List">
+        <selectKey resultType="int" keyProperty="id">
+            select LAST_INSERT_ID() AS id
+        </selectKey>
+
+        insert into sys_role_permission
+        (rid,pid,create_time)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.rid},#{item.pid},#{item.createTime})
+        </foreach>
+    </insert>
+
+    <delete id="deleteSysRolePermissionByRole" parameterType="int">
+		delete from sys_role_permission where rid=#{rid}
+	</delete>
+
+    <select id="listSysRolePermissionByRole" resultMap="SysRolePermissionResultMap">
+		select id,rid,pid,create_time
+		from sys_role_permission
+		where rid in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        GROUP BY pid
+    </select>
+</mapper>

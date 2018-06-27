@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysApiTemplate">
+    <resultMap type="SysApiTemplate" id="SysApiTemplateResultMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="contentText" column="content_text"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createTime" column="create_time"/>
+
+    </resultMap>
+
+    <insert id="insert" parameterType="SysApiTemplate">
+        insert into sys_api_template
+        (name,content_text,update_time,create_time)
+        VALUES
+        (#{name},#{contentText},#{updateTime},#{createTime})
+        <selectKey resultType="int" keyProperty="id">
+            select LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <delete id="delete" parameterType="int">
+		delete from sys_api_template where id=#{id}
+	</delete>
+
+    <update id="update" parameterType="SysApiTemplate">
+		update sys_api_template
+		set
+		name=#{name},
+		content_text=#{contentText},
+		update_time=#{updateTime}
+		where id=#{id}
+	</update>
+
+    <select id="select" parameterType="int" resultMap="SysApiTemplateResultMap">
+		select id,name,content_text,update_time,create_time
+		from sys_api_template
+		where id=#{id}
+	</select>
+
+
+    <sql id="sql_show">
+		select id,name,content_text,update_time,create_time
+	</sql>
+
+    <sql id="sql_where">
+        from sys_api_template
+    </sql>
+
+    <sql id="sql_count">
+		select count(1)
+	</sql>
+
+    <sql id="sql_order">
+        <if test="cols!=null">
+            ORDER BY ${cols}
+        </if>
+    </sql>
+
+    <select id="querySysApiTemplateByPage_count" parameterType="map" resultType="int">
+        <include refid="sql_count"/>
+        <include refid="sql_where"/>
+    </select>
+
+    <select id="querySysApiTemplateByPage" parameterType="map" resultMap="SysApiTemplateResultMap">
+        <include refid="sql_show"/>
+        <include refid="sql_where"/>
+        <include refid="sql_order"/>
+    </select>
+
+</mapper>

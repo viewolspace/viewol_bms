@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysPermission">
+    <resultMap type="SysPermission" id="SysPermissionResultMap">
+        <result property="id" column="id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="name" column="name"/>
+        <result property="url" column="url"/>
+        <result property="type" column="type"/>
+        <result property="createTime" column="create_time"/>
+        <result property="btnKey" column="btn_key"/>
+        <result property="levels" column="levels"/>
+
+    </resultMap>
+
+    <insert id="insert" parameterType="SysPermission">
+        insert into sys_permission
+        (parent_id,name,url,type,create_time,btn_key,levels)
+        VALUES
+        (#{parentId},#{name},#{url},#{type},#{createTime},#{btnKey},#{levels})
+        <selectKey resultType="int" keyProperty="id">
+            select LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <delete id="delete" parameterType="int">
+		delete from sys_permission where id=#{id}
+	</delete>
+
+    <update id="update" parameterType="SysPermission">
+		update sys_permission
+		set
+		parent_id=#{parentId},
+		name=#{name},
+		url=#{url},
+		type=#{type},
+		create_time=#{createTime},
+		btn_key=#{btnKey},
+		levels=#{levels}
+		where id=#{id}
+	</update>
+
+    <select id="select" parameterType="int" resultMap="SysPermissionResultMap">
+		select id,parent_id,name,url,type,create_time,btn_key,levels
+		from sys_permission
+		where id=#{id}
+	</select>
+
+    <select id="select_all" resultMap="SysPermissionResultMap">
+        select id,parent_id,name,url,type,create_time,btn_key,levels from sys_permission order by parent_id, id ASC
+    </select>
+
+    <select id="select_user_permission" parameterType="map" resultMap="SysPermissionResultMap">
+        SELECT a.id,a.parent_id,a.name,a.url,a.type,a.create_time,a.btn_key,a.levels
+        FROM sys_permission a, sys_role_permission b
+        where a.id=b.pid AND a.type=1 AND a.parent_id=#{parentId} AND b.rid=#{roleId}
+    </select>
+
+    <select id="select_user_permission_by_rid" parameterType="int" resultMap="SysPermissionResultMap">
+        SELECT a.id,a.parent_id,a.name,a.url,a.type,a.create_time,a.btn_key,a.levels
+        FROM sys_permission a, sys_role_permission b
+        where a.type=0 AND a.id=b.pid AND b.rid=#{roleId}
+    </select>
+
+    <select id="select_user_permission_by_appid" parameterType="map" resultMap="SysPermissionResultMap">
+        SELECT a.id,a.parent_id,a.name,a.url,a.type,a.create_time,a.btn_key,a.levels
+        FROM sys_permission a, sys_role_permission b, sys_role c
+        <trim prefix="where" prefixOverrides="AND|OR">
+            a.id=b.pid and b.rid=c.id
+            <if test=" roleId != null and roleId > 0 ">
+                AND c.id=#{roleId}
+            </if>
+            <if test=" appId != null and appId > 0 ">
+                AND c.app_id=#{appId}
+            </if>
+        </trim>
+    </select>
+</mapper>

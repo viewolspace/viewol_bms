@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysUser">
+    <resultMap type="SysUser" id="SysUserResultMap">
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="realName" column="real_name"/>
+        <result property="email" column="email"/>
+        <result property="pswd" column="pswd"/>
+        <result property="phone" column="phone"/>
+        <result property="lastLoginTime" column="last_login_time"/>
+        <result property="userStatus" column="user_status"/>
+        <result property="createTime" column="create_time"/>
+
+        <result property="roleId" column="roleId"/>
+        <result property="roleName" column="roleName"/>
+        <result property="roleCode" column="roleCode"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="SysUser">
+        insert into sys_user
+        (user_name,real_name,email,pswd,phone,create_time,last_login_time,user_status)
+        VALUES
+        (#{userName},#{realName},#{email},#{pswd},#{phone},#{createTime},#{lastLoginTime},#{userStatus})
+        <selectKey resultType="int" keyProperty="id">
+            select LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <delete id="delete" parameterType="int">
+		delete from sys_user where id=#{id}
+	</delete>
+
+    <update id="update" parameterType="SysUser">
+		update sys_user
+		set
+		user_name=#{userName},
+		real_name=#{realName},
+		email=#{email},
+		phone=#{phone},
+		create_time=#{createTime},
+		last_login_time=#{lastLoginTime},
+		user_status=#{userStatus}
+		where id=#{id}
+	</update>
+
+    <update id="updateLastLoginTime" parameterType="Map">
+        update sys_user
+        set last_login_time=#{lastLoginTime}
+        where user_name=#{userName}
+    </update>
+
+    <update id="updatePwd" parameterType="Map">
+        update sys_user
+        set pswd=#{newPwd}
+        where user_name=#{userName} and pswd=#{oldPwd}
+    </update>
+
+    <select id="select" parameterType="int" resultMap="SysUserResultMap">
+		select id,user_name,real_name,email,pswd,phone,create_time,last_login_time,user_status
+		from sys_user
+		where id=#{id}
+	</select>
+
+    <!-- 根据用户名查询-->
+    <select id="findSysUserByUserName" parameterType="String" resultMap="SysUserResultMap">
+        select a.id,a.user_name,a.real_name,a.email,a.pswd,a.phone,a.create_time,a.last_login_time,a.user_status,c.id as roleId, c.name as roleName, c.code as roleCode
+        from sys_user a, sys_user_role b, sys_role c
+        where  a.id=b.uid and b.rid=c.id and a.user_name=#{userName}
+    </select>
+
+    <sql id="sql_show">
+		select a.id,a.user_name,a.real_name,a.email,a.pswd,a.phone,a.create_time,a.last_login_time,a.user_status,c.id as roleId, c.name as roleName
+	</sql>
+
+    <sql id="sql_where">
+        from sys_user a, sys_user_role b, sys_role c
+        <trim prefix="where" prefixOverrides="AND|OR">
+            a.id=b.uid and b.rid=c.id
+            <if test="userId > 0 ">
+                AND a.id = #{userId}
+            </if>
+            <if test="realName != null and realName != '' ">
+                AND a.real_name = #{realName}
+            </if>
+            <if test="appId > 0 ">
+                AND c.app_id = #{appId}
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="sql_count">
+		select count(1)
+	</sql>
+
+    <sql id="sql_order">
+        <if test="cols!=null">
+            ORDER BY ${cols}
+        </if>
+    </sql>
+
+    <select id="querySysUserByPage_count" parameterType="map" resultType="int">
+        <include refid="sql_count"/>
+        <include refid="sql_where"/>
+    </select>
+
+    <select id="querySysUserByPage" parameterType="map" resultMap="SysUserResultMap">
+        <include refid="sql_show"/>
+        <include refid="sql_where"/>
+        <include refid="sql_order"/>
+    </select>
+
+</mapper>

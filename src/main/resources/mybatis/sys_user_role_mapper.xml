@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysUserRole">
+    <resultMap type="SysUserRole" id="SysUserRoleResultMap">
+        <result property="id" column="id"/>
+        <result property="uid" column="uid"/>
+        <result property="rid" column="rid"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="SysUserRole">
+        insert into sys_user_role
+        (uid,rid,create_time)
+        VALUES
+        (#{uid},#{rid},#{createTime})
+        <selectKey resultType="int" keyProperty="id">
+            select LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <delete id="deleteByUid" parameterType="int">
+		delete from sys_user_role where uid=#{uid}
+	</delete>
+
+    <update id="update" parameterType="SysUserRole">
+		update sys_user_role
+		set rid=#{rid} where uid=#{uid}
+	</update>
+
+
+    <select id="selectByUid" parameterType="int" resultMap="SysUserRoleResultMap">
+		select id,uid,rid,create_time
+		from sys_user_role
+		where uid=#{uid}
+	</select>
+
+</mapper>

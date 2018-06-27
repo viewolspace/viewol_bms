@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysApiResource">
+    <resultMap type="SysApiResource" id="SysApiResourceResultMap">
+        <result property="id" column="id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="createTime" column="create_time"/>
+        <result property="levels" column="levels"/>
+
+    </resultMap>
+
+    <insert id="insert" parameterType="SysApiResource">
+        insert into sys_api_resource
+        (parent_id,name,type,create_time,levels)
+        VALUES
+        (#{parentId},#{name},#{type},#{createTime},#{levels})
+        <selectKey resultType="int" keyProperty="id">
+            select LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <delete id="delete" parameterType="int">
+		delete from sys_api_resource where id=#{id}
+	</delete>
+
+    <update id="update" parameterType="SysApiResource">
+		update sys_api_resource
+		set
+		parent_id=#{parentId},
+		name=#{name},
+		type=#{type},
+		create_time=#{createTime},
+		levels=#{levels}
+		where id=#{id}
+	</update>
+
+    <select id="select" parameterType="int" resultMap="SysApiResourceResultMap">
+		select id,parent_id,name,type,create_time,levels
+		from sys_api_resource
+		where id=#{id}
+	</select>
+
+    <select id="select_all" resultMap="SysApiResourceResultMap">
+        select id,parent_id,name,type,create_time,levels from sys_api_resource order by parent_id, id ASC
+    </select>
+
+    <select id="select_by_parentId" parameterType="int" resultMap="SysApiResourceResultMap">
+        select id,parent_id,name,type,create_time,levels from sys_api_resource WHERE parent_id=#{parentId} order by parent_id, id ASC
+    </select>
+
+</mapper>
