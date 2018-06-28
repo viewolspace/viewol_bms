@@ -2,9 +2,6 @@ package com.viewol.sys.controller;
 
 import com.viewol.common.BaseResponse;
 import com.viewol.common.GridBaseResponse;
-import com.youguu.core.util.MD5;
-import com.youguu.core.util.PageHolder;
-import com.viewol.shiro.session.CustomSessionManager;
 import com.viewol.shiro.token.TokenManager;
 import com.viewol.sys.interceptor.Repeat;
 import com.viewol.sys.log.annotation.MethodLog;
@@ -15,7 +12,8 @@ import com.viewol.sys.response.OnlineUserResponse;
 import com.viewol.sys.service.SysUserRoleService;
 import com.viewol.sys.service.SysUserService;
 import com.viewol.sys.utils.Constants;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.youguu.core.util.MD5;
+import com.youguu.core.util.PageHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,8 +35,6 @@ public class UserController {
 	private SysUserService sysUserService;
 	@Resource
 	private SysUserRoleService sysUserRoleService;
-	@Autowired
-	CustomSessionManager customSessionManager;
 
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
 	@ResponseBody
@@ -223,12 +218,6 @@ public class UserController {
 		rs.setCode(0);
 		rs.setMsg("ok");
 
-		List<OnlineSysUser> onlineSysUserList = customSessionManager.getAllUser();
-		if (null != onlineSysUserList && onlineSysUserList.size() > 0) {
-			rs.setData(onlineSysUserList);
-
-		}
-
 		return rs;
 	}
 
@@ -244,9 +233,6 @@ public class UserController {
 		rs.setStatus(true);
 		rs.setMsg("ok");
 
-		OnlineSysUser onlineSysUser = customSessionManager.getSession(sessionId);
-		rs.setData(onlineSysUser);
-
 		return rs;
 	}
 
@@ -261,15 +247,6 @@ public class UserController {
 
 		OnlineUserResponse rs = new OnlineUserResponse();
 
-		Map<String, Object> map = customSessionManager.changeSessionStatus(false, sessionId);
-		if(200 == Integer.parseInt(String.valueOf(map.get("status")))){
-			rs.setStatus(true);
-			rs.setMsg("ok");
-			return rs;
-		}
-
-		rs.setStatus(false);
-		rs.setMsg(String.valueOf(map.get("message")));
 
 		return rs;
 	}

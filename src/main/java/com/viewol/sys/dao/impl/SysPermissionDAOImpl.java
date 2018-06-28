@@ -1,6 +1,6 @@
 package com.viewol.sys.dao.impl;
 
-import com.viewol.sys.base.OpenMsDAO;
+import com.viewol.sys.base.ViewolMsDAO;
 import com.viewol.sys.dao.SysPermissionDAO;
 import com.viewol.sys.pojo.SysPermission;
 import org.springframework.stereotype.Repository;
@@ -13,7 +13,7 @@ import java.util.Map;
  * Created by leo on 2017/11/23.
  */
 @Repository
-public class SysPermissionDAOImpl extends OpenMsDAO<SysPermission> implements SysPermissionDAO {
+public class SysPermissionDAOImpl extends ViewolMsDAO<SysPermission> implements SysPermissionDAO {
 	@Override
 	public int saveSysPermission(SysPermission permission) {
 		return this.insert(permission);

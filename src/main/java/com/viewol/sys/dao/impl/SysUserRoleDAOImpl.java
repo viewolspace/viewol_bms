@@ -1,6 +1,6 @@
 package com.viewol.sys.dao.impl;
 
-import com.viewol.sys.base.OpenMsDAO;
+import com.viewol.sys.base.ViewolMsDAO;
 import com.viewol.sys.dao.SysUserRoleDAO;
 import com.viewol.sys.pojo.SysUserRole;
 import org.springframework.stereotype.Repository;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
  * Created by leo on 2017/11/23.
  */
 @Repository
-public class SysUserRoleDAOImpl extends OpenMsDAO<SysUserRole> implements SysUserRoleDAO {
+public class SysUserRoleDAOImpl extends ViewolMsDAO<SysUserRole> implements SysUserRoleDAO {
 	@Override
 	public int saveSysUserRole(SysUserRole userRole) {
 		return this.insert(userRole);

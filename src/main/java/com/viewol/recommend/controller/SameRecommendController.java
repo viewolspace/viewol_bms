@@ -33,7 +33,7 @@ import java.util.Random;
  * 同类推荐管理(展商，展品)
  */
 @Controller
-@RequestMapping("category")
+@RequestMapping("sameRecommend")
 public class SameRecommendController {
 
     /**

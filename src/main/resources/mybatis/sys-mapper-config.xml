@@ -18,9 +18,6 @@
 		<typeAlias alias="SysUser" type="com.viewol.sys.pojo.SysUser" />
 		<typeAlias alias="SysUserRole" type="com.viewol.sys.pojo.SysUserRole" />
 		<typeAlias alias="SysLog" type="com.viewol.sys.pojo.SysLog" />
-		<typeAlias alias="SysApi" type="com.youguu.api.pojo.SysApi" />
-		<typeAlias alias="SysApiTemplate" type="com.youguu.api.pojo.SysApiTemplate" />
-		<typeAlias alias="SysApiResource" type="com.youguu.api.pojo.SysApiResource" />
 	</typeAliases>
 	
 	<plugins>
@@ -35,8 +32,5 @@
 		<mapper resource="mybatis/sys_user_mapper.xml" />
 		<mapper resource="mybatis/sys_user_role_mapper.xml" />
 		<mapper resource="mybatis/sys_log_mapper.xml" />
-		<mapper resource="mybatis/sys_api_mapper.xml" />
-		<mapper resource="mybatis/sys_api_template_mapper.xml" />
-		<mapper resource="mybatis/sys_api_resource_mapper.xml" />
 	</mappers>
 </configuration>

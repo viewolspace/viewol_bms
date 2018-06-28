@@ -33,7 +33,7 @@ import java.util.Random;
  * 日程(活动)管理
  */
 @Controller
-@RequestMapping("category")
+@RequestMapping("schedule")
 public class ScheduleController {
 
     /**

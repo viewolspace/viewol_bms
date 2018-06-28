@@ -14,29 +14,29 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
-@Configuration("openMsContextLoader")
-@ComponentScan({"com.youguu.sys*"})
+@Configuration("viewolMsContextLoader")
+@ComponentScan({"com.viewol*"})
 @EnableTransactionManagement
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class ContextLoader extends DataSourceLoader {
 
 	public DataSource getDataSource(String selector) {
-		return loadMulti(selector);
+		return load("viewolMs","viewolMsDS");
 	}
 
 	@Bean
-	public SqlSessionFactory openMsSessionFactory() throws Exception {
+	public SqlSessionFactory viewolMsSessionFactory() throws Exception {
 		SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-		bean.setDataSource(getDataSource("open_ms"));
+		bean.setDataSource(getDataSource("viewolMs"));
 		DefaultResourceLoader dc = new DefaultResourceLoader();
 		bean.setConfigLocation(dc.getResource("classpath:mybatis/sys-mapper-config.xml"));
 		return bean.getObject();
 	}
 
-	@Bean(name = "openMsTx")
-	public DataSourceTransactionManager openMsTx() {
+	@Bean(name = "viewolMsTx")
+	public DataSourceTransactionManager viewolMsTx() {
 		DataSourceTransactionManager transactionManager = new MultiDataSourceTransactionManager();
-		transactionManager.setDataSource(getDataSource("open_ms"));
+		transactionManager.setDataSource(getDataSource("viewolMs"));
 		return transactionManager;
 	}
 

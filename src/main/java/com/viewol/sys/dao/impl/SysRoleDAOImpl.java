@@ -1,10 +1,9 @@
 package com.viewol.sys.dao.impl;
 
 import com.youguu.core.util.PageHolder;
-import com.viewol.sys.base.OpenMsDAO;
+import com.viewol.sys.base.ViewolMsDAO;
 import com.viewol.sys.dao.SysRoleDAO;
 import com.viewol.sys.pojo.SysRole;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -15,7 +14,7 @@ import java.util.Map;
  * Created by leo on 2017/11/23.
  */
 @Repository
-public class SysRoleDAOImpl extends OpenMsDAO<SysRole> implements SysRoleDAO {
+public class SysRoleDAOImpl extends ViewolMsDAO<SysRole> implements SysRoleDAO {
 	@Override
 	public int saveSysRole(SysRole role) {
 		this.insert(role);

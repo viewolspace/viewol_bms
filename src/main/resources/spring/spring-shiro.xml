@@ -26,27 +26,10 @@
     <!--session manager 开始-->
     <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
 
-    <bean id="jedisManager" class="com.viewol.shiro.cache.JedisManager">
-        <property name="jedisPool" ref="jedisPool"/>
-    </bean>
-
-    <bean id="jedisShiroSessionRepository" class="com.viewol.shiro.cache.JedisShiroSessionRepository">
-        <property name="jedisManager" ref="jedisManager"/>
-    </bean>
-
-    <bean id="customShiroSessionDAO" class="com.viewol.shiro.session.CustomShiroSessionDAO">
-        <property name="shiroSessionRepository" ref="jedisShiroSessionRepository"/>
+    <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+        <property name="activeSessionsCacheName" value="activeSessionCache"/>
+        <property name="cacheManager" ref="shiroCacheManager"/>
         <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
-    </bean>
-
-    <!-- 手动操作Session，管理Session -->
-    <bean id="customSessionManager" class="com.viewol.shiro.session.CustomSessionManager">
-        <property name="shiroSessionRepository" ref="jedisShiroSessionRepository"/>
-        <property name="customShiroSessionDAO" ref="customShiroSessionDAO"/>
-    </bean>
-
-    <bean id="customSessionListener" class="com.viewol.shiro.listenter.CustomSessionListener">
-        <property name="shiroSessionRepository" ref="jedisShiroSessionRepository"/>
     </bean>
 
     <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
@@ -66,13 +49,7 @@
         <property name="sessionValidationInterval" value="1800000"/>
         <!-- session 有效时间为半小时 （毫秒单位）-->
         <property name="globalSessionTimeout" value="1800000"/>
-        <property name="sessionDAO" ref="customShiroSessionDAO"/>
-        <!-- session 监听，可以多个。 -->
-        <property name="sessionListeners">
-            <list>
-                <ref bean="customSessionListener"/>
-            </list>
-        </property>
+        <property name="sessionDAO" ref="sessionDAO"/>
         <!-- 间隔多少时间检查，不配置是60分钟 -->
         <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
         <!-- 是否开启 检测，默认开启 -->
@@ -84,29 +61,17 @@
     </bean>
     <!--session manager 结束-->
 
-    <!--cache manager 开始-->
-    <bean id="jedisShiroCacheManager" class="com.viewol.shiro.cache.JedisShiroCacheManager">
-        <property name="jedisManager" ref="jedisManager"/>
+    <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:spring/ehcache.xml" />
     </bean>
 
-    <bean id="customShiroCacheManager" class="com.viewol.shiro.cache.CustomShiroCacheManager">
-        <property name="shiroCacheManager" ref="jedisShiroCacheManager"/>
+    <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManager" ref="ehCacheManager" />
     </bean>
-
-    <!--cache manager 结束-->
 
     <bean id="shiroManager" class="com.viewol.shiro.service.impl.ShiroManagerImpl"/>
     <bean id="login" class="com.viewol.shiro.filter.LoginFilter"/>
     <bean id="permission" class="com.viewol.shiro.filter.PermissionFilter"/>
-    <bean id="simple" class="com.viewol.shiro.filter.SimpleAuthFilter"/>
-    <bean id="kickoutSessionFilter" class="com.viewol.shiro.filter.KickoutSessionFilter">
-        <property name="kickoutUrl" value="/u/login.shtml?kickout"/>
-    </bean>
-
-    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="staticMethod" value="com.viewol.shiro.filter.KickoutSessionFilter.setShiroSessionRepository"/>
-        <property name="arguments" ref="jedisShiroSessionRepository"/>
-    </bean>
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager" />
@@ -119,23 +84,19 @@
         <property name="filters">
             <util:map>
                 <entry key="login" value-ref="login"></entry>
-                <entry key="simple" value-ref="simple"></entry>
                 <entry key="permission" value-ref="permission"></entry>
-                <entry key="kickout" value-ref="kickoutSessionFilter"></entry>
             </util:map>
         </property>
 
     </bean>
 
     <bean id="myShiroRealm" class="com.viewol.shiro.token.MyShiroRealm"/>
+
     <!-- shiro-all.jar -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="myShiroRealm"></property>
         <property name="rememberMeManager" ref="rememberMeManager"/>
         <property name="sessionManager" ref="sessionManager"/>
-        <property name="cacheManager" ref="customShiroCacheManager"/>
+        <property name="cacheManager" ref="shiroCacheManager"/>
     </bean>
-
-    <!-- <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
-        <property name="cacheManager" ref="cacheManager" /> </bean> -->
 </beans>

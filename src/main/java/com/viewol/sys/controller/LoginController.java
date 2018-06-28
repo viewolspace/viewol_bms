@@ -135,18 +135,13 @@ public class LoginController {
 	 * 登录时获取图形验证码
 	 * @param request
 	 * @param response
-	 * @param type 1-登录验证码；2-注册验证码
 	 */
 	@RequestMapping("/getValidImg")
-	public synchronized void getValidImg(HttpServletRequest request, HttpServletResponse response, int type){
+	public synchronized void getValidImg(HttpServletRequest request, HttpServletResponse response){
 		request.getSession().removeAttribute("repeatData");
 		String securityCode = SecurityCode.getSecurityCode();
 
-		if(type == 1){
-			request.getSession().setAttribute("securityCode", securityCode);
-		} else {
-			request.getSession().setAttribute("registerCode", securityCode);
-		}
+		request.getSession().setAttribute("securityCode", securityCode);
 
 		byte[] image = SecurityImage.getImageAsInputStream(securityCode.replaceAll("", " "));
 

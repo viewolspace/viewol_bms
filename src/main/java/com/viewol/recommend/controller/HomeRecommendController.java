@@ -33,7 +33,7 @@ import java.util.Random;
  * 主页推荐管理(展商，展品)
  */
 @Controller
-@RequestMapping("category")
+@RequestMapping("homeRecommend")
 public class HomeRecommendController {
 
     /**

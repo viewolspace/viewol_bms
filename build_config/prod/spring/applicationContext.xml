@@ -11,7 +11,7 @@
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <context:component-scan base-package="com.youguu*"></context:component-scan>
+    <context:component-scan base-package="com.viewol*"></context:component-scan>
 
     <aop:aspectj-autoproxy proxy-target-class="true" />
 

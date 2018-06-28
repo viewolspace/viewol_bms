@@ -1,7 +1,7 @@
 package com.viewol.sys.dao.impl;
 
 import com.youguu.core.util.PageHolder;
-import com.viewol.sys.base.OpenMsDAO;
+import com.viewol.sys.base.ViewolMsDAO;
 import com.viewol.sys.dao.SysLogDAO;
 import com.viewol.sys.pojo.SysLog;
 import org.springframework.stereotype.Repository;
@@ -13,7 +13,7 @@ import java.util.Map;
  * Created by leo on 2017/12/18.
  */
 @Repository
-public class SysLogDAOImpl  extends OpenMsDAO<SysLog> implements SysLogDAO {
+public class SysLogDAOImpl  extends ViewolMsDAO<SysLog> implements SysLogDAO {
 	@Override
 	public int saveSysLog(SysLog sysLog) {
 		return this.insert(sysLog);

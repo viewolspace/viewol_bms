@@ -93,11 +93,11 @@ public class RoleController {
 			return rs;
 		}
 
-		if(TokenManager.getRoleId() == id){
-			rs.setStatus(false);
-			rs.setMsg("无权限修改，请联系系统管理员");
-			return rs;
-		}
+//		if(TokenManager.getRoleId() == id){
+//			rs.setStatus(false);
+//			rs.setMsg("无权限修改，请联系系统管理员");
+//			return rs;
+//		}
 
 		sysRole.setName(name);
 		sysRole.setCode(code);
@@ -135,11 +135,11 @@ public class RoleController {
 	public BaseResponse deleteRole(int id) {
 		BaseResponse rs = new BaseResponse();
 
-		if(TokenManager.getRoleId() == id){
-			rs.setStatus(false);
-			rs.setMsg("无权限删除，请联系系统管理员");
-			return rs;
-		}
+//		if(TokenManager.getRoleId() == id){
+//			rs.setStatus(false);
+//			rs.setMsg("无权限删除，请联系系统管理员");
+//			return rs;
+//		}
 
 		int result = sysRoleService.deleteSysRole(id);
 		if(result>0){

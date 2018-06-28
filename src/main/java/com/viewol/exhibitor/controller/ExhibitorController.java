@@ -33,7 +33,7 @@ import java.util.Random;
  * 展商管理
  */
 @Controller
-@RequestMapping("category")
+@RequestMapping("exhibitor")
 public class ExhibitorController {
 
     @RequestMapping(value = "/exhibitorList", method = RequestMethod.POST)

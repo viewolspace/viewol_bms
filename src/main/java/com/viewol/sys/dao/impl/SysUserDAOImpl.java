@@ -1,7 +1,7 @@
 package com.viewol.sys.dao.impl;
 
 import com.youguu.core.util.PageHolder;
-import com.viewol.sys.base.OpenMsDAO;
+import com.viewol.sys.base.ViewolMsDAO;
 import com.viewol.sys.dao.SysUserDAO;
 import com.viewol.sys.pojo.SysUser;
 import org.springframework.stereotype.Repository;
@@ -14,7 +14,7 @@ import java.util.Map;
  * Created by leo on 2017/11/23.
  */
 @Repository
-public class SysUserDAOImpl extends OpenMsDAO<SysUser> implements SysUserDAO {
+public class SysUserDAOImpl extends ViewolMsDAO<SysUser> implements SysUserDAO {
 	@Override
 	public int saveSysUser(SysUser sysUser) {
 		this.insert(sysUser);

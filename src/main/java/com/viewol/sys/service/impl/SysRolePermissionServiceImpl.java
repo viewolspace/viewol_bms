@@ -18,7 +18,7 @@ public class SysRolePermissionServiceImpl implements SysRolePermissionService {
 	@Resource
 	private SysRolePermissionDAO sysRolePermissionDAO;
 
-	@Transactional("openMsTx")
+	@Transactional("viewolMsTx")
 	@Override
 	public int batchSaveSysRolePermission(List<SysRolePermission> sysRolePermissionList) {
 		sysRolePermissionDAO.deleteSysRolePermissionByRole(sysRolePermissionList.get(0).getRid());
