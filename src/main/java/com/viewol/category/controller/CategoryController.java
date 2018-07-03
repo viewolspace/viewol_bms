@@ -1,5 +1,6 @@
 package com.viewol.category.controller;
 
+import com.viewol.category.response.CategoryResponse;
 import com.viewol.category.vo.CategoryVO;
 import com.viewol.common.BaseResponse;
 import com.viewol.common.GridBaseResponse;
@@ -25,9 +26,7 @@ import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-import java.util.Random;
+import java.util.*;
 
 /**
  * 展商，展品分类
@@ -38,23 +37,51 @@ public class CategoryController {
 
     @RequestMapping(value = "/categoryList", method = RequestMethod.POST)
     @ResponseBody
-    public GridBaseResponse categoryList(@RequestParam(value = "appId", defaultValue = "-1") int appId,
+    public CategoryResponse categoryList(@RequestParam(value = "type", defaultValue = "1") int type,
                                    @RequestParam(value = "page", defaultValue = "1") int page,
                                    @RequestParam(value = "limit", defaultValue = "10") int limit) {
 
-        GridBaseResponse rs = new GridBaseResponse();
-        rs.setCode(0);
+        CategoryResponse rs = new CategoryResponse();
+        rs.setStatus(true);
         rs.setMsg("ok");
-        if (TokenManager.getAppId() > 0) {
-            appId = TokenManager.getAppId();
-        }
 
-        PageHolder<CategoryVO> pageHolder = null;
-        if (null != pageHolder) {
-            rs.setData(pageHolder.getList());
-            rs.setCount(pageHolder.getTotalCount());
-        }
+        CategoryVO vo1 = new CategoryVO();
+        vo1.setId(1);
+        vo1.setName("AAA");
+        vo1.setParentId(0);
+        vo1.setType(1);
+        vo1.setLogo("");
+        vo1.setcTime(new Date());
 
+        CategoryVO vo2 = new CategoryVO();
+        vo2.setId(2);
+        vo2.setName("BBB");
+        vo2.setParentId(1);
+        vo2.setType(1);
+        vo2.setcTime(new Date());
+//
+        CategoryVO vo3 = new CategoryVO();
+        vo3.setId(3);
+        vo3.setName("CCC");
+        vo3.setParentId(1);
+        vo3.setType(1);
+        vo3.setLogo("");
+        vo3.setcTime(new Date());
+
+        CategoryVO vo4 = new CategoryVO();
+        vo4.setId(4);
+        vo4.setName("DDD");
+        vo4.setParentId(2);
+        vo4.setType(1);
+        vo4.setcTime(new Date());
+
+
+        List<CategoryVO> list = new ArrayList<>();
+        list.add(vo1);
+        list.add(vo2);
+        list.add(vo3);
+        list.add(vo4);
+        rs.setData(list);
         return rs;
     }
 
@@ -80,7 +107,7 @@ public class CategoryController {
     @ResponseBody
     @MethodLog(module = Constants.AD, desc = "删除类别")
     @Repeat
-    public BaseResponse deleteAd(int id) {
+    public BaseResponse deleteCategory(int id) {
         BaseResponse rs = new BaseResponse();
         rs.setStatus(true);
         rs.setMsg("删除成功");
@@ -176,6 +203,51 @@ public class CategoryController {
             rs.setMsg("文件为空");
         }
 
+        return rs;
+    }
+
+    @RequestMapping(value = "/categoryTreeList", method = RequestMethod.GET)
+    @ResponseBody
+    public CategoryResponse categoryTreeList(@RequestParam(value = "type", defaultValue = "1") int type) {
+
+        CategoryResponse rs = new CategoryResponse();
+        rs.setStatus(true);
+        rs.setMsg("ok");
+
+        CategoryVO vo1 = new CategoryVO();
+        vo1.setId(1);
+        vo1.setName("AAA");
+        vo1.setParentId(0);
+        vo1.setType(1);
+        vo1.setcTime(new Date());
+
+        CategoryVO vo2 = new CategoryVO();
+        vo2.setId(2);
+        vo2.setName("BBB");
+        vo2.setParentId(1);
+        vo2.setType(1);
+        vo2.setcTime(new Date());
+//
+        CategoryVO vo3 = new CategoryVO();
+        vo3.setId(3);
+        vo3.setName("CCC");
+        vo3.setParentId(1);
+        vo3.setType(1);
+        vo3.setcTime(new Date());
+
+        CategoryVO vo4 = new CategoryVO();
+        vo4.setId(4);
+        vo4.setName("DDD");
+        vo4.setParentId(2);
+        vo4.setType(1);
+        vo4.setcTime(new Date());
+
+        List<CategoryVO> list = new ArrayList<>();
+        list.add(vo1);
+        list.add(vo2);
+        list.add(vo3);
+        list.add(vo4);
+        rs.setData(list);
         return rs;
     }
 }

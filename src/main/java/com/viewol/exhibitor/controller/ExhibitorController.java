@@ -1,10 +1,9 @@
 package com.viewol.exhibitor.controller;
 
-import com.viewol.category.vo.CategoryVO;
 import com.viewol.common.BaseResponse;
 import com.viewol.common.GridBaseResponse;
 import com.viewol.common.UploadResponse;
-import com.viewol.shiro.token.TokenManager;
+import com.viewol.exhibitor.vo.ExhibitorVO;
 import com.viewol.sys.interceptor.Repeat;
 import com.viewol.sys.log.annotation.MethodLog;
 import com.viewol.sys.utils.Constants;
@@ -36,20 +35,46 @@ import java.util.Random;
 @RequestMapping("exhibitor")
 public class ExhibitorController {
 
+    /**
+     * 查询展商列表
+     * @param name 展商名称
+     * @param place 展位号
+     * @param page
+     * @param limit
+     * @return
+     */
     @RequestMapping(value = "/exhibitorList", method = RequestMethod.POST)
     @ResponseBody
-    public GridBaseResponse exhibitorList(@RequestParam(value = "appId", defaultValue = "-1") int appId,
+    public GridBaseResponse exhibitorList(@RequestParam(value = "name", defaultValue = "") String name,
+                                          @RequestParam(value = "place", defaultValue = "") String place,
                                    @RequestParam(value = "page", defaultValue = "1") int page,
                                    @RequestParam(value = "limit", defaultValue = "10") int limit) {
 
         GridBaseResponse rs = new GridBaseResponse();
         rs.setCode(0);
         rs.setMsg("ok");
-        if (TokenManager.getAppId() > 0) {
-            appId = TokenManager.getAppId();
-        }
 
-        PageHolder<CategoryVO> pageHolder = null;
+        PageHolder<ExhibitorVO> pageHolder = new PageHolder<>();
+        ExhibitorVO vo = new ExhibitorVO();
+        vo.setId(1);
+        vo.setName("腾讯");
+        vo.setLogo("");
+        vo.setBanner("");
+        vo.setImage("");
+        vo.setPlace("E301");
+        vo.setPlaceSvg("E301");
+        vo.setProductNum(5);
+        vo.setCanApply(1);
+        vo.setIsRecommend(1);
+        vo.setRecommendNum(1);
+        vo.setcTime(new Date());
+        vo.setmTime(new Date());
+
+        vo.setIsSameRecommend(1);
+
+        pageHolder.add(vo);
+        pageHolder.setTotalCount(1);
+
         if (null != pageHolder) {
             rs.setData(pageHolder.getList());
             rs.setCount(pageHolder.getTotalCount());

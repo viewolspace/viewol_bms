@@ -11,13 +11,12 @@ var requireModules = [
 	'layer',
 	'request',
 	'form-util',
-	'user-api',
+	'same-reco-api',
 	'table-util',
 	'btns',
 	'authority',
 	'toast',
-    'table',
-	'valid-login'
+    'table'
 
 ];
 
@@ -32,7 +31,7 @@ layui.use(requireModules, function(
 	layer,
 	request,
 	formUtil,
-	userApi,
+    sameRecoApi,
 	tableUtil,
 	btns,
 	authority,
@@ -68,28 +67,29 @@ layui.use(requireModules, function(
 		},
 		renderTable: function() {
             return $table.render({
-                elem: '#user-list'
+                elem: '#recommend-list'
                 ,height: 'full-100'
-                ,url: userApi.getUrl('getAll').url
+                ,url: sameRecoApi.getUrl('recommendList').url
 				,method: 'post'
                 ,page: true //开启分页
                 ,limits:[10,50,100,200]
                 ,cols: [[ //表头
                     {type:'numbers'},
-                    {field: 'id', title: '用户ID', width:100},
-                    {field: 'userName', title: '账号', width:100},
-                    {field: 'realName', title: '真实姓名', width:100},
-                    {field: 'phone', title: '手机号', width:150},
-                    {field: 'userStatus', title: '状态', width:100, templet: function (d) {
-                        if(d.userStatus == 1){
-                        	return '<span>正常</span>';
-                        } else {
-                        	return '<span>冻结</span>';
-                        }
-                    }},
-                    {field: 'roleName', title: '角色', width:120},
-                    {field: 'lastLoginTime', title: '登录时间', width:160, templet: function (d) {
-						return moment(d.lastLoginTime).format("YYYY-MM-DD HH:mm:ss");
+                    {field: 'type', title: '类型', width:100, templet: function (d) {
+                            if(d.type == 1){
+                                return '<span>展商</span>';
+                            } else {
+                                return '<span>产品</span>';
+                            }
+                        }},
+                    {field: 'thirdId', title: '展商(产品)ID', width:150},
+                    {field: 'name', title: '展商(产品)名称', width:150},
+                    {field: 'categoryId', title: '分类', width:150},
+                    {field: 'mTime', title: '修改时间', width:160, templet: function (d) {
+                            return moment(d.mTime).format("YYYY-MM-DD HH:mm:ss");
+                        }},
+                    {field: 'cTime', title: '创建时间', width:160, templet: function (d) {
+						return moment(d.cTime).format("YYYY-MM-DD HH:mm:ss");
                     }},
                     {fixed: 'right',width:180, align:'center', toolbar: '#barDemo'}
                 ]]

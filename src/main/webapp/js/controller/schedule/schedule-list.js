@@ -11,7 +11,7 @@ var requireModules = [
 	'layer',
 	'request',
 	'form-util',
-	'user-api',
+	'schedule-api',
 	'table-util',
 	'btns',
 	'authority',
@@ -32,7 +32,7 @@ layui.use(requireModules, function(
 	layer,
 	request,
 	formUtil,
-	userApi,
+    scheduleApi,
 	tableUtil,
 	btns,
 	authority,
@@ -68,55 +68,56 @@ layui.use(requireModules, function(
 		},
 		renderTable: function() {
             return $table.render({
-                elem: '#user-list'
+                elem: '#schedule-list'
                 ,height: 'full-100'
-                ,url: userApi.getUrl('getAll').url
-				,method: 'post'
-                ,page: true //开启分页
+                ,url: scheduleApi.getUrl('scheduleList').url
+                ,method: 'post'
+                ,page: true
                 ,limits:[10,50,100,200]
-                ,cols: [[ //表头
+                ,cols: [[
                     {type:'numbers'},
-                    {field: 'id', title: '用户ID', width:100},
-                    {field: 'userName', title: '账号', width:100},
-                    {field: 'realName', title: '真实姓名', width:100},
-                    {field: 'phone', title: '手机号', width:150},
-                    {field: 'userStatus', title: '状态', width:100, templet: function (d) {
-                        if(d.userStatus == 1){
-                        	return '<span>正常</span>';
-                        } else {
-                        	return '<span>冻结</span>';
-                        }
-                    }},
-                    {field: 'roleName', title: '角色', width:120},
-                    {field: 'lastLoginTime', title: '登录时间', width:160, templet: function (d) {
-						return moment(d.lastLoginTime).format("YYYY-MM-DD HH:mm:ss");
-                    }},
+                    {field: 'companyId', title: '主办方的id', width:100},
+                    {field: 'type', title: '发布人', width:100, templet: function (d) {
+                            if(d.type == 1){
+                                return '<span>展商</span>';
+                            } else {
+                                return '<span>主办方</span>';
+                            }
+                        }},
+                    {field: 'companyName', title: '主办方的名称', width:100},
+                    {field: 'title', title: '主题', width:100},
+                    {field: 'status', title: '状态', width:100, templet: function (d) {
+                            if(d.status == 1){
+                                return '<span>审核通过</span>';
+                            } else if(d.status == 0) {
+                                return '<span>待审</span>';
+                            } else {
+                                return '<span>打回</span>';
+                            }
+                        }},
+                    {field: 'sTime', title: '开始时间', width:160, templet: function (d) {
+                            return moment(d.sTime).format("YYYY-MM-DD HH:mm:ss");
+                        }},
+                    {field: 'eTime', title: '结束时间', width:160, templet: function (d) {
+                            return moment(d.eTime).format("YYYY-MM-DD HH:mm:ss");
+                        }},
+                    {field: 'content', title: '活动内容', width:150},
+                    {field: 'place', title: '活动地点', width:120},
+                    {field: 'cTime', title: '创建时间', width:160, templet: function (d) {
+                            return moment(d.cTime).format("YYYY-MM-DD HH:mm:ss");
+                        }},
                     {fixed: 'right',width:180, align:'center', toolbar: '#barDemo'}
                 ]]
             });
 		},
 
-		add: function() {
+        recommend: function(rowdata) {
+			var url = request.composeUrl(webName + '/views/schedule/schedule-recc.html', rowdata);
 			var index = layer.open({
 				type: 2,
-				title: "添加用户",
-				area: '80%',
-				offset: '10%',
-				scrollbar: false,
-				content: webName + '/views/user/user-add.html',
-				success: function(ly, index) {
-					layer.iframeAuto(index);
-				}
-			});
-		},
-
-		modify: function(rowdata) {
-			var url = request.composeUrl(webName + '/views/user/user-update.html', rowdata);
-			var index = layer.open({
-				type: 2,
-				title: "修改用户",
-				area: '80%',
-				offset: '10%',
+				title: "日程推荐",
+                area: ['500px', '400px'],
+                offset: '5%',
 				scrollbar: false,
 				content: url,
 				success: function(ly, index) {
@@ -125,13 +126,13 @@ layui.use(requireModules, function(
 			});
 		},
 
-        view: function(rowdata) {
-            var url = request.composeUrl(webName + '/views/user/user-view.html', rowdata);
+        review: function(rowdata) {
+            var url = request.composeUrl(webName + '/views/schedule/schedule-review.html', rowdata);
             var index = layer.open({
                 type: 2,
-                title: "查看用户",
-                area: '60%',
-                offset: '10%',
+                title: "日程审核",
+                area: ['500px', '400px'],
+                offset: '5%',
                 scrollbar: false,
                 content: url,
                 success: function(ly, index) {
@@ -140,45 +141,6 @@ layui.use(requireModules, function(
             });
         },
 
-        relateCloud: function(rowdata) {
-            var url = request.composeUrl(webName + '/views/user/user-relate-cloud.html', rowdata);
-            var index = layer.open({
-                type: 2,
-                title: "关联应用账号",
-                area: ['520px', '400px'],
-                offset: '5%',
-                scrollbar: false,
-                content: url,
-                success: function(ly, index) {
-                    // layer.iframeAuto(index);
-                }
-            });
-        },
-
-
-		delete: function(rowdata) {
-			layer.confirm('确认删除数据?', {
-				icon: 3,
-				title: '提示',
-				closeBtn: 0
-			}, function(index) {
-				layer.load(0, {
-					shade: 0.5
-				});
-				layer.close(index);
-
-				request.request(userApi.getUrl('deleteUser'), {
-					id: rowdata.id
-				}, function() {
-					layer.closeAll('loading');
-					toast.success('成功删除！');
-					MyController.refresh();
-				},true,function(){
-					layer.closeAll('loading');
-				});
-			});
-		},
-
 		refresh: function() {
             mainTable.reload();
 		},
@@ -186,14 +148,10 @@ layui.use(requireModules, function(
 		bindEvent: function() {
             $table.on('tool(test)', function(obj){
                 var data = obj.data;
-                if(obj.event === 'row-view'){
-                    MyController.view(data);
-                } else if(obj.event === 'row-edit'){//编辑
-                    MyController.modify(data);
-                } else if(obj.event === 'row-delete'){//删除
-                    MyController.delete(data);
-                } else if(obj.event === 'row-cloud'){//关联账户
-                    MyController.relateCloud(data);
+                if(obj.event === 'row-reco'){//推荐
+                    MyController.recommend(data);
+                } else if(obj.event === 'row-review'){//审核
+                    MyController.review(data);
                 }
 
             });
@@ -207,8 +165,6 @@ layui.use(requireModules, function(
 
             //点击刷新
             $('body').on('click', '.refresh', MyController.refresh);
-			//点击添加
-			$('body').on('click', '.add', MyController.add);
 
 		}
 	};

@@ -6,217 +6,114 @@ layui.config({
 });
 
 var requireModules = [
-	'element',
-	'form',
 	'layer',
 	'request',
-	'form-util',
-	'user-api',
-	'table-util',
-	'btns',
-	'authority',
+	'category-api',
+	'tree-table',
 	'toast',
-    'table',
+	'authority',
+	'btns',
+	'key-bind',
 	'valid-login'
 
-];
 
+];
+//这里注册没有初始化注册过的 模块路径，如果是modules下有子集 的模块需要在这里注册
 registeModule(window, requireModules, {
-	'good-api': 'api/good-api'
+	'role&authority-api': 'api/role&authority-api'
 });
 
-//参数有顺序
 layui.use(requireModules, function(
-	element,
-	form,
 	layer,
-	request,
-	formUtil,
-	userApi,
-	tableUtil,
-	btns,
-	authority,
+	ajax,
+    categoryApi,
+	treeTable,
 	toast,
-    table
+	authority,
+	btns,
+	keyBind
 ) {
 
-	var $ = layui.jquery;
-    var $table = table;
-    var mainTable;
-	var MyController = {
+	var controller = {
+
 		init: function() {
-			var navId = request.getFixUrlParams("navId");
-
-			var totalBtns = authority.getNavBtns(navId);
-			var btnObjs = btns.getBtns(totalBtns);
-			MyController.pageBtns = btns.getPageBtns(btnObjs);
-			MyController.switchPageBtns = btns.getSwitchPageBtns(btnObjs);
-
-			MyController.rowBtns = btns.getRowBtns(btnObjs);
-			MyController.rowSwitchBtns = btns.getSwitchBtns(MyController.rowBtns);
-			MyController.rowIconBtns = btns.getIconBtns(MyController.rowBtns);
-
-			$('#page-btns').html(btns.renderBtns(MyController.pageBtns)+btns.renderSwitchBtns(MyController.switchPageBtns));
-            btns.renderLayuiTableBtns(MyController.rowIconBtns, $("#barDemo"));
-
-            mainTable = MyController.renderTable();
-			MyController.bindEvent();
-		},
-		getQueryCondition: function() {
-			var condition = formUtil.composeData($("#condition"));
-			return condition;
-		},
-		renderTable: function() {
-            return $table.render({
-                elem: '#user-list'
-                ,height: 'full-100'
-                ,url: userApi.getUrl('getAll').url
-				,method: 'post'
-                ,page: true //开启分页
-                ,limits:[10,50,100,200]
-                ,cols: [[ //表头
-                    {type:'numbers'},
-                    {field: 'id', title: '用户ID', width:100},
-                    {field: 'userName', title: '账号', width:100},
-                    {field: 'realName', title: '真实姓名', width:100},
-                    {field: 'phone', title: '手机号', width:150},
-                    {field: 'userStatus', title: '状态', width:100, templet: function (d) {
-                        if(d.userStatus == 1){
-                        	return '<span>正常</span>';
-                        } else {
-                        	return '<span>冻结</span>';
-                        }
-                    }},
-                    {field: 'roleName', title: '角色', width:120},
-                    {field: 'lastLoginTime', title: '登录时间', width:160, templet: function (d) {
-						return moment(d.lastLoginTime).format("YYYY-MM-DD HH:mm:ss");
-                    }},
-                    {fixed: 'right',width:180, align:'center', toolbar: '#barDemo'}
-                ]]
-            });
-		},
-
-		add: function() {
-			var index = layer.open({
-				type: 2,
-				title: "添加用户",
-				area: '80%',
-				offset: '10%',
-				scrollbar: false,
-				content: webName + '/views/user/user-add.html',
-				success: function(ly, index) {
-					layer.iframeAuto(index);
-				}
-			});
-		},
-
-		modify: function(rowdata) {
-			var url = request.composeUrl(webName + '/views/user/user-update.html', rowdata);
-			var index = layer.open({
-				type: 2,
-				title: "修改用户",
-				area: '80%',
-				offset: '10%',
-				scrollbar: false,
-				content: url,
-				success: function(ly, index) {
-					layer.iframeAuto(index);
-				}
-			});
-		},
-
-        view: function(rowdata) {
-            var url = request.composeUrl(webName + '/views/user/user-view.html', rowdata);
-            var index = layer.open({
-                type: 2,
-                title: "查看用户",
-                area: '60%',
-                offset: '10%',
-                scrollbar: false,
-                content: url,
-                success: function(ly, index) {
-                    layer.iframeAuto(index);
+            var setting = {
+                data: {
+                    key: {
+                        title:"t"
+                    },
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                callback: {
+                    beforeClick: beforeClick,
+                    onClick: onClick
                 }
+            };
+
+            var zNodes =[
+                { id:1, pId:0, name:"父节点1", open:true},
+                { id:11, pId:1, name:"父节点11"},
+                { id:111, pId:11, name:"叶子节点111"},
+                { id:112, pId:11, name:"叶子节点112"},
+                { id:113, pId:11, name:"叶子节点113"},
+                { id:114, pId:11, name:"叶子节点114"},
+                { id:12, pId:1, name:"父节点12"},
+                { id:121, pId:12, name:"叶子节点121"},
+                { id:122, pId:12, name:"叶子节点122"},
+                { id:123, pId:12, name:"叶子节点123"},
+                { id:124, pId:12, name:"叶子节点124"},
+                { id:13, pId:1, name:"父节点13", isParent:true},
+                { id:2, pId:0, name:"父节点2"},
+                { id:21, pId:2, name:"父节点21", open:true},
+                { id:211, pId:21, name:"叶子节点211"},
+                { id:212, pId:21, name:"叶子节点212"},
+                { id:213, pId:21, name:"叶子节点213"},
+                { id:214, pId:21, name:"叶子节点214"},
+                { id:22, pId:2, name:"父节点22"},
+                { id:221, pId:22, name:"叶子节点221"},
+                { id:222, pId:22, name:"叶子节点222"},
+                { id:223, pId:22, name:"叶子节点223"},
+                { id:224, pId:22, name:"叶子节点224"},
+                { id:23, pId:2, name:"父节点23"},
+                { id:231, pId:23, name:"叶子节点231"},
+                { id:232, pId:23, name:"叶子节点232"},
+                { id:233, pId:23, name:"叶子节点233"},
+                { id:234, pId:23, name:"叶子节点234"},
+                { id:3, pId:0, name:"父节点3", isParent:true}
+            ];
+
+            $(document).ready(function(){
+                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
             });
-        },
 
-        relateCloud: function(rowdata) {
-            var url = request.composeUrl(webName + '/views/user/user-relate-cloud.html', rowdata);
-            var index = layer.open({
-                type: 2,
-                title: "关联应用账号",
-                area: ['520px', '400px'],
-                offset: '5%',
-                scrollbar: false,
-                content: url,
-                success: function(ly, index) {
-                    // layer.iframeAuto(index);
-                }
-            });
-        },
+            function beforeClick(treeId, treeNode, clickFlag) {
+                return (treeNode.click != false);
+            }
+            function onClick(event, treeId, treeNode, clickFlag) {
+                var parentTId = treeNode.parentTId;
+                var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+                var parentNode = treeObj.getNodeByTId(parentTId);
 
+                var selectId = treeNode.id;
+                var selectName = treeNode.name;
+                var parentId = parentNode.id;
+                var parentName = parentNode.name;
 
-		delete: function(rowdata) {
-			layer.confirm('确认删除数据?', {
-				icon: 3,
-				title: '提示',
-				closeBtn: 0
-			}, function(index) {
-				layer.load(0, {
-					shade: 0.5
-				});
-				layer.close(index);
-
-				request.request(userApi.getUrl('deleteUser'), {
-					id: rowdata.id
-				}, function() {
-					layer.closeAll('loading');
-					toast.success('成功删除！');
-					MyController.refresh();
-				},true,function(){
-					layer.closeAll('loading');
-				});
-			});
-		},
-
-		refresh: function() {
-            mainTable.reload();
-		},
-
-		bindEvent: function() {
-            $table.on('tool(test)', function(obj){
-                var data = obj.data;
-                if(obj.event === 'row-view'){
-                    MyController.view(data);
-                } else if(obj.event === 'row-edit'){//编辑
-                    MyController.modify(data);
-                } else if(obj.event === 'row-delete'){//删除
-                    MyController.delete(data);
-                } else if(obj.event === 'row-cloud'){//关联账户
-                    MyController.relateCloud(data);
+                var formData = {
+                    "id": selectId,
+                    "name": selectName,
+                    "pid": parentId,
+                    "pName": parentName
                 }
 
-            });
+                alert(JSON.stringify(formData));
+            }
+        }
 
-			//点击查询按钮
-			$('#search-btn').on('click', function() {
-                mainTable.reload({
-                    where: MyController.getQueryCondition()
-                });
-			});
 
-            //点击刷新
-            $('body').on('click', '.refresh', MyController.refresh);
-			//点击添加
-			$('body').on('click', '.add', MyController.add);
-
-		}
 	};
 
-	window.list = {
-		refresh: MyController.refresh
-	}
-
-	MyController.init();
-
+	controller.init();
 });

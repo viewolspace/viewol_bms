@@ -41,12 +41,6 @@ layui.define(function(exports) {
             icon: '&#xe605;',
             name: '提审'
         },
-        'switchorder': {
-            className: 'switchorder',
-            prop: 'enable', //对应提交时候的name值
-            name: '接单|停止', //对应显示的字
-            checked: true
-        },
         'row-edit': {
             className: baseBtnClass + 'layui-btn-small layui-btn-warm row-edit',
             icon: '&#xe642;',
@@ -71,11 +65,6 @@ layui.define(function(exports) {
             className: 'row-switch',
             prop: 'enable', //对应提交时候的name值
             name: '启用|禁用' //对应显示的字
-        },
-        'row-switch-sale': {
-            className: 'row-switch-sale',
-            prop: 'sale', //对应提交时候的name值
-            name: '上架|下架' //对应显示的字
         },
         'row-audit': {
             className: baseBtnClass + 'layui-btn-small layui-btn-danger row-audit',
@@ -120,11 +109,23 @@ layui.define(function(exports) {
             name: '查看',
             event: 'row-view'
         },
-        'row-cloud-layui': {
+        'row-reco-layui': {
             className: baseBtnClass + 'layui-btn-xs',
             icon: '&#xe642;',
-            name: '关联账户',
-            event: 'row-cloud'
+            name: '推荐',
+            event: 'row-reco'
+        },
+        'row-review-layui': {
+            className: baseBtnClass + 'layui-btn-xs',
+            icon: '&#xe605;',
+            name: '审核',
+            event: 'row-review'
+        },
+        'row-cancel-reco-layui': {
+            className: baseBtnClass + 'layui-btn-xs',
+            icon: '&#xe642;',
+            name: '取消推荐',
+            event: 'row-cancel-reco'
         },
         'row-freeze-layui':{
             className: baseBtnClass + 'layui-btn-xs',
@@ -137,7 +138,43 @@ layui.define(function(exports) {
             icon: '&#xe615;',
             name: '恢复',
             event: 'row-unfreeze'
-        }
+        },
+        'row-home-reco-layui': {
+            className: baseBtnClass + 'layui-btn-xs',
+            icon: '&#xe642;',
+            name: '首页推荐',
+            event: 'row-home-reco'
+        },
+        'row-same-reco-layui': {
+            className: baseBtnClass + 'layui-btn-xs',
+            icon: '&#xe642;',
+            name: '同类推荐',
+            event: 'row-same-reco'
+        },
+        'row-cancel-home-reco-layui': {
+            className: baseBtnClass + 'layui-btn-xs',
+            icon: '&#xe642;',
+            name: '取消首页推荐',
+            event: 'row-cancel-home-reco'
+        },
+        'row-cancel-same-reco-layui': {
+            className: baseBtnClass + 'layui-btn-xs',
+            icon: '&#xe642;',
+            name: '取消同类推荐',
+            event: 'row-cancel-same-reco'
+        },
+        'row-up-layui': {
+            className: baseBtnClass + 'layui-btn-xs',
+            icon: '&#xe642;',
+            name: '上架',
+            event: 'row-up'
+        },
+        'row-down-layui': {
+            className: baseBtnClass + 'layui-btn-xs',
+            icon: '&#xe642;',
+            name: '下架',
+            event: 'row-down'
+        },
     };
 
     var btns = {
@@ -310,28 +347,42 @@ layui.define(function(exports) {
                 className = otherOpt.className || className; //自定义样式
             }
 
-            if(event=='row-lock'){
+            if(event=='row-same-reco'){
                 var lockBtns = "";
-                lockBtns+='{{#  if(d.opStatus == 0){ }}';
+                lockBtns+='{{#  if(d.isSameRecommend == 0){ }}';
                 lockBtns+='<a class="' + className + '" lay-event="'+event+'">' + btnName + '</a>';
                 lockBtns+='{{#  } }}';
                 return lockBtns;
-            } else if(event=='row-unlock') {
+            } else if(event=='row-cancel-same-reco') {
                 var lockBtns = "";
-                lockBtns+='{{#  if(d.opStatus == 1){ }}';
+                lockBtns+='{{#  if(d.isSameRecommend == 1){ }}';
                 lockBtns+='<a class="' + className + '" lay-event="'+event+'">' + btnName + '</a>';
                 lockBtns+='{{#  } }}';
                 return lockBtns;
             }
-            if(event=='row-freeze'){
+            if(event=='row-home-reco'){
                 var freezeBtns = "";
-                freezeBtns+='{{#  if(d.status == 0){ }}';
+                freezeBtns+='{{#  if(d.isRecommend == 0){ }}';
                 freezeBtns+='<a class="' + className + '" lay-event="'+event+'">' + btnName + '</a>';
                 freezeBtns+='{{#  } }}';
                 return freezeBtns;
-            }else if(event == 'row-unfreeze'){
+            }else if(event == 'row-cancel-home-reco'){
+                var freezeBtns = "";
+                freezeBtns+='{{#  if(d.isRecommend == 1){ }}';
+                freezeBtns+='<a class="' + className + '" lay-event="'+event+'">' + btnName + '</a>';
+                freezeBtns+='{{#  } }}';
+                return freezeBtns;
+            }
+
+            if(event=='row-up'){
                 var freezeBtns = "";
                 freezeBtns+='{{#  if(d.status == 1){ }}';
+                freezeBtns+='<a class="' + className + '" lay-event="'+event+'">' + btnName + '</a>';
+                freezeBtns+='{{#  } }}';
+                return freezeBtns;
+            }else if(event == 'row-down'){
+                var freezeBtns = "";
+                freezeBtns+='{{#  if(d.status == 0){ }}';
                 freezeBtns+='<a class="' + className + '" lay-event="'+event+'">' + btnName + '</a>';
                 freezeBtns+='{{#  } }}';
                 return freezeBtns;

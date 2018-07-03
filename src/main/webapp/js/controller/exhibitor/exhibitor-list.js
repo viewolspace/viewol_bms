@@ -11,7 +11,7 @@ var requireModules = [
 	'layer',
 	'request',
 	'form-util',
-	'user-api',
+	'exhibitor-api',
 	'table-util',
 	'btns',
 	'authority',
@@ -32,7 +32,7 @@ layui.use(requireModules, function(
 	layer,
 	request,
 	formUtil,
-	userApi,
+    exhibitorApi,
 	tableUtil,
 	btns,
 	authority,
@@ -68,30 +68,43 @@ layui.use(requireModules, function(
 		},
 		renderTable: function() {
             return $table.render({
-                elem: '#user-list'
+                elem: '#exhibitor-list'
                 ,height: 'full-100'
-                ,url: userApi.getUrl('getAll').url
+                ,url: exhibitorApi.getUrl('exhibitorList').url
 				,method: 'post'
                 ,page: true //开启分页
                 ,limits:[10,50,100,200]
                 ,cols: [[ //表头
                     {type:'numbers'},
-                    {field: 'id', title: '用户ID', width:100},
-                    {field: 'userName', title: '账号', width:100},
-                    {field: 'realName', title: '真实姓名', width:100},
-                    {field: 'phone', title: '手机号', width:150},
-                    {field: 'userStatus', title: '状态', width:100, templet: function (d) {
-                        if(d.userStatus == 1){
-                        	return '<span>正常</span>';
+                    {field: 'name', title: '展商名称', width:100},
+                    {field: 'logo', title: '展商logo', width:100},
+                    {field: 'banner', title: '展商形象图片', width:100},
+                    {field: 'image', title: '展商图片', width:150},
+                    {field: 'place', title: '展商位置', width:150},
+                    {field: 'placeSvg', title: '展商svg位置', width:150},
+                    {field: 'productNum', title: '允许上传产品的数量', width:150},
+                    {field: 'canApply', title: '允许申请活动', width:100, templet: function (d) {
+                        if(d.canApply == 1){
+                        	return '<span>允许</span>';
                         } else {
-                        	return '<span>冻结</span>';
+                        	return '<span>不允许</span>';
                         }
                     }},
-                    {field: 'roleName', title: '角色', width:120},
-                    {field: 'lastLoginTime', title: '登录时间', width:160, templet: function (d) {
-						return moment(d.lastLoginTime).format("YYYY-MM-DD HH:mm:ss");
+                    {field: 'isRecommend', title: '是否推荐', width:100, templet: function (d) {
+                            if(d.isRecommend == 1){
+                                return '<span>推荐</span>';
+                            } else {
+                                return '<span>非推荐</span>';
+                            }
+                        }},
+                    {field: 'recommendNum', title: '推荐顺序', width:120},
+                    {field: 'cTime', title: '创建时间', width:160, templet: function (d) {
+						return moment(d.cTime).format("YYYY-MM-DD HH:mm:ss");
                     }},
-                    {fixed: 'right',width:180, align:'center', toolbar: '#barDemo'}
+                    {field: 'mTime', title: '修改时间', width:160, templet: function (d) {
+                            return moment(d.mTime).format("YYYY-MM-DD HH:mm:ss");
+                        }},
+                    {fixed: 'right',width:320, align:'center', toolbar: '#barDemo'}
                 ]]
             });
 		},
@@ -99,11 +112,11 @@ layui.use(requireModules, function(
 		add: function() {
 			var index = layer.open({
 				type: 2,
-				title: "添加用户",
-				area: '80%',
-				offset: '10%',
+				title: "添加展商",
+                area: ['800px', '450px'],
+				offset: '5%',
 				scrollbar: false,
-				content: webName + '/views/user/user-add.html',
+				content: webName + '/views/exhibitor/exhibitor-add.html',
 				success: function(ly, index) {
 					layer.iframeAuto(index);
 				}
@@ -111,12 +124,12 @@ layui.use(requireModules, function(
 		},
 
 		modify: function(rowdata) {
-			var url = request.composeUrl(webName + '/views/user/user-update.html', rowdata);
+			var url = request.composeUrl(webName + '/views/exhibitor/exhibitor-update.html', rowdata);
 			var index = layer.open({
 				type: 2,
-				title: "修改用户",
-				area: '80%',
-				offset: '10%',
+				title: "修改展商",
+                area: ['800px', '450px'],
+                offset: '5%',
 				scrollbar: false,
 				content: url,
 				success: function(ly, index) {
@@ -126,12 +139,12 @@ layui.use(requireModules, function(
 		},
 
         view: function(rowdata) {
-            var url = request.composeUrl(webName + '/views/user/user-view.html', rowdata);
+            var url = request.composeUrl(webName + '/views/exhibitor/user-view.html', rowdata);
             var index = layer.open({
                 type: 2,
-                title: "查看用户",
-                area: '60%',
-                offset: '10%',
+                title: "查看展商",
+                area: ['800px', '450px'],
+                offset: '5%',
                 scrollbar: false,
                 content: url,
                 success: function(ly, index) {
@@ -139,22 +152,6 @@ layui.use(requireModules, function(
                 }
             });
         },
-
-        relateCloud: function(rowdata) {
-            var url = request.composeUrl(webName + '/views/user/user-relate-cloud.html', rowdata);
-            var index = layer.open({
-                type: 2,
-                title: "关联应用账号",
-                area: ['520px', '400px'],
-                offset: '5%',
-                scrollbar: false,
-                content: url,
-                success: function(ly, index) {
-                    // layer.iframeAuto(index);
-                }
-            });
-        },
-
 
 		delete: function(rowdata) {
 			layer.confirm('确认删除数据?', {
@@ -192,8 +189,6 @@ layui.use(requireModules, function(
                     MyController.modify(data);
                 } else if(obj.event === 'row-delete'){//删除
                     MyController.delete(data);
-                } else if(obj.event === 'row-cloud'){//关联账户
-                    MyController.relateCloud(data);
                 }
 
             });

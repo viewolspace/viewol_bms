@@ -20,9 +20,10 @@
 
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">应用名称</label>
+                <label class="layui-form-label">主办方</label>
+
                 <div class="layui-input-inline">
-                    <select name="appId" id="appId"></select>
+                    <input type="text" name="name" id="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
                 </div>
             </div>
 
@@ -41,7 +42,7 @@
 <div id="page-btns" class="layui-btn-group fl">
 </div>
 
-<table id="ad-list" class="layui-table" lay-filter="test">
+<table id="schedule-list" class="layui-table" lay-filter="test">
 
 </table>
 
@@ -54,7 +55,7 @@
 <script type="text/javascript" charset="utf8" src="../../frame/jquery-1.12.4.js"></script>
 <script type="text/javascript" charset="utf8" src="../../frame/moment.js"></script>
 <script type="text/javascript" charset="utf8" src="../../frame/form-srializeJSON.js"></script>
-<script type="text/javascript" charset="utf8" src="../../js/controller/ad/ad-list.js"></script>
+<script type="text/javascript" charset="utf8" src="../../js/controller/schedule/schedule-list.js"></script>
 </body>
 
 </html>

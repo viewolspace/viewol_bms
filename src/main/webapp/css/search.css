@@ -32,3 +32,7 @@
 .layui-form-item .date-range-inline{
     width: 170px;
 }
+
+.condition{
+    padding: 5px 0 0 0;
+}

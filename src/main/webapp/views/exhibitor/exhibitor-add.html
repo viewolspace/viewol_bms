@@ -2,129 +2,138 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="renderer" content="webkit">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<title>添加展商</title>
-	<link rel="stylesheet" href="../../frame/layui/css/layui.css">
-	<link rel="stylesheet" href="../../css/style.css">
-	<style type="text/css">
-		.operate{
-			text-align: center;
-			bottom: 0;
-			position: relative;
-			left: 0;
-			right: 0;
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>添加展商</title>
+    <link rel="stylesheet" href="../../frame/layui/css/layui.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <style type="text/css">
+        .operate {
+            text-align: center;
+            bottom: 0;
+            position: relative;
+            left: 0;
+            right: 0;
+        }
+    </style>
 
-	<style type="text/css">
-		.layui-upload-drag {
-			position: relative;
-			padding: 10px;
-			border: 1px dashed #e2e2e2;
-			background-color: #fff;
-			text-align: center;
-			cursor: pointer;
-			color: #999;
-		}
-	</style>
+    <style type="text/css">
+        .layui-upload-drag {
+            position: relative;
+            padding: 10px;
+            border: 1px dashed #e2e2e2;
+            background-color: #fff;
+            text-align: center;
+            cursor: pointer;
+            color: #999;
+        }
+    </style>
 </head>
 
 <body class="body">
 <form id="ad-add-form" class="layui-form" action="">
-	<div class="layui-form-item">
-		<div class="layui-inline">
-			<label class="layui-form-label">广告标题</label>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">展商名称</label>
 
-			<div class="layui-input-inline">
-				<input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="请输入广告标题" class="layui-input">
-			</div>
-		</div>
+            <div class="layui-input-inline">
+                <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入展商名称"
+                       class="layui-input">
+            </div>
+        </div>
 
-		<div class="layui-inline">
-			<label class="layui-form-label">排序</label>
+        <div class="layui-inline">
+            <label class="layui-form-label">展商简称</label>
 
-			<div class="layui-input-inline">
-				<input type="text" name="rank" lay-verify="required|number" autocomplete="off" class="layui-input">
-			</div>
-		</div>
-		<!--<div class="layui-inline">-->
-			<!--<label class="layui-form-label">内容类型</label>-->
+            <div class="layui-input-inline">
+                <input type="text" name="shortName" lay-verify="required" autocomplete="off" placeholder="请输入展商简称"
+                       class="layui-input">
+            </div>
+        </div>
+    </div>
 
-			<!--<div class="layui-input-inline">-->
-				<!--<select name="contentType" id="contentType">-->
-					<!--<option value="2502">图片</option>-->
-					<!--<option value="2501">文字</option>-->
-				<!--</select>-->
-			<!--</div>-->
-		<!--</div>-->
-	</div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">展商位置</label>
 
-	<div class="layui-form-item">
-		<div class="layui-inline">
-			<label class="layui-form-label">开始日期</label>
+            <div class="layui-input-inline">
+                <input type="text" name="place" lay-verify="required" autocomplete="off" placeholder="请输入展商位置"
+                       class="layui-input">
+            </div>
+        </div>
 
-			<div class="layui-input-inline">
-				<input type="text" name="beginDate" id="beginDate" lay-verify="required" autocomplete="off" class="layui-input">
-			</div>
-		</div>
+        <div class="layui-inline">
+            <label class="layui-form-label">展商svg位置</label>
 
-		<div class="layui-inline">
-			<label class="layui-form-label">结束日期</label>
+            <div class="layui-input-inline">
+                <input type="text" name="placeSvg" lay-verify="required" autocomplete="off" placeholder="导航地图定位使用" class="layui-input">
+            </div>
+        </div>
+    </div>
 
-			<div class="layui-input-inline">
-				<input type="text" name="endDate" id="endDate" lay-verify="required" autocomplete="off" class="layui-input">
-			</div>
-		</div>
-	</div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">申请活动</label>
 
-	<div class="layui-form-item">
-		<label class="layui-form-label">广告链接</label>
+            <div class="layui-input-inline">
+                <select name="canApply" id="canApply">
+                    <option value="0">不允许</option>
+                    <option value="1">允许</option>
+                </select>
+            </div>
+        </div>
 
-		<div class="layui-input-block">
-			<input type="text" name="forwardUrl" autocomplete="off" placeholder="请选择广告跳转链接" class="layui-input">
-		</div>
-	</div>
+        <div class="layui-inline">
+            <label class="layui-form-label">是否推荐</label>
 
-	<!--<div class="layui-form-item">-->
-		<!--<label class="layui-form-label">文字广告</label>-->
-		<!--<div class="layui-input-block">-->
-			<!--<input type="text" name="content" autocomplete="off" placeholder="请输入广告宣传文案" class="layui-input">-->
-		<!--</div>-->
-	<!--</div>-->
+            <div class="layui-input-inline">
+                <select name="isRecommend" id="isRecommend">
+                    <option value="0">非推荐</option>
+                    <option value="1">推荐</option>
+                </select>
+            </div>
+        </div>
+    </div>
 
-	<div class="layui-form-item">
-		<label class="layui-form-label">广告图片：</label>
-		<div class="layui-upload-drag">
-			<a href=" javascript:void(0); ">
-				<img id="avatar_show_id" src="../../image/default_upload.png" alt="上传图片" width="256" height="115">
-			</a>
-			<input type="hidden" id="avatar" name="avatar" value="">
-		</div>
-		<div class="layui-input-block" style="margin-top:10px;">
-			<button type="button" class="layui-btn" id="btnUploadImg_avatar"><i class="layui-icon"></i>上传图片</button><input class="layui-upload-file" type="file" name="file">
-		</div>
-	</div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">推荐顺序</label>
 
-	<div class="layui-form-item operate">
-		<button class="layui-btn" type="button" lay-submit lay-filter="ad-add-form">
-			<i class="layui-icon">&#xe605;</i>
-			保存
-		</button>
-		<button id="cancel" type="button" class="layui-btn layui-btn-primary">
-			<i class="layui-icon">&#x1006;</i>
-			取消
-		</button>
-	</div>
+            <div class="layui-input-inline">
+                <input type="text" name="recommendNum" lay-verify="required" autocomplete="off" placeholder="请输入推荐顺序" class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-inline">
+            <label class="layui-form-label">展品数量</label>
+
+            <div class="layui-input-inline">
+                <input type="text" name="productNum" lay-verify="required" placeholder="允许上传最大展品数量"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item operate">
+        <button class="layui-btn" type="button" lay-submit lay-filter="ad-add-form">
+            <i class="layui-icon">&#xe605;</i>
+            保存
+        </button>
+        <button id="cancel" type="button" class="layui-btn layui-btn-primary">
+            <i class="layui-icon">&#x1006;</i>
+            取消
+        </button>
+    </div>
 
 </form>
 
 <script type="text/javascript" src="../../js/common/module-manage.js"></script>
 <script type="text/javascript" charset="utf8" src="../../frame/layui/layui.js"></script>
 <script type="text/javascript" charset="utf8" src="../../frame/moment.js"></script>
-<script src="../../js/controller/ad/ad-add.js"></script>
+<script src="../../js/controller/exhibitor/exhibitor-add.js"></script>
 </body>
 
 </html>

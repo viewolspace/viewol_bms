@@ -11,13 +11,13 @@ var requireModules = [
 	'layer',
 	'request',
 	'form-util',
-	'user-api',
+	'schedule-api',
 	'table-util',
 	'btns',
-	'authority',
+    'authority',
 	'toast',
     'table',
-	'valid-login'
+    'laydate',
 
 ];
 
@@ -32,17 +32,24 @@ layui.use(requireModules, function(
 	layer,
 	request,
 	formUtil,
-	userApi,
+    scheduleApi,
 	tableUtil,
 	btns,
-	authority,
+    authority,
 	toast,
-    table
+    table,
+    laydate
 ) {
 
 	var $ = layui.jquery;
     var $table = table;
     var mainTable;
+
+    laydate.render({
+        elem: '#createTime',
+        range: true
+    });
+
 	var MyController = {
 		init: function() {
 			var navId = request.getFixUrlParams("navId");
@@ -68,29 +75,39 @@ layui.use(requireModules, function(
 		},
 		renderTable: function() {
             return $table.render({
-                elem: '#user-list'
+                elem: '#recommend-schedule-list'
                 ,height: 'full-100'
-                ,url: userApi.getUrl('getAll').url
+                ,url: scheduleApi.getUrl('recoScheduleList').url
 				,method: 'post'
                 ,page: true //开启分页
                 ,limits:[10,50,100,200]
                 ,cols: [[ //表头
                     {type:'numbers'},
-                    {field: 'id', title: '用户ID', width:100},
-                    {field: 'userName', title: '账号', width:100},
-                    {field: 'realName', title: '真实姓名', width:100},
-                    {field: 'phone', title: '手机号', width:150},
-                    {field: 'userStatus', title: '状态', width:100, templet: function (d) {
-                        if(d.userStatus == 1){
-                        	return '<span>正常</span>';
+                    {field: 'scheduleId', title: '日程ID', width:100},
+                    {field: 'title', title: '主题', width:400},
+                    {field: 'companyName', title: '主办方', width:100},
+                    {field: 'type', title: '推荐类型', width:100, templet: function (d) {
+                        if(d.type == 1){
+                        	return '<span>置顶活动</span>';
                         } else {
-                        	return '<span>冻结</span>';
+                        	return '<span>推荐活动</span>';
                         }
                     }},
-                    {field: 'roleName', title: '角色', width:120},
-                    {field: 'lastLoginTime', title: '登录时间', width:160, templet: function (d) {
-						return moment(d.lastLoginTime).format("YYYY-MM-DD HH:mm:ss");
+                    {field: 'sTime', title: '推荐位开始时间', width:160, templet: function (d) {
+						return moment(d.sTime).format("YYYY-MM-DD HH:mm:ss");
                     }},
+                    {field: 'eTime', title: '推荐位结束时间', width:160, templet: function (d) {
+                            return moment(d.eTime).format("YYYY-MM-DD HH:mm:ss");
+                        }},
+                    {field: 'startTime', title: '活动开始时间', width:160, templet: function (d) {
+                            return moment(d.startTime).format("YYYY-MM-DD HH:mm:ss");
+                        }},
+                    {field: 'endTime', title: '活动结束时间', width:160, templet: function (d) {
+                            return moment(d.endTime).format("YYYY-MM-DD HH:mm:ss");
+                        }},
+                    {field: 'cTime', title: '创建时间', width:160, templet: function (d) {
+                            return moment(d.cTime).format("YYYY-MM-DD HH:mm:ss");
+                        }},
                     {fixed: 'right',width:180, align:'center', toolbar: '#barDemo'}
                 ]]
             });

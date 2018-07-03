@@ -1,6 +1,6 @@
 
 /**
- * 广告管理api
+ * 日程管理api
  */
 var requireModules =[
 	'base-url'
@@ -12,28 +12,28 @@ layui.define('base-url', function(exports) {
 	var baseApi = layui['base-url'];
 
 	var url = {
-		namespace: '../ad/',
-		"getAll": {//查询广告列表
-			url: "adList.do"
+		namespace: '../schedule/',
+		"scheduleList": {
+			url: "scheduleList.do"
 		} ,
-        "uploadImg": {//上传图片
+        "recommendSchedule": {//推荐日程
             type: 'POST',
-            url: "uploadImg.do"
+            url: "recommendSchedule.do"
         } ,
-        "addAd": {//添加广告
+        "reviewSchedule": {//审核日程，默认已审核
             type: 'POST',
-            url: "addAd.do"
+            url: "reviewSchedule.do"
         },
-        "updateAd": {//修改广告
+        "recoScheduleList": {//已推荐日程列表
             type: 'POST',
-            url: "updateAd.do"
+            url: "recoScheduleList.do"
         } ,
-        "deleteAd": {//删除广告
-            url: "deleteAd.do"
+        "unRecommendSchedule": {//取消推荐日程
+            url: "unRecommendSchedule.do"
         }
 	}
 	//下面这种避免不同api相同key取值相同的问题
 	var result = $.extend({}, baseApi, url);
 
-	exports('ad-api', result);
+	exports('schedule-api', result);
 });
