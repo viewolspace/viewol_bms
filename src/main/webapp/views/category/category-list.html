@@ -16,6 +16,8 @@
 
 <body class="body">
 
+<div id="page-btns" class="layui-btn-group fl">
+</div>
 
 <div class="layui-row">
     <div class="layui-col-md3">
@@ -24,45 +26,52 @@
         </div>
     </div>
     <div class="layui-col-md9">
-        <form id="ad-add-form" class="layui-form" action="">
+        <form id="category-update-form" class="layui-form" action="">
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">父分类</label>
 
                     <div class="layui-input-inline">
-                        <input type="text" name="title" value="一级节点" disabled lay-verify="required" autocomplete="off" class="layui-input">
+                        <input type="text" name="pName" disabled autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">类型</label>
+                    <label class="layui-form-label">归属分类</label>
 
                     <div class="layui-input-inline">
-                        <input type="text" name="title" value="展商分类" disabled lay-verify="required" autocomplete="off" class="layui-input">
+                        <select name="type" id="type" disabled>
+                            <option value="1">展商分类</option>
+                            <option value="2">产品分类</option>
+                        </select>
                     </div>
                 </div>
             </div>
-
 
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">分类名称</label>
 
                     <div class="layui-input-inline">
-                        <input type="text" name="title"  lay-verify="required" autocomplete="off" class="layui-input">
+                        <input type="text" name="name"  lay-verify="required" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
 
             <div class="layui-form-item operate">
-                <button class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe654;</i>增加</button>
-                <button class="layui-btn layui-btn-warm"><i class="layui-icon">&#xe642;</i>修改</button>
-                <button class="layui-btn layui-btn-danger"><i class="layui-icon">&#xe640;</i>删除</button>
-                <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#x1006;</i>取消</button>
+                <button class="layui-btn layui-btn-warm" type="button" lay-filter="category-update-form" lay-submit>
+                    <i class="layui-icon">&#xe642;</i>
+                    修改
+                </button>
+                <button class="layui-btn layui-btn-danger" type="button" lay-filter="category-update-form" id="delete">
+                    <i class="layui-icon">&#xe640;</i>
+                    删除
+                </button>
             </div>
-
+            <input type="hidden" name="id" id="id">
+            <input type="hidden" name="pid">
         </form>
     </div>
 </div>

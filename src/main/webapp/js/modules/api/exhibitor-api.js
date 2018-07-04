@@ -16,10 +16,6 @@ layui.define('base-url', function(exports) {
 		"exhibitorList": {
 			url: "exhibitorList.do"
 		} ,
-        "uploadImg": {//上传图片
-            type: 'POST',
-            url: "uploadImg.do"
-        } ,
         "addExhibitor": {
             type: 'POST',
             url: "addExhibitor.do"
@@ -31,9 +27,8 @@ layui.define('base-url', function(exports) {
         "deleteExhibitor": {
             url: "deleteExhibitor.do"
         },
-        "batchAddExhibitor": {
-            type: 'POST',
-            url: "batchAddExhibitor.do"
+        "getExhibitorCategory": {//查询展商所属分类
+            url: "getExhibitorCategory.do"
         }
 
 	}

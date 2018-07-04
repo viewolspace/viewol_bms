@@ -21,6 +21,16 @@ layui.define(function(exports) {
             icon: '&#xe654;',
             name: '添加'
         },
+        'add_level': {
+            className: baseBtnClass + 'add_level',
+            icon: '&#xe654;',
+            name: '添加同级节点'
+        },
+        'add_child': {
+            className: baseBtnClass + 'add_child',
+            icon: '&#xe654;',
+            name: '添加子节点'
+        },
         'refresh': {
             className: baseBtnClass + 'layui-btn-normal refresh',
             icon: '&#x1002;',

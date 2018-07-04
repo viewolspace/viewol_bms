@@ -3,29 +3,28 @@ package com.viewol.category.vo;
 import java.util.Date;
 
 public class CategoryVO {
-    private int id;
-    private int parentId;
+    private String id;
+    private String pId;
     private int type;//1 展商分类  2 产品分类
+    private int num;//顺序号，默认0
     private String logo;//分类图片
     private String name;//分类名称
     private Date cTime;
 
-    //extend
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getParentId() {
-        return parentId;
+    public String getpId() {
+        return pId;
     }
 
-    public void setParentId(int parentId) {
-        this.parentId = parentId;
+    public void setpId(String pId) {
+        this.pId = pId;
     }
 
     public int getType() {
@@ -34,6 +33,14 @@ public class CategoryVO {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
     }
 
     public String getLogo() {

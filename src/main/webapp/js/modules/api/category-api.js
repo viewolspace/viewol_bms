@@ -13,12 +13,11 @@ layui.define('base-url', function(exports) {
 
 	var url = {
 		namespace: '../category/',
-		"categoryList": {
-			url: "categoryList.do"
+		"categoryTreeList": {
+			url: "categoryTreeList.do"
 		} ,
-        "uploadImg": {//上传图片
-            type: 'POST',
-            url: "uploadImg.do"
+        "queryAllCategory": {
+            url: "queryAllCategory.do"
         } ,
         "addCategory": {
             type: 'POST',

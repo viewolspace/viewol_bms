@@ -5,15 +5,16 @@ import java.util.Date;
 public class ExhibitorVO {
     private int id;
     private String name;//展商名称
+    private String  shortName; //简称
     private String logo;//展商logo
     private String banner;//展商形象图片
     private String image;//展商图片
     private String place;//展商位置
     private String placeSvg;//展商svg位置
-    private int productNum;//允许上传产品的数量
-    private int canApply;//1 允许申请活动  0 不允许
-    private int isRecommend;//0 非推荐  1 推荐
-    private int recommendNum;//显示推荐的顺序
+    private Integer productNum;//允许上传产品的数量
+    private Integer canApply;//1 允许申请活动  0 不允许
+    private Integer isRecommend;//0 非推荐  1 推荐
+    private Integer recommendNum;//显示推荐的顺序
     private Date cTime;
     private Date mTime;
 
@@ -34,6 +35,14 @@ public class ExhibitorVO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
     public String getLogo() {
@@ -76,35 +85,35 @@ public class ExhibitorVO {
         this.placeSvg = placeSvg;
     }
 
-    public int getProductNum() {
+    public Integer getProductNum() {
         return productNum;
     }
 
-    public void setProductNum(int productNum) {
+    public void setProductNum(Integer productNum) {
         this.productNum = productNum;
     }
 
-    public int getCanApply() {
+    public Integer getCanApply() {
         return canApply;
     }
 
-    public void setCanApply(int canApply) {
+    public void setCanApply(Integer canApply) {
         this.canApply = canApply;
     }
 
-    public int getIsRecommend() {
+    public Integer getIsRecommend() {
         return isRecommend;
     }
 
-    public void setIsRecommend(int isRecommend) {
+    public void setIsRecommend(Integer isRecommend) {
         this.isRecommend = isRecommend;
     }
 
-    public int getRecommendNum() {
+    public Integer getRecommendNum() {
         return recommendNum;
     }
 
-    public void setRecommendNum(int recommendNum) {
+    public void setRecommendNum(Integer recommendNum) {
         this.recommendNum = recommendNum;
     }
 

@@ -9,11 +9,9 @@ var requireModules = [
 	'form',
 	'form-util',
 	'request',
-	'user-api',
+	'exhibitor-api',
 	'role&authority-api',
-	'toast',
-	'key-bind',
-	'valid-login'
+	'toast'
 
 ];
 
@@ -25,37 +23,52 @@ layui.use(requireModules, function(
 	form,
 	formUtil,
 	ajax,
-	userApi,
+    exhibitorApi,
 	roleApi,
-	toast,
-	keyBind
+	toast
 	) {
 	var $ = layui.jquery;
 	var f = layui.form;
-	
+    var categoryData ;//分类相关的信息
 	var data = ajax.getAllUrlParam();
 	
-	ajax.request(roleApi.getUrl('getRolesSelect'), null, function(result) {
-		formUtil.renderSelects('#roleId', result.data);
-		if(!$.isEmptyObject(data)){
-			$('#username').attr('disabled',true);
-			formUtil.renderData($('#sys-user-form'),data);
-		}
-		f.render();
-	});
-	
+    $('#choose-category').click(function() {
+        var ids = categoryData?categoryData.ids:'';
 
-	f.on('submit(sys-user-form)', function(data) {
+        var url = ajax.composeUrl(webName + '/views/exhibitor/category-tree.html', {
+            check: true,
+            recheckData: ids,	//前端回显数据
+            type: 1			//分类的类型
+        });
 
-		ajax.request(userApi.getUrl('addSysUser'), data.field, function() {
-			toast.success('添加用户成功');
-			var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-			parent.layer.close(index); //再执行关闭  
-			parent.list.refresh();//刷新列表
+        layer.open({
+            type: 2,
+            title: "选择分类",
+            content:url ,
+            area:['50%','80%'],
+            btn: ['确定了', '取消了'],
+            yes: function(index, layero) {
+                var iframeWin = window[layero.find('iframe')[0]['name']];
+                categoryData = iframeWin.tree.getAuthorityData();
+                layer.close(index);
+                alert(JSON.stringify(categoryData));
+                $("#categoryNames").val(categoryData.categoryNames);
+            }
+
+        });
+    });
+
+
+	f.on('submit(exhibitor-add-form)', function(data) {
+        var datas = $.extend(true, data.field, categoryData);
+		ajax.request(exhibitorApi.getUrl('addExhibitor'), datas, function() {
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.layer.close(index);
+			parent.list.refresh();
 			toast.success('保存成功');
-			
+
 		});
-		return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+		return false;
 	});
 
 });

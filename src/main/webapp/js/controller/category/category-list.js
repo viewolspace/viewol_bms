@@ -14,7 +14,8 @@ var requireModules = [
 	'authority',
 	'btns',
 	'key-bind',
-	'valid-login'
+    'form',
+    'form-util'
 
 
 ];
@@ -31,12 +32,25 @@ layui.use(requireModules, function(
 	toast,
 	authority,
 	btns,
-	keyBind
+	keyBind,
+    form,
+    formUtil
 ) {
+    var $ = layui.jquery;
+    var f = layui.form;
+    var formData;
 
-	var controller = {
-
+    var controller = {
 		init: function() {
+            var navId = ajax.getFixUrlParams("navId");
+
+            var totalBtns = authority.getNavBtns(navId);
+            var btnObjs = btns.getBtns(totalBtns);
+            controller.pageBtns = btns.getPageBtns(btnObjs);
+            controller.switchPageBtns = btns.getSwitchPageBtns(btnObjs);
+            $('#page-btns').html(btns.renderBtns(controller.pageBtns)+btns.renderSwitchBtns(controller.switchPageBtns));
+
+            controller.bindEvent();
             var setting = {
                 data: {
                     key: {
@@ -52,45 +66,18 @@ layui.use(requireModules, function(
                 }
             };
 
-            var zNodes =[
-                { id:1, pId:0, name:"父节点1", open:true},
-                { id:11, pId:1, name:"父节点11"},
-                { id:111, pId:11, name:"叶子节点111"},
-                { id:112, pId:11, name:"叶子节点112"},
-                { id:113, pId:11, name:"叶子节点113"},
-                { id:114, pId:11, name:"叶子节点114"},
-                { id:12, pId:1, name:"父节点12"},
-                { id:121, pId:12, name:"叶子节点121"},
-                { id:122, pId:12, name:"叶子节点122"},
-                { id:123, pId:12, name:"叶子节点123"},
-                { id:124, pId:12, name:"叶子节点124"},
-                { id:13, pId:1, name:"父节点13", isParent:true},
-                { id:2, pId:0, name:"父节点2"},
-                { id:21, pId:2, name:"父节点21", open:true},
-                { id:211, pId:21, name:"叶子节点211"},
-                { id:212, pId:21, name:"叶子节点212"},
-                { id:213, pId:21, name:"叶子节点213"},
-                { id:214, pId:21, name:"叶子节点214"},
-                { id:22, pId:2, name:"父节点22"},
-                { id:221, pId:22, name:"叶子节点221"},
-                { id:222, pId:22, name:"叶子节点222"},
-                { id:223, pId:22, name:"叶子节点223"},
-                { id:224, pId:22, name:"叶子节点224"},
-                { id:23, pId:2, name:"父节点23"},
-                { id:231, pId:23, name:"叶子节点231"},
-                { id:232, pId:23, name:"叶子节点232"},
-                { id:233, pId:23, name:"叶子节点233"},
-                { id:234, pId:23, name:"叶子节点234"},
-                { id:3, pId:0, name:"父节点3", isParent:true}
-            ];
-
             $(document).ready(function(){
-                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                ajax.request(categoryApi.getUrl('categoryTreeList'), null, function(result) {
+                    var zNodes = result.data;
+                    var zTree = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                    zTree.expandAll(true);
+                });
             });
 
             function beforeClick(treeId, treeNode, clickFlag) {
                 return (treeNode.click != false);
             }
+
             function onClick(event, treeId, treeNode, clickFlag) {
                 var parentTId = treeNode.parentTId;
                 var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
@@ -98,22 +85,127 @@ layui.use(requireModules, function(
 
                 var selectId = treeNode.id;
                 var selectName = treeNode.name;
-                var parentId = parentNode.id;
-                var parentName = parentNode.name;
+                var type = treeNode.type;
 
-                var formData = {
+                if(parentNode==null){
+                    var parentId = 0;
+                    var parentName = '根节点';
+                } else {
+                    var parentId = parentNode.id;
+                    var parentName = parentNode.name;
+                }
+
+
+                formData = {
                     "id": selectId,
                     "name": selectName,
                     "pid": parentId,
-                    "pName": parentName
+                    "pName": parentName,
+                    "type": type
                 }
 
-                alert(JSON.stringify(formData));
+                formUtil.renderData($('#category-update-form'),formData);
             }
+
+
+        },
+
+        addLevel: function () {
+		    if(formData == undefined){
+                toast.success('请先选择节点');
+		        return;
+            }
+            formData.id = '';
+            formData.name = '';
+            var url = ajax.composeUrl(webName + '/views/category/category-add.html', formData);
+            var index = layer.open({
+                type: 2,
+                title: "添加同级节点",
+                area: ['600px', '400px'],
+                offset: '5%',
+                scrollbar: false,
+                content: url,
+                success: function(ly, index) {
+                    layer.iframeAuto(index);
+                }
+            });
+        },
+
+        addChild: function () {
+            if(formData == undefined){
+                toast.success('请先选择节点');
+                return;
+            }
+
+            formData.pid = formData.id;
+            formData.pName = formData.name;
+            formData.id = '';
+            formData.name = '';
+
+            var url = ajax.composeUrl(webName + '/views/category/category-add.html', formData);
+            var index = layer.open({
+                type: 2,
+                title: "添加子节点",
+                area: ['600px', '400px'],
+                offset: '5%',
+                scrollbar: false,
+                content: url,
+                success: function(ly, index) {
+                    layer.iframeAuto(index);
+                }
+            });
+        },
+
+        delete: function() {
+            layer.confirm('确认删除数据?', {
+                icon: 3,
+                title: '提示',
+                closeBtn: 0
+            }, function(index) {
+                layer.load(0, {
+                    shade: 0.5
+                });
+                layer.close(index);
+                ajax.request(categoryApi.getUrl('deleteCategory'), {
+                    id: $("#id").val()
+                }, function() {
+                    layer.closeAll('loading');
+                    toast.success('成功删除！');
+                    controller.refresh();
+                },true,function(){
+                    layer.closeAll('loading');
+                });
+            });
+        },
+
+        bindEvent: function() {
+            //点击添加同级节点
+            $('body').on('click', '.add_level', controller.addLevel);
+
+            //点击添加子节点
+            $('body').on('click', '.add_child', controller.addChild);
+
+            $(document).on('click','#delete',function(){
+                controller.delete();
+            });
+        },
+
+        refresh: function() {
+            window.location.reload();
         }
-
-
 	};
 
 	controller.init();
+
+    window.tree = {
+        refresh: controller.refresh
+    }
+
+    f.on('submit(category-update-form)', function(data) {
+        ajax.request(categoryApi.getUrl('updateCategory'), data.field, function() {
+            toast.success('修改成功');
+            controller.refresh();
+        });
+        return false;
+    });
 });

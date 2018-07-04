@@ -3,7 +3,13 @@ package com.viewol.exhibitor.controller;
 import com.viewol.common.BaseResponse;
 import com.viewol.common.GridBaseResponse;
 import com.viewol.common.UploadResponse;
+import com.viewol.exhibitor.response.ExhibitorCategoryResponse;
+import com.viewol.exhibitor.vo.ExhibitorCategoryVO;
 import com.viewol.exhibitor.vo.ExhibitorVO;
+import com.viewol.pojo.Category;
+import com.viewol.pojo.Company;
+import com.viewol.pojo.query.CompanyQuery;
+import com.viewol.service.ICompanyService;
 import com.viewol.sys.interceptor.Repeat;
 import com.viewol.sys.log.annotation.MethodLog;
 import com.viewol.sys.utils.Constants;
@@ -20,13 +26,12 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-import java.util.Random;
+import java.util.*;
 
 /**
  * 展商管理
@@ -34,6 +39,9 @@ import java.util.Random;
 @Controller
 @RequestMapping("exhibitor")
 public class ExhibitorController {
+
+    @Resource
+    private ICompanyService companyService;
 
     /**
      * 查询展商列表
@@ -54,79 +62,104 @@ public class ExhibitorController {
         rs.setCode(0);
         rs.setMsg("ok");
 
-        PageHolder<ExhibitorVO> pageHolder = new PageHolder<>();
-        ExhibitorVO vo = new ExhibitorVO();
-        vo.setId(1);
-        vo.setName("腾讯");
-        vo.setLogo("");
-        vo.setBanner("");
-        vo.setImage("");
-        vo.setPlace("E301");
-        vo.setPlaceSvg("E301");
-        vo.setProductNum(5);
-        vo.setCanApply(1);
-        vo.setIsRecommend(1);
-        vo.setRecommendNum(1);
-        vo.setcTime(new Date());
-        vo.setmTime(new Date());
+        CompanyQuery query = new CompanyQuery();
+        query.setPageIndex(page);
+        query.setPageSize(limit);
+        query.setName(name);
+        query.setCategoryId("");
+        query.setLastCompanyId(-1);
+        PageHolder<Company> pageHolder = companyService.queryCompany(query);
+        List<ExhibitorVO> list = new ArrayList<>();
 
-        vo.setIsSameRecommend(1);
+        if(null != pageHolder && pageHolder.getList().size()>0){
+            for(Company company : pageHolder.getList()){
+                ExhibitorVO vo = new ExhibitorVO();
+                vo.setId(company.getId());
+                vo.setName(company.getName());
+                vo.setShortName(company.getShortName());
+                vo.setLogo(company.getLogo());
+                vo.setBanner(company.getBanner());
+                vo.setImage(company.getImage());
+                vo.setPlace(company.getPlace());
+                vo.setPlaceSvg(company.getPlaceSvg());
+                vo.setProductNum(company.getProductNum());
+                vo.setCanApply(company.getCanApply());
+                vo.setIsRecommend(company.getIsRecommend());
+                vo.setRecommendNum(company.getRecommendNum());
+                vo.setcTime(company.getcTime());
+                vo.setmTime(company.getmTime());
 
-        pageHolder.add(vo);
-        pageHolder.setTotalCount(1);
-
-        if (null != pageHolder) {
-            rs.setData(pageHolder.getList());
-            rs.setCount(pageHolder.getTotalCount());
+                list.add(vo);
+            }
         }
 
+        if (null != pageHolder) {
+            rs.setData(list);
+            rs.setCount(pageHolder.getTotalCount());
+        }
         return rs;
     }
 
-
-    @RequestMapping(value = "/addExhibitor", method = RequestMethod.POST)
-    @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "添加类别")
-    @Repeat
-    public BaseResponse addExhibitor(@RequestParam(value = "title", defaultValue = "") String title,
-                              @RequestParam(value = "beginDate", defaultValue = "") String beginDate,
-                              @RequestParam(value = "endDate", defaultValue = "") String endDate,
-                              @RequestParam(value = "rank", defaultValue = "1") int rank,
-                              @RequestParam(value = "forwardUrl", defaultValue = "") String forwardUrl,
-                              @RequestParam(value = "avatar", defaultValue = "") String adImage) {
-
-        BaseResponse rs = new BaseResponse();
-
-
-        return rs;
-    }
 
     /**
-     * 批量增加展商，从excel导入
+     * 添加展商
+     * @param name 展商名称
+     * @param shortName 展商简称
+     * @param place 展商位置
+     * @param placeSvg 展商svg位置
+     * @param canApply 申请活动
+     * @param isRecommend 是否推荐
+     * @param recommendNum 推荐顺序
+     * @param productNum 展品数量
+     * @param ids 分类ID集合
      * @return
      */
-    @RequestMapping(value = "/batchAddExhibitor", method = RequestMethod.POST)
+    @RequestMapping(value = "/addExhibitor", method = RequestMethod.POST)
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "添加类别")
+    @MethodLog(module = Constants.AD, desc = "添加展商")
     @Repeat
-    public BaseResponse batchAddExhibitor(@RequestParam(value = "title", defaultValue = "") String title,
-                                     @RequestParam(value = "beginDate", defaultValue = "") String beginDate,
-                                     @RequestParam(value = "endDate", defaultValue = "") String endDate,
-                                     @RequestParam(value = "rank", defaultValue = "1") int rank,
-                                     @RequestParam(value = "forwardUrl", defaultValue = "") String forwardUrl,
-                                     @RequestParam(value = "avatar", defaultValue = "") String adImage) {
+    public BaseResponse addExhibitor(@RequestParam(value = "name", defaultValue = "") String name,
+                                     @RequestParam(value = "shortName", defaultValue = "") String shortName,
+                                     @RequestParam(value = "place", defaultValue = "") String place,
+                                     @RequestParam(value = "placeSvg", defaultValue = "") String placeSvg,
+                                     @RequestParam(value = "canApply", defaultValue = "0") int canApply,
+                                     @RequestParam(value = "isRecommend", defaultValue = "0") int isRecommend,
+                                     @RequestParam(value = "recommendNum", defaultValue = "0") int recommendNum,
+                                     @RequestParam(value = "productNum", defaultValue = "5") int productNum,
+                                     @RequestParam(value = "ids[]") String[] ids,
+                                     @RequestParam(value = "categoryNames[]") String[] categoryNames) {
 
         BaseResponse rs = new BaseResponse();
+        Company company = new Company();
+        company.setName(name);
+        company.setShortName(shortName);
+        company.setPlace(place);
+        company.setPlaceSvg(placeSvg);
+        company.setCanApply(canApply);
+        company.setIsRecommend(isRecommend);
+        company.setRecommendNum(recommendNum);
+        company.setProductNum(productNum);
+        company.setcTime(new Date());
+        company.setmTime(new Date());
+        List<String> categoryIdList = Arrays.asList(ids);
 
+        int result = companyService.addCompany(company, categoryIdList);
 
+        if(result>0){
+            rs.setStatus(true);
+            rs.setMsg("保存成功");
+        } else {
+            rs.setStatus(false);
+            rs.setMsg("保存失败");
+        }
         return rs;
     }
 
     @RequestMapping(value = "/deleteExhibitor")
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "删除类别")
+    @MethodLog(module = Constants.AD, desc = "删除展商")
     @Repeat
-    public BaseResponse deleteExhibitor(int id) {
+    public BaseResponse deleteExhibitor(@RequestParam(value = "id", defaultValue = "-1") int id) {
         BaseResponse rs = new BaseResponse();
         rs.setStatus(true);
         rs.setMsg("删除成功");
@@ -134,92 +167,84 @@ public class ExhibitorController {
         return rs;
     }
 
+    /**
+     * 添加展商
+     * @param id 展商id
+     * @param name 展商名称
+     * @param shortName 展商简称
+     * @param place 展商位置
+     * @param placeSvg 展商svg位置
+     * @param canApply 申请活动
+     * @param isRecommend 是否推荐
+     * @param recommendNum 推荐顺序
+     * @param productNum 展品数量
+     * @param ids 分类ID集合
+     * @return
+     */
     @RequestMapping(value = "/updateExhibitor", method = RequestMethod.POST)
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "删除类别")
+    @MethodLog(module = Constants.AD, desc = "修改展商")
     @Repeat
     public BaseResponse updateExhibitor(@RequestParam(value = "id", defaultValue = "-1") int id,
-                                 @RequestParam(value = "title", defaultValue = "") String title,
-                                 @RequestParam(value = "beginDate", defaultValue = "") String beginDate,
-                                 @RequestParam(value = "endDate", defaultValue = "") String endDate,
-                                 @RequestParam(value = "rank", defaultValue = "1") int rank,
-                                 @RequestParam(value = "forwardUrl", defaultValue = "") String forwardUrl,
-                                 @RequestParam(value = "avatar", defaultValue = "") String adImage) {
+                                        @RequestParam(value = "name", defaultValue = "") String name,
+                                        @RequestParam(value = "shortName", defaultValue = "") String shortName,
+                                        @RequestParam(value = "place", defaultValue = "") String place,
+                                        @RequestParam(value = "placeSvg", defaultValue = "") String placeSvg,
+                                        @RequestParam(value = "canApply", defaultValue = "0") int canApply,
+                                        @RequestParam(value = "isRecommend", defaultValue = "0") int isRecommend,
+                                        @RequestParam(value = "recommendNum", defaultValue = "0") int recommendNum,
+                                        @RequestParam(value = "productNum", defaultValue = "5") int productNum,
+                                        @RequestParam(value = "ids[]") String[] ids,
+                                        @RequestParam(value = "categoryNames[]") String[] categoryNames) {
 
         BaseResponse rs = new BaseResponse();
+        Company company = companyService.getCompany(id);
+        company.setName(name);
+        company.setShortName(shortName);
+        company.setPlace(place);
+        company.setPlaceSvg(placeSvg);
+        company.setCanApply(canApply);
+        company.setIsRecommend(isRecommend);
+        company.setRecommendNum(recommendNum);
+        company.setProductNum(productNum);
+        company.setmTime(new Date());
+        List<String> categoryIdList = Arrays.asList(ids);
 
-        rs.setStatus(true);
-        rs.setMsg("修改成功");
+        int result = companyService.updateCompany(company, categoryIdList);
 
+        if(result>0){
+            rs.setStatus(true);
+            rs.setMsg("修改成功");
+        } else {
+            rs.setStatus(false);
+            rs.setMsg("修改失败");
+        }
         return rs;
     }
 
-    /**
-     * 上传图片
-     *
-     * @param file
-     * @return
-     */
-    @RequestMapping(value = "/uploadImg", method = RequestMethod.POST)
+    @RequestMapping(value = "/getExhibitorCategory", method = RequestMethod.GET)
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "上传类别图片")
-    @Repeat
-    public UploadResponse uploadImg(@RequestParam(value = "file", required = false) MultipartFile file) {
-
-        UploadResponse rs = new UploadResponse();
-
-        if (null != file) {
-            String myFileName = file.getOriginalFilename();// 文件原名称
-            SimpleDateFormat dft = new SimpleDateFormat("yyyyMMddHHmmss");
-            String fileName = dft.format(new Date()) + Integer.toHexString(new Random().nextInt()) + "." + myFileName.substring(myFileName.lastIndexOf(".") + 1);
-
-            WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
-            ServletContext servletContext = webApplicationContext.getServletContext();
-            // 得到文件绝对路径
-            String contexPath = servletContext.getRealPath("/");
-
-            SimpleDateFormat yyyyMMdd = new SimpleDateFormat("yyyyMMdd");
-            String sqlPath = "upload/images/" + yyyyMMdd.format(new Date()) + "/";
-
-            File fileDir = new File(contexPath + sqlPath);
-            if (!fileDir.exists()) { //如果不存在 则创建
-                fileDir.mkdirs();
+    public ExhibitorCategoryResponse getExhibitorCategory(@RequestParam(value = "id", defaultValue = "-1") int id) {
+        ExhibitorCategoryResponse rs = new ExhibitorCategoryResponse();
+        List<Category> list = companyService.getCompanyCategory(id);
+        if(null != list && list.size()>0){
+            List<String> idsList = new ArrayList<>();
+            List<String> namesList = new ArrayList<>();
+            for(Category category : list){
+                idsList.add(category.getId());
+                namesList.add(category.getName());
             }
-            String path = contexPath + sqlPath + fileName;
-            File localFile = new File(path);
-            try {
-                file.transferTo(localFile);
 
-                rs.setStatus(true);
-                rs.setMsg("上传成功");
-                Properties p = ZkPropertiesHelper.getCacheAndWatchProperties("config.properties", true);
-                String url_prefix = p.getProperty("ad.images");
-                String httpUrl = url_prefix + File.separator + sqlPath + fileName;
-                rs.setImageUrl(httpUrl);
+            ExhibitorCategoryVO vo = new ExhibitorCategoryVO();
+            vo.setIds(idsList.toArray(new String[idsList.size()]));
+            vo.setCategoryNames((namesList.toArray(new String[namesList.size()])));
 
-                //检查图片是否同步完，同步完成再回显
-                for (int i = 0; i < 5; i++) {
-                    Response<String> response = HttpUtil.sendGet(httpUrl, null, "UTF-8");
-                    if ("0000".equals(response.getCode())) {
-                        break;
-                    }
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-
-                    }
-
-                }
-            } catch (IllegalStateException e) {
-                rs.setStatus(false);
-                rs.setMsg("服务器异常");
-            } catch (IOException e) {
-                rs.setStatus(false);
-                rs.setMsg("服务器异常");
-            }
+            rs.setStatus(true);
+            rs.setMsg("ok");
+            rs.setData(vo);
         } else {
             rs.setStatus(false);
-            rs.setMsg("文件为空");
+            rs.setMsg("无数据");
         }
 
         return rs;

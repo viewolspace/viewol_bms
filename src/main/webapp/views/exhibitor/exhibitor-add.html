@@ -33,7 +33,7 @@
 </head>
 
 <body class="body">
-<form id="ad-add-form" class="layui-form" action="">
+<form id="exhibitor-add-form" class="layui-form" action="">
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">展商名称</label>
@@ -50,6 +50,20 @@
             <div class="layui-input-inline">
                 <input type="text" name="shortName" lay-verify="required" autocomplete="off" placeholder="请输入展商简称"
                        class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">归属类别</label>
+
+            <div class="layui-input-inline">
+                <input type="text" name="categoryNames" id="categoryNames" lay-verify="required" autocomplete="off" class="layui-input">
+                <input type="text" name="categoryIds" hidden>
+            </div>
+            <div class="layui-input-inline">
+                <button id="choose-category" type="button" class="layui-btn">选择类别</button>
             </div>
         </div>
     </div>
@@ -118,7 +132,7 @@
     </div>
 
     <div class="layui-form-item operate">
-        <button class="layui-btn" type="button" lay-submit lay-filter="ad-add-form">
+        <button class="layui-btn" type="button" lay-submit lay-filter="exhibitor-add-form">
             <i class="layui-icon">&#xe605;</i>
             保存
         </button>
