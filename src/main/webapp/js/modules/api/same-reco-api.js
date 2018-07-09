@@ -20,6 +20,10 @@ layui.define('base-url', function(exports) {
         "cancelRecommend": {//取消推荐
             type: 'POST',
             url: "cancelRecommend.do"
+        },
+        "addRecommentSame": {//同类推荐(展商)
+            type: 'POST',
+            url: "addRecommentSame.do"
         }
 	}
 	//下面这种避免不同api相同key取值相同的问题

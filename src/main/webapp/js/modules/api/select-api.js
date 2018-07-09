@@ -13,15 +13,9 @@ layui.define('base-url', function(exports) {
 
 	var url = {
 		namespace: '../dictionary/',
-		"selectRealAccount": {//查询实盘单元列表，下拉框使用
-			url: "selectRealAccount.do"
-		},
-        "listDataDic": {//查询数据字典，通用方法
+        "listDataDic": {//查询分类下拉框
             url: "listDataDic.do"
-        },
-		"listDataDicFlow":{//查询出入金流水类型，子单元流水类型
-			url: "listDataDicFlow.do"
-		}
+        }
 	}
 
 	var result = $.extend({}, baseApi, url);

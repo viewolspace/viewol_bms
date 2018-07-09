@@ -5,7 +5,7 @@ import java.util.Date;
 public class ExhibitionVO {
     private int id;
     private int companyId;//展商id
-    private int categoryId;//分类id
+    private String categoryId;//分类id
     private int status;//0 上架  1 下架
     private String name;//产品名称
     private String image;//产品图片-用于列表展示
@@ -35,11 +35,11 @@ public class ExhibitionVO {
         this.companyId = companyId;
     }
 
-    public int getCategoryId() {
+    public String getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(int categoryId) {
+    public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
 

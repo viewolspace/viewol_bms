@@ -20,23 +20,20 @@
 
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">类型</label>
+                <label class="layui-form-label">展商/产品</label>
                 <div class="layui-input-inline">
-                    <select name="type" id="type">
-                        <option value="-1">全部</option>
-                        <option value="1">展商</option>
-                        <option value="2">产品</option>
+                    <select name="type" id="type" lay-filter="myselect">
+                        <option value="0001">展商</option>
+                        <option value="0002">产品</option>
                     </select>
                 </div>
             </div>
 
             <div class="layui-inline">
-                <label class="layui-form-label">类别</label>
+                <label class="layui-form-label">所属类别</label>
                 <div class="layui-input-inline">
                     <select name="categoryId" id="categoryId">
-                        <option value="-1">全部</option>
-                        <option value="1">A类</option>
-                        <option value="2">B类</option>
+
                     </select>
                 </div>
             </div>

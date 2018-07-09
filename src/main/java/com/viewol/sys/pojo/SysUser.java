@@ -21,7 +21,7 @@ public class SysUser implements Serializable {
 	private Date createTime;
 	private Date lastLoginTime;//最后登录时间
 	private int userStatus;// 1:有效，0:禁止登录
-
+	private int companyId;//所属展商，展商登录后只能查看自己的数据
 
 	private int roleId;//角色ID
 	private String roleCode;//角色编码
@@ -115,6 +115,14 @@ public class SysUser implements Serializable {
 
 	public void setUserStatus(int userStatus) {
 		this.userStatus = userStatus;
+	}
+
+	public int getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
 	}
 
 	public int getRoleId() {

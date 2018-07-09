@@ -11,7 +11,7 @@
         <result property="lastLoginTime" column="last_login_time"/>
         <result property="userStatus" column="user_status"/>
         <result property="createTime" column="create_time"/>
-
+        <result property="companyId" column="company_id"/>
         <result property="roleId" column="roleId"/>
         <result property="roleName" column="roleName"/>
         <result property="roleCode" column="roleCode"/>
@@ -19,9 +19,9 @@
 
     <insert id="insert" parameterType="SysUser">
         insert into sys_user
-        (user_name,real_name,email,pswd,phone,create_time,last_login_time,user_status)
+        (user_name,real_name,email,pswd,phone,create_time,last_login_time,user_status,company_id)
         VALUES
-        (#{userName},#{realName},#{email},#{pswd},#{phone},#{createTime},#{lastLoginTime},#{userStatus})
+        (#{userName},#{realName},#{email},#{pswd},#{phone},#{createTime},#{lastLoginTime},#{userStatus},#{companyId})
         <selectKey resultType="int" keyProperty="id">
             select LAST_INSERT_ID() AS id
         </selectKey>
@@ -40,7 +40,8 @@
 		phone=#{phone},
 		create_time=#{createTime},
 		last_login_time=#{lastLoginTime},
-		user_status=#{userStatus}
+		user_status=#{userStatus},
+		company_id=#{companyId}
 		where id=#{id}
 	</update>
 
@@ -57,20 +58,20 @@
     </update>
 
     <select id="select" parameterType="int" resultMap="SysUserResultMap">
-		select id,user_name,real_name,email,pswd,phone,create_time,last_login_time,user_status
+		select id,user_name,real_name,email,pswd,phone,create_time,last_login_time,user_status,company_id
 		from sys_user
 		where id=#{id}
 	</select>
 
     <!-- 根据用户名查询-->
     <select id="findSysUserByUserName" parameterType="String" resultMap="SysUserResultMap">
-        select a.id,a.user_name,a.real_name,a.email,a.pswd,a.phone,a.create_time,a.last_login_time,a.user_status,c.id as roleId, c.name as roleName, c.code as roleCode
+        select a.id,a.user_name,a.real_name,a.email,a.pswd,a.phone,a.create_time,a.last_login_time,a.user_status,a.company_id,c.id as roleId, c.name as roleName, c.code as roleCode
         from sys_user a, sys_user_role b, sys_role c
         where  a.id=b.uid and b.rid=c.id and a.user_name=#{userName}
     </select>
 
     <sql id="sql_show">
-		select a.id,a.user_name,a.real_name,a.email,a.pswd,a.phone,a.create_time,a.last_login_time,a.user_status,c.id as roleId, c.name as roleName
+		select a.id,a.user_name,a.real_name,a.email,a.pswd,a.phone,a.create_time,a.last_login_time,a.user_status,a.company_id,c.id as roleId, c.name as roleName
 	</sql>
 
     <sql id="sql_where">

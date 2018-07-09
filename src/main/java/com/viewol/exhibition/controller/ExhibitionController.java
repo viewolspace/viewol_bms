@@ -3,6 +3,10 @@ package com.viewol.exhibition.controller;
 import com.viewol.common.BaseResponse;
 import com.viewol.common.GridBaseResponse;
 import com.viewol.exhibition.vo.ExhibitionVO;
+import com.viewol.exhibitor.vo.ExhibitorVO;
+import com.viewol.pojo.Company;
+import com.viewol.pojo.Product;
+import com.viewol.service.IProductService;
 import com.viewol.sys.interceptor.Repeat;
 import com.viewol.sys.log.annotation.MethodLog;
 import com.viewol.sys.utils.Constants;
@@ -13,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 展品(产品)管理
@@ -21,6 +28,9 @@ import java.util.Date;
 @Controller
 @RequestMapping("exhibition")
 public class ExhibitionController {
+
+    @Resource
+    private IProductService productService;
 
     @RequestMapping(value = "/exhibitionList", method = RequestMethod.POST)
     @ResponseBody
@@ -80,4 +90,45 @@ public class ExhibitionController {
         return rs;
     }
 
+
+    /**
+     * 查询首页推荐产品
+     * @return
+     */
+    @RequestMapping(value = "/queryRecommentProduct", method = RequestMethod.POST)
+    @ResponseBody
+    public GridBaseResponse queryRecommentProduct() {
+
+        GridBaseResponse rs = new GridBaseResponse();
+        rs.setCode(0);
+        rs.setMsg("ok");
+
+        List<Product> productList = productService.queryRecommentProduct();
+        List<ExhibitionVO> list = new ArrayList<>();
+
+        if(null != productList && productList.size()>0){
+            for(Product product : productList){
+                ExhibitionVO vo = new ExhibitionVO();
+                vo.setId(product.getId());
+                vo.setCompanyId(product.getCompanyId());
+                vo.setCategoryId(product.getCategoryId());
+                vo.setStatus(product.getStatus());
+                vo.setName(product.getName());
+                vo.setImage(product.getImage());
+                vo.setContent(product.getContent());
+                vo.setPdfUrl(product.getPdfUrl());
+                vo.setPdfName(product.getPdfName());
+                vo.setIsRecommend(product.getIsRecommend());
+                vo.setRecommendNum(product.getRecommendNum());
+                vo.setcTime(product.getcTime());
+                vo.setmTime(product.getmTime());
+
+                list.add(vo);
+            }
+        }
+
+        rs.setData(list);
+        rs.setCount(list.size());
+        return rs;
+    }
 }

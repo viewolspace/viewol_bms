@@ -51,7 +51,6 @@ layui.use(requireModules, function(
                 var iframeWin = window[layero.find('iframe')[0]['name']];
                 categoryData = iframeWin.tree.getAuthorityData();
                 layer.close(index);
-                alert(JSON.stringify(categoryData));
                 $("#categoryNames").val(categoryData.categoryNames);
             }
 

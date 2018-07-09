@@ -190,4 +190,29 @@ public class CategoryController {
         }
         return rs;
     }
+
+    @RequestMapping(value = "/listByParent")
+    @ResponseBody
+    public CategoryTreeResponse listByParent(@RequestParam(value = "categoryId", defaultValue = "0") String categoryId) {
+        CategoryTreeResponse rs = new CategoryTreeResponse();
+        rs.setStatus(true);
+        rs.setMsg("ok");
+
+        List<Category> list = categoryService.listByParent(categoryId);
+
+        if(list!=null && list.size()>0){
+            List<CategoryTreeVO> volist = new ArrayList<>();
+            for(Category category : list){
+                CategoryTreeVO vo = new CategoryTreeVO();
+                vo.setChecked(false);
+                vo.setId(category.getId());
+                vo.setMenuName(category.getName());
+                vo.setParentId(category.getParentId());
+                vo.setType(category.getType());
+                volist.add(vo);
+            }
+            rs.setData(volist);
+        }
+        return rs;
+    }
 }

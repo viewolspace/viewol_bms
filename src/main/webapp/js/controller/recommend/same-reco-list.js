@@ -12,6 +12,7 @@ var requireModules = [
 	'request',
 	'form-util',
 	'same-reco-api',
+    'select-api',
 	'table-util',
 	'btns',
 	'authority',
@@ -32,6 +33,7 @@ layui.use(requireModules, function(
 	request,
 	formUtil,
     sameRecoApi,
+    selectApi,
 	tableUtil,
 	btns,
 	authority,
@@ -41,6 +43,7 @@ layui.use(requireModules, function(
 
 	var $ = layui.jquery;
     var $table = table;
+    var form = layui.form;
     var mainTable;
 	var MyController = {
 		init: function() {
@@ -57,6 +60,17 @@ layui.use(requireModules, function(
 
 			$('#page-btns').html(btns.renderBtns(MyController.pageBtns)+btns.renderSwitchBtns(MyController.switchPageBtns));
             btns.renderLayuiTableBtns(MyController.rowIconBtns, $("#barDemo"));
+
+            //初始化分类下拉列表
+            request.request(
+                selectApi.getUrl('listDataDic'),{
+                    parentId: '0001'
+                }, function(result) {
+                    formUtil.renderSelects('#categoryId', result.data, true);
+                    form.render('select');
+                },
+                false
+            );
 
             mainTable = MyController.renderTable();
 			MyController.bindEvent();
@@ -82,8 +96,8 @@ layui.use(requireModules, function(
                                 return '<span>产品</span>';
                             }
                         }},
-                    {field: 'thirdId', title: '展商(产品)ID', width:150},
-                    {field: 'name', title: '展商(产品)名称', width:150},
+                    {field: 'thirdId', title: '展商(产品)ID', width:120},
+                    {field: 'name', title: '展商(产品)名称', width:200},
                     {field: 'categoryId', title: '分类', width:150},
                     {field: 'mTime', title: '修改时间', width:160, templet: function (d) {
                             return moment(d.mTime).format("YYYY-MM-DD HH:mm:ss");
@@ -91,7 +105,7 @@ layui.use(requireModules, function(
                     {field: 'cTime', title: '创建时间', width:160, templet: function (d) {
 						return moment(d.cTime).format("YYYY-MM-DD HH:mm:ss");
                     }},
-                    {fixed: 'right',width:180, align:'center', toolbar: '#barDemo'}
+                    {fixed: 'right',width:80, align:'center', toolbar: '#barDemo'}
                 ]]
             });
 		},
@@ -140,22 +154,6 @@ layui.use(requireModules, function(
             });
         },
 
-        relateCloud: function(rowdata) {
-            var url = request.composeUrl(webName + '/views/user/user-relate-cloud.html', rowdata);
-            var index = layer.open({
-                type: 2,
-                title: "关联应用账号",
-                area: ['520px', '400px'],
-                offset: '5%',
-                scrollbar: false,
-                content: url,
-                success: function(ly, index) {
-                    // layer.iframeAuto(index);
-                }
-            });
-        },
-
-
 		delete: function(rowdata) {
 			layer.confirm('确认删除数据?', {
 				icon: 3,
@@ -192,8 +190,6 @@ layui.use(requireModules, function(
                     MyController.modify(data);
                 } else if(obj.event === 'row-delete'){//删除
                     MyController.delete(data);
-                } else if(obj.event === 'row-cloud'){//关联账户
-                    MyController.relateCloud(data);
                 }
 
             });
@@ -210,8 +206,23 @@ layui.use(requireModules, function(
 			//点击添加
 			$('body').on('click', '.add', MyController.add);
 
+
+
 		}
 	};
+
+    form.on('select(myselect)', function(data){
+    	var type = data.value;
+        request.request(
+            selectApi.getUrl('listDataDic'),{
+                parentId: type
+            }, function(result) {
+                formUtil.renderSelects('#categoryId', result.data, true);
+                form.render('select');
+            },
+            false
+        );
+    });
 
 	window.list = {
 		refresh: MyController.refresh

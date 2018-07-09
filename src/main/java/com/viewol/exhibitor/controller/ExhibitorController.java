@@ -8,13 +8,20 @@ import com.viewol.exhibitor.vo.ExhibitorCategoryVO;
 import com.viewol.exhibitor.vo.ExhibitorVO;
 import com.viewol.pojo.Category;
 import com.viewol.pojo.Company;
+import com.viewol.pojo.Recommend;
 import com.viewol.pojo.query.CompanyQuery;
 import com.viewol.service.ICompanyService;
+import com.viewol.service.IRecommendService;
 import com.viewol.sys.interceptor.Repeat;
 import com.viewol.sys.log.annotation.MethodLog;
+import com.viewol.sys.pojo.SysUser;
+import com.viewol.sys.pojo.SysUserRole;
+import com.viewol.sys.service.SysUserRoleService;
+import com.viewol.sys.service.SysUserService;
 import com.viewol.sys.utils.Constants;
 import com.youguu.core.pojo.Response;
 import com.youguu.core.util.HttpUtil;
+import com.youguu.core.util.MD5;
 import com.youguu.core.util.PageHolder;
 import com.youguu.core.zookeeper.pro.ZkPropertiesHelper;
 import org.springframework.stereotype.Controller;
@@ -42,7 +49,12 @@ public class ExhibitorController {
 
     @Resource
     private ICompanyService companyService;
+    @Resource
+    private SysUserService sysUserService;
+    @Resource
+    private SysUserRoleService sysUserRoleService;
 
+    public static final int ROLE_ID = 8;//展商角色ID
     /**
      * 查询展商列表
      * @param name 展商名称
@@ -146,6 +158,25 @@ public class ExhibitorController {
         int result = companyService.addCompany(company, categoryIdList);
 
         if(result>0){
+            String userName = "youguu";
+            String password = "123456";
+
+            SysUser sysUser = new SysUser();
+            sysUser.setUserName(userName);
+            sysUser.setRealName(shortName);
+            sysUser.setPswd(new MD5().getMD5ofStr(password).toLowerCase());
+            sysUser.setUserStatus(1);
+            sysUser.setCompanyId(result);
+            sysUser.setCreateTime(new Date());
+            int userId = sysUserService.saveSysUser(sysUser);
+
+            if(userId>0) {
+                SysUserRole userRole = new SysUserRole();
+                userRole.setUid(userId);
+                userRole.setRid(ROLE_ID);
+                userRole.setCreateTime(new Date());
+                sysUserRoleService.saveSysUserRole(userRole);
+            }
             rs.setStatus(true);
             rs.setMsg("保存成功");
         } else {
@@ -222,6 +253,11 @@ public class ExhibitorController {
         return rs;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/getExhibitorCategory", method = RequestMethod.GET)
     @ResponseBody
     public ExhibitorCategoryResponse getExhibitorCategory(@RequestParam(value = "id", defaultValue = "-1") int id) {
@@ -247,6 +283,99 @@ public class ExhibitorController {
             rs.setMsg("无数据");
         }
 
+        return rs;
+    }
+
+    /**
+     * 推荐展商到首页
+     * @param id 展商ID
+     * @param recommendNum 推荐顺序
+     * @return
+     */
+    @RequestMapping(value = "/addRecommentHome", method = RequestMethod.POST)
+    @ResponseBody
+    @MethodLog(module = Constants.AD, desc = "推荐展商到首页")
+    @Repeat
+    public BaseResponse addRecommentHome(@RequestParam(value = "id", defaultValue = "-1") int id,
+                                         @RequestParam(value = "recommendNum", defaultValue = "-1") int recommendNum) {
+
+        int result = companyService.addRecomment(id, recommendNum);
+
+        BaseResponse rs = new BaseResponse();
+        if(result>0){
+            rs.setStatus(true);
+            rs.setMsg("推荐成功");
+        } else {
+            rs.setStatus(false);
+            rs.setMsg("推荐失败");
+        }
+        return rs;
+    }
+
+    /**
+     * 取消推荐
+     * @param id 展商ID
+     * @return
+     */
+    @RequestMapping(value = "/delRecommentHome", method = RequestMethod.POST)
+    @ResponseBody
+    @MethodLog(module = Constants.AD, desc = "取消展商首页推荐")
+    @Repeat
+    public BaseResponse delRecommentHome(@RequestParam(value = "id", defaultValue = "-1") int id) {
+
+        int result = companyService.delRecomment(id);
+
+        BaseResponse rs = new BaseResponse();
+        if(result>0){
+            rs.setStatus(true);
+            rs.setMsg("取消推荐成功");
+        } else {
+            rs.setStatus(false);
+            rs.setMsg("取消推荐失败");
+        }
+        return rs;
+    }
+
+
+    /**
+     * 查询首页推荐展商列表
+     * @return
+     */
+    @RequestMapping(value = "/queryRecommentCompany", method = RequestMethod.POST)
+    @ResponseBody
+    public GridBaseResponse queryRecommentCompany() {
+
+        GridBaseResponse rs = new GridBaseResponse();
+        rs.setCode(0);
+        rs.setMsg("ok");
+
+        List<Company> companyList = companyService.queryRecommentCompany();
+        List<ExhibitorVO> list = new ArrayList<>();
+
+        if(null != companyList && companyList.size()>0){
+            for(Company company : companyList){
+                ExhibitorVO vo = new ExhibitorVO();
+                vo.setId(company.getId());
+                vo.setName(company.getName());
+                vo.setShortName(company.getShortName());
+                vo.setLogo(company.getLogo());
+                vo.setBanner(company.getBanner());
+                vo.setImage(company.getImage());
+                vo.setPlace(company.getPlace());
+                vo.setPlaceSvg(company.getPlaceSvg());
+                vo.setProductNum(company.getProductNum());
+                vo.setCanApply(company.getCanApply());
+                vo.setIsRecommend(company.getIsRecommend());
+                vo.setRecommendNum(company.getRecommendNum());
+                vo.setcTime(company.getcTime());
+                vo.setmTime(company.getmTime());
+
+                list.add(vo);
+            }
+        }
+
+        rs.setData(list);
+        rs.setCount(list.size());
         return rs;
     }
 }

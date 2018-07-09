@@ -29,7 +29,20 @@ layui.define('base-url', function(exports) {
         },
         "getExhibitorCategory": {//查询展商所属分类
             url: "getExhibitorCategory.do"
+        },
+        "addRecommentHome": {//推荐展商到首页
+            type: 'POST',
+            url: "addRecommentHome.do"
+        },
+        "delRecommentHome": {//取消推荐展商到首页
+            type: 'POST',
+            url: "delRecommentHome.do"
+        },
+        "queryRecommentCompany": {//取消首页推荐展商列表
+            type: 'POST',
+            url: "queryRecommentCompany.do"
         }
+
 
 	}
 	//下面这种避免不同api相同key取值相同的问题
