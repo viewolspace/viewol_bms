@@ -27,8 +27,18 @@ layui.define('base-url', function(exports) {
         "queryRecommentProduct": {//查询首页推荐产品
             type: 'POST',
             url: "queryRecommentProduct.do"
+        } ,
+        "addRecommentHome": {
+            type: 'POST',
+            url: "addRecommentHome.do"
+        } ,
+        "delRecommentHome": {
+            type: 'POST',
+            url: "delRecommentHome.do"
+        } ,
+        "getExhibitionCategory": {
+            url: "getExhibitionCategory.do"
         }
-
 	}
 	//下面这种避免不同api相同key取值相同的问题
 	var result = $.extend({}, baseApi, url);

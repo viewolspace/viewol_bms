@@ -88,9 +88,9 @@ layui.use(requireModules, function(
                     {field: 'companyName', title: '主办方', width:100},
                     {field: 'type', title: '推荐类型', width:100, templet: function (d) {
                         if(d.type == 1){
-                        	return '<span>置顶活动</span>';
+                        	return '<span>置顶</span>';
                         } else {
-                        	return '<span>推荐活动</span>';
+                        	return '<span>推荐</span>';
                         }
                     }},
                     {field: 'sTime', title: '推荐位开始时间', width:160, templet: function (d) {
@@ -113,68 +113,8 @@ layui.use(requireModules, function(
             });
 		},
 
-		add: function() {
-			var index = layer.open({
-				type: 2,
-				title: "添加用户",
-				area: '80%',
-				offset: '10%',
-				scrollbar: false,
-				content: webName + '/views/user/user-add.html',
-				success: function(ly, index) {
-					layer.iframeAuto(index);
-				}
-			});
-		},
-
-		modify: function(rowdata) {
-			var url = request.composeUrl(webName + '/views/user/user-update.html', rowdata);
-			var index = layer.open({
-				type: 2,
-				title: "修改用户",
-				area: '80%',
-				offset: '10%',
-				scrollbar: false,
-				content: url,
-				success: function(ly, index) {
-					layer.iframeAuto(index);
-				}
-			});
-		},
-
-        view: function(rowdata) {
-            var url = request.composeUrl(webName + '/views/user/user-view.html', rowdata);
-            var index = layer.open({
-                type: 2,
-                title: "查看用户",
-                area: '60%',
-                offset: '10%',
-                scrollbar: false,
-                content: url,
-                success: function(ly, index) {
-                    layer.iframeAuto(index);
-                }
-            });
-        },
-
-        relateCloud: function(rowdata) {
-            var url = request.composeUrl(webName + '/views/user/user-relate-cloud.html', rowdata);
-            var index = layer.open({
-                type: 2,
-                title: "关联应用账号",
-                area: ['520px', '400px'],
-                offset: '5%',
-                scrollbar: false,
-                content: url,
-                success: function(ly, index) {
-                    // layer.iframeAuto(index);
-                }
-            });
-        },
-
-
-		delete: function(rowdata) {
-			layer.confirm('确认删除数据?', {
+        cancelReco: function(rowdata) {
+			layer.confirm('确认取消推荐吗?', {
 				icon: 3,
 				title: '提示',
 				closeBtn: 0
@@ -184,7 +124,7 @@ layui.use(requireModules, function(
 				});
 				layer.close(index);
 
-				request.request(userApi.getUrl('deleteUser'), {
+				request.request(scheduleApi.getUrl('unRecommendSchedule'), {
 					id: rowdata.id
 				}, function() {
 					layer.closeAll('loading');
@@ -203,16 +143,9 @@ layui.use(requireModules, function(
 		bindEvent: function() {
             $table.on('tool(test)', function(obj){
                 var data = obj.data;
-                if(obj.event === 'row-view'){
-                    MyController.view(data);
-                } else if(obj.event === 'row-edit'){//编辑
-                    MyController.modify(data);
-                } else if(obj.event === 'row-delete'){//删除
-                    MyController.delete(data);
-                } else if(obj.event === 'row-cloud'){//关联账户
-                    MyController.relateCloud(data);
+                if(obj.event === 'row-cancel-reco'){
+                    MyController.cancelReco(data);
                 }
-
             });
 
 			//点击查询按钮
@@ -221,12 +154,8 @@ layui.use(requireModules, function(
                     where: MyController.getQueryCondition()
                 });
 			});
-
             //点击刷新
             $('body').on('click', '.refresh', MyController.refresh);
-			//点击添加
-			$('body').on('click', '.add', MyController.add);
-
 		}
 	};
 

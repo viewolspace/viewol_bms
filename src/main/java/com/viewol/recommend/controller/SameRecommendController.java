@@ -41,7 +41,7 @@ public class SameRecommendController {
      */
     @RequestMapping(value = "/recommendList", method = RequestMethod.POST)
     @ResponseBody
-    public GridBaseResponse recommendList(@RequestParam(value = "type", defaultValue = "0") int type,
+    public GridBaseResponse recommendList(@RequestParam(value = "type", defaultValue = "-1") String type,
                                           @RequestParam(value = "categoryId", defaultValue = "") String categoryId,
                                           @RequestParam(value = "page", defaultValue = "1") int page,
                                           @RequestParam(value = "limit", defaultValue = "10") int limit) {
@@ -50,8 +50,17 @@ public class SameRecommendController {
         rs.setCode(0);
         rs.setMsg("ok");
         RecommendQuery query = new RecommendQuery();
-        query.setType(type);
-        query.setCategoryId(categoryId);
+        if("-1".equals(type)){
+            query.setType(0);//查询全部
+        } else if("0001".equals(type)){
+            query.setType(1);//查询展商
+        } else if("0002".equals(type)){
+            query.setType(2);//查询产品
+        }
+
+        if(null != categoryId && !"".equals(categoryId)){
+            query.setCategoryId(categoryId);
+        }
         query.setPageIndex(page);
         query.setPageSize(limit);
         PageHolder<Recommend> pageHolder = recommendService.queryRecommend(query);
@@ -81,17 +90,19 @@ public class SameRecommendController {
     }
 
     /**
-     * 同类推荐，推荐展商到分类下
-     * @param id 展商ID
+     * 同类推荐，推荐展商（产品）到分类下
+     * @param id 展商（产品）ID
+     * @param type 1-展商;2-产品
      * @return
      */
     @RequestMapping(value = "/addRecommentSame", method = RequestMethod.POST)
     @ResponseBody
     @MethodLog(module = Constants.AD, desc = "同类推荐")
     @Repeat
-    public BaseResponse addRecommentSame(@RequestParam(value = "id", defaultValue = "-1") int id) {
+    public BaseResponse addRecommentSame(@RequestParam(value = "id", defaultValue = "-1") int id,
+                                         @RequestParam(value = "type", defaultValue = "-1") int type) {
 
-        int result = recommendService.addRecommend(Recommend.TYPE_COM, id);
+        int result = recommendService.addRecommend(type, id);
 
         BaseResponse rs = new BaseResponse();
         if(result>0){
@@ -110,8 +121,16 @@ public class SameRecommendController {
     @Repeat
     public BaseResponse cancelExhibitor(@RequestParam(value = "id", defaultValue = "") int id) {
         BaseResponse rs = new BaseResponse();
-        rs.setStatus(true);
-        rs.setMsg("删除成功");
+
+        int result = recommendService.delRecommend(id);
+
+        if(result>0){
+            rs.setStatus(true);
+            rs.setMsg("删除成功");
+        } else {
+            rs.setStatus(false);
+            rs.setMsg("删除失败");
+        }
 
         return rs;
     }

@@ -3,35 +3,35 @@ package com.viewol.exhibition.vo;
 import java.util.Date;
 
 public class ExhibitionVO {
-    private int id;
-    private int companyId;//展商id
+    private Integer id;
+    private Integer companyId;//展商id
     private String categoryId;//分类id
-    private int status;//0 上架  1 下架
+    private Integer status;//0 上架  1 下架
     private String name;//产品名称
     private String image;//产品图片-用于列表展示
     private String content;//产品介绍
     private String pdfUrl;//产品说明书
     private String pdfName;//说明书的名字
-    private int isRecommend;//0 非推荐  1 推荐
-    private int recommendNum;//'显示推荐的顺序'
+    private Integer isRecommend;//0 非推荐  1 推荐
+    private Integer recommendNum;//'显示推荐的顺序'
     private Date cTime;
     private Date mTime;
 
-    private int isSameRecommend;//是否同类推荐，0 非推荐  1 推荐
+    private Integer isSameRecommend;//是否同类推荐，0 非推荐  1 推荐
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getCompanyId() {
+    public Integer getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(int companyId) {
+    public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
     }
 
@@ -43,11 +43,11 @@ public class ExhibitionVO {
         this.categoryId = categoryId;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -91,19 +91,19 @@ public class ExhibitionVO {
         this.pdfName = pdfName;
     }
 
-    public int getIsRecommend() {
+    public Integer getIsRecommend() {
         return isRecommend;
     }
 
-    public void setIsRecommend(int isRecommend) {
+    public void setIsRecommend(Integer isRecommend) {
         this.isRecommend = isRecommend;
     }
 
-    public int getRecommendNum() {
+    public Integer getRecommendNum() {
         return recommendNum;
     }
 
-    public void setRecommendNum(int recommendNum) {
+    public void setRecommendNum(Integer recommendNum) {
         this.recommendNum = recommendNum;
     }
 
@@ -123,11 +123,11 @@ public class ExhibitionVO {
         this.mTime = mTime;
     }
 
-    public int getIsSameRecommend() {
+    public Integer getIsSameRecommend() {
         return isSameRecommend;
     }
 
-    public void setIsSameRecommend(int isSameRecommend) {
+    public void setIsSameRecommend(Integer isSameRecommend) {
         this.isSameRecommend = isSameRecommend;
     }
 }

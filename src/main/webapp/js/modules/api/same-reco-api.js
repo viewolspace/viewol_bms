@@ -18,7 +18,6 @@ layui.define('base-url', function(exports) {
 			url: "recommendList.do"
 		} ,
         "cancelRecommend": {//取消推荐
-            type: 'POST',
             url: "cancelRecommend.do"
         },
         "addRecommentSame": {//同类推荐(展商)

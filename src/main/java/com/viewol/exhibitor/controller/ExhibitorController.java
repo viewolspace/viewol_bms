@@ -79,7 +79,6 @@ public class ExhibitorController {
         query.setPageSize(limit);
         query.setName(name);
         query.setCategoryId("");
-        query.setLastCompanyId(-1);
         PageHolder<Company> pageHolder = companyService.queryCompany(query);
         List<ExhibitorVO> list = new ArrayList<>();
 

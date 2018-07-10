@@ -84,8 +84,8 @@ layui.use(requireModules, function(
                                 return '<span>主办方</span>';
                             }
                         }},
-                    {field: 'companyName', title: '主办方的名称', width:100},
-                    {field: 'title', title: '主题', width:100},
+                    {field: 'companyName', title: '主办方的名称', width:150},
+                    {field: 'title', title: '主题', width:200},
                     {field: 'status', title: '状态', width:100, templet: function (d) {
                             if(d.status == 1){
                                 return '<span>审核通过</span>';
@@ -101,27 +101,79 @@ layui.use(requireModules, function(
                     {field: 'eTime', title: '结束时间', width:160, templet: function (d) {
                             return moment(d.eTime).format("YYYY-MM-DD HH:mm:ss");
                         }},
-                    {field: 'content', title: '活动内容', width:150},
-                    {field: 'place', title: '活动地点', width:120},
+                    {field: 'place', title: '活动地点', width:300},
+                    {field: 'content', title: '活动内容', width:300},
                     {field: 'cTime', title: '创建时间', width:160, templet: function (d) {
                             return moment(d.cTime).format("YYYY-MM-DD HH:mm:ss");
                         }},
-                    {fixed: 'right',width:180, align:'center', toolbar: '#barDemo'}
+                    {fixed: 'right',width:200, align:'center', toolbar: '#barDemo'}
                 ]]
             });
 		},
+
+        add: function() {
+            var index = layer.open({
+                type: 2,
+                title: "发布日程",
+                area: ['900px', '450px'],
+                offset: '5%',
+                scrollbar: false,
+                content: webName + '/views/schedule/schedule-add.html',
+                success: function(ly, index) {
+                    // layer.iframeAuto(index);
+                }
+            });
+        },
+
+        modify: function(rowdata) {
+            var url = request.composeUrl(webName + '/views/schedule/schedule-update.html', rowdata);
+            var index = layer.open({
+                type: 2,
+                title: "修改日程",
+                area: ['900px', '450px'],
+                offset: '5%',
+                scrollbar: false,
+                content: url,
+                success: function(ly, index) {
+                    // layer.iframeAuto(index);
+                }
+            });
+        },
+
+        delete: function(rowdata) {
+            layer.confirm('确认删除数据?', {
+                icon: 3,
+                title: '提示',
+                closeBtn: 0
+            }, function(index) {
+                layer.load(0, {
+                    shade: 0.5
+                });
+                layer.close(index);
+
+                request.request(scheduleApi.getUrl('deleteSchedule'), {
+                    id: rowdata.id
+                }, function() {
+                    layer.closeAll('loading');
+                    toast.success('成功删除！');
+                    MyController.refresh();
+                },true,function(){
+                    layer.closeAll('loading');
+                });
+            });
+        },
 
         recommend: function(rowdata) {
 			var url = request.composeUrl(webName + '/views/schedule/schedule-recc.html', rowdata);
 			var index = layer.open({
 				type: 2,
 				title: "日程推荐",
-                area: ['500px', '400px'],
+                area: ['800px', '450px'],
                 offset: '5%',
 				scrollbar: false,
 				content: url,
 				success: function(ly, index) {
-					layer.iframeAuto(index);
+					// layer.iframeAuto(index);
 				}
 			});
 		},
@@ -131,12 +183,12 @@ layui.use(requireModules, function(
             var index = layer.open({
                 type: 2,
                 title: "日程审核",
-                area: ['500px', '400px'],
+                area: ['500px', '450px'],
                 offset: '5%',
                 scrollbar: false,
                 content: url,
                 success: function(ly, index) {
-                    layer.iframeAuto(index);
+                    // layer.iframeAuto(index);
                 }
             });
         },
@@ -148,7 +200,13 @@ layui.use(requireModules, function(
 		bindEvent: function() {
             $table.on('tool(test)', function(obj){
                 var data = obj.data;
-                if(obj.event === 'row-reco'){//推荐
+                if(obj.event === 'row-view'){
+                    MyController.view(data);
+                } else if(obj.event === 'row-edit'){//编辑
+                    MyController.modify(data);
+                } else if(obj.event === 'row-delete'){//删除
+                    MyController.delete(data);
+                } else if(obj.event === 'row-reco'){//推荐
                     MyController.recommend(data);
                 } else if(obj.event === 'row-review'){//审核
                     MyController.review(data);
@@ -165,7 +223,8 @@ layui.use(requireModules, function(
 
             //点击刷新
             $('body').on('click', '.refresh', MyController.refresh);
-
+            //点击添加
+            $('body').on('click', '.add', MyController.add);
 		}
 	};
 

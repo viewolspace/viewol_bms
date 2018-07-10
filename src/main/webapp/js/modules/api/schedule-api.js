@@ -29,7 +29,23 @@ layui.define('base-url', function(exports) {
             url: "recoScheduleList.do"
         } ,
         "unRecommendSchedule": {//取消推荐日程
+            type: 'POST',
             url: "unRecommendSchedule.do"
+        } ,
+        "addSchedule": {
+            type: 'POST',
+            url: "addSchedule.do"
+        },
+        "updateSchedule": {
+            type: 'POST',
+            url: "updateSchedule.do"
+        } ,
+        "deleteSchedule": {
+            url: "deleteSchedule.do"
+        },
+        "uploadContentImage": {
+            type: 'POST',
+            url: "uploadContentImage.do"
         }
 	}
 	//下面这种避免不同api相同key取值相同的问题

@@ -33,13 +33,12 @@
 </head>
 
 <body class="body">
-<form id="ad-add-form" class="layui-form" action="">
+<form id="schedule-reco-form" class="layui-form" action="">
     <div class="layui-form-item">
         <label class="layui-form-label">发布人</label>
 
         <div class="layui-input-block">
-            <input type="text" name="name" disabled lay-verify="required" autocomplete="off" placeholder="请输入展商名称"
-                   class="layui-input">
+            <input type="text" name="companyName" disabled class="layui-input">
         </div>
     </div>
 
@@ -47,22 +46,31 @@
         <label class="layui-form-label">日程标题</label>
 
         <div class="layui-input-block">
-            <input type="text" name="name" disabled lay-verify="required" autocomplete="off" placeholder="请输入展商名称"
-                   class="layui-input">
+            <input type="text" name="title" disabled class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">推荐顺序</label>
+        <label class="layui-form-label">推荐类型</label>
 
         <div class="layui-input-block">
-            <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入推荐顺序"
-                   class="layui-input">
+            <select name="type" id="type">
+                <option value="1">置顶</option>
+                <option value="2">推荐</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">日期范围</label>
+
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="scheduleTime" id="scheduleTime" placeholder="开始 到 结束">
         </div>
     </div>
 
     <div class="layui-form-item operate">
-        <button class="layui-btn" type="button" lay-submit lay-filter="ad-add-form">
+        <button class="layui-btn" type="button" lay-submit lay-filter="schedule-reco-form">
             <i class="layui-icon">&#xe605;</i>
             保存
         </button>
@@ -71,13 +79,13 @@
             取消
         </button>
     </div>
-
+    <input type="text" name="id" id="id" hidden>
 </form>
 
 <script type="text/javascript" src="../../js/common/module-manage.js"></script>
 <script type="text/javascript" charset="utf8" src="../../frame/layui/layui.js"></script>
 <script type="text/javascript" charset="utf8" src="../../frame/moment.js"></script>
-<script src="../../js/controller/exhibitor/exhibitor-add.js"></script>
+<script src="../../js/controller/schedule/schedule-reco.js"></script>
 </body>
 
 </html>

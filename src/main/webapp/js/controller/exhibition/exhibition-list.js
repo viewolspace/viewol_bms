@@ -82,82 +82,48 @@ layui.use(requireModules, function(
                 ,page: true //开启分页
                 ,limits:[10,50,100,200]
                 ,cols: [[ //表头
-                    {type:'numbers'},
                     {field: 'id', title: '展品ID', width:100},
-                    {field: 'name', title: '产品名称', width:150},
+                    {field: 'name', title: '产品名称', width:100},
                     {field: 'status', title: '状态', width:100, templet: function (d) {
-                            if(d.status == 1){
-                                return '<span>下架</span>';
-                            } else {
-                                return '<span>上架</span>';
-                            }
-                        }},
-                    {field: 'isRecommend', title: '推荐到首页', width:100, templet: function (d) {
+                        if(d.status == 1){
+                            return '<span>下架</span>';
+                        } else {
+                            return '<span>上架</span>';
+                        }
+                    }},
+                    {field: 'isRecommend', title: '是否推荐', width:100, templet: function (d) {
                             if(d.isRecommend == 1){
-                                return '<span>是</span>';
+                                return '<span>推荐</span>';
                             } else {
-                                return '<span>否</span>';
+                                return '<span>非推荐</span>';
                             }
                         }},
-                    {field: 'isSameRecommend', title: '推荐到同类', width:100, templet: function (d) {
-                            if(d.isSameRecommend == 1){
-                                return '<span>是</span>';
-                            } else {
-                                return '<span>否</span>';
-                            }
-                        }},
+                    {field: 'recommendNum', title: '推荐顺序', width:100},
                     {field: 'categoryId', title: '分类id', width:100},
-                    {field: 'image', title: '产品图片', width:150},
-                    {field: 'content', title: '产品介绍', width:120},
-                    {field: 'pdfUrl', title: '产品说明书', width:120},
+                    {field: 'image', title: '产品图片', width:150, templet: function (d) {
+                        return "<a href='"+d.image+"' target='_blank'><img src='"+d.image+"' /></a>";
+                    }},
                     {field: 'pdfName', title: '说明书的名字', width:120},
+                    {field: 'pdfUrl', title: '说明书下载地址', width:300},
                     {field: 'mTime', title: '修改时间', width:160, templet: function (d) {
-                            return moment(d.mTime).format("YYYY-MM-DD HH:mm:ss");
-                        }},
+                        return moment(d.mTime).format("YYYY-MM-DD HH:mm:ss");
+                    }},
                     {field: 'cTime', title: '录入时间', width:160, templet: function (d) {
-                            return moment(d.cTime).format("YYYY-MM-DD HH:mm:ss");
-                        }},
-                    {fixed: 'right',width:260, align:'center', toolbar: '#barDemo'}
+                        return moment(d.cTime).format("YYYY-MM-DD HH:mm:ss");
+                    }},
+                    {fixed: 'right',width:240, align:'center', toolbar: '#barDemo'}
                 ]]
             });
         },
 
-        add: function() {
+        //首页推荐
+        homeReco: function (rowdata) {
+            var url = request.composeUrl(webName + '/views/exhibition/reco-home.html', rowdata);
             var index = layer.open({
                 type: 2,
-                title: "添加展品",
-                area: ['800px', '450px'],
+                title: "推荐产品到首页",
+                area: ['400px', '200px'],
                 offset: '5%',
-                scrollbar: false,
-                content: webName + '/views/exhibition/exhibition-add.html',
-                success: function(ly, index) {
-                    // layer.iframeAuto(index);
-                }
-            });
-        },
-
-        modify: function(rowdata) {
-            var url = request.composeUrl(webName + '/views/exhibition/exhibition-update.html', rowdata);
-            var index = layer.open({
-                type: 2,
-                title: "修改展品",
-                area: ['800px', '450px'],
-                offset: '5%',
-                scrollbar: false,
-                content: url,
-                success: function(ly, index) {
-                    // layer.iframeAuto(index);
-                }
-            });
-        },
-
-        view: function(rowdata) {
-            var url = request.composeUrl(webName + '/views/exhibition/exhibition-view.html', rowdata);
-            var index = layer.open({
-                type: 2,
-                title: "查看展品",
-                area: '60%',
-                offset: '10%',
                 scrollbar: false,
                 content: url,
                 success: function(ly, index) {
@@ -166,8 +132,9 @@ layui.use(requireModules, function(
             });
         },
 
-        delete: function(rowdata) {
-            layer.confirm('确认删除数据?', {
+        //取消首页推荐
+        cancelHomeReco: function (rowdata) {
+            layer.confirm('确认取消首页推荐吗?', {
                 icon: 3,
                 title: '提示',
                 closeBtn: 0
@@ -177,11 +144,73 @@ layui.use(requireModules, function(
                 });
                 layer.close(index);
 
-                request.request(userApi.getUrl('deleteUser'), {
+                request.request(exhibitionApi.getUrl('delRecommentHome'), {
                     id: rowdata.id
                 }, function() {
                     layer.closeAll('loading');
-                    toast.success('成功删除！');
+                    toast.success('取消推荐成功！');
+                    MyController.refresh();
+                },true,function(){
+                    layer.closeAll('loading');
+                });
+            });
+        },
+
+        //同类推荐
+        sameReco: function (rowdata) {
+            var url = request.composeUrl(webName + '/views/exhibition/reco-same.html', rowdata);
+            var index = layer.open({
+                type: 2,
+                title: "推荐产品到同类",
+                area: ['400px', '200px'],
+                offset: '5%',
+                scrollbar: false,
+                content: url,
+                success: function(ly, index) {
+                    layer.iframeAuto(index);
+                }
+            });
+        },
+
+        up: function(rowdata) {
+            layer.confirm('确认上架该产品吗?', {
+                icon: 3,
+                title: '提示',
+                closeBtn: 0
+            }, function(index) {
+                layer.load(0, {
+                    shade: 0.5
+                });
+                layer.close(index);
+
+                request.request(exhibitionApi.getUrl('upExhibition'), {
+                    id: rowdata.id
+                }, function() {
+                    layer.closeAll('loading');
+                    toast.success('上架成功！');
+                    MyController.refresh();
+                },true,function(){
+                    layer.closeAll('loading');
+                });
+            });
+        },
+
+        down: function(rowdata) {
+            layer.confirm('确认下架该产品吗?', {
+                icon: 3,
+                title: '提示',
+                closeBtn: 0
+            }, function(index) {
+                layer.load(0, {
+                    shade: 0.5
+                });
+                layer.close(index);
+
+                request.request(exhibitionApi.getUrl('downExhibition'), {
+                    id: rowdata.id
+                }, function() {
+                    layer.closeAll('loading');
+                    toast.success('下架成功！');
                     MyController.refresh();
                 },true,function(){
                     layer.closeAll('loading');
@@ -196,13 +225,16 @@ layui.use(requireModules, function(
         bindEvent: function() {
             $table.on('tool(test)', function(obj){
                 var data = obj.data;
-                alert(obj.event);
-                if(obj.event === 'row-view'){
-                    MyController.view(data);
-                } else if(obj.event === 'row-edit'){//编辑
-                    MyController.modify(data);
-                } else if(obj.event === 'row-delete'){//删除
-                    MyController.delete(data);
+                if(obj.event === 'row-home-reco'){//首页推荐
+                    MyController.homeReco(data);
+                } else if(obj.event === 'row-cancel-home-reco'){//取消首页推荐
+                    MyController.cancelHomeReco(data);
+                } else if(obj.event === 'row-same-reco'){//同类推荐
+                    MyController.sameReco(data);
+                } else if(obj.event === 'row-up'){//上架
+                    MyController.up(data);
+                } else if(obj.event === 'row-down'){//下架
+                    MyController.down(data);
                 }
 
             });
@@ -217,9 +249,6 @@ layui.use(requireModules, function(
 
             //点击刷新
             $('body').on('click', '.refresh', MyController.refresh);
-            //点击添加
-            $('body').on('click', '.add', MyController.add);
-
         }
     };
 

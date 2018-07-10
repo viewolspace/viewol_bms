@@ -33,13 +33,12 @@
 </head>
 
 <body class="body">
-<form id="ad-add-form" class="layui-form" action="">
+<form id="schedule-review-form" class="layui-form" action="">
     <div class="layui-form-item">
         <label class="layui-form-label">发布人</label>
 
         <div class="layui-input-block">
-            <input type="text" name="name" disabled lay-verify="required" autocomplete="off" placeholder="请输入展商名称"
-                   class="layui-input">
+            <input type="text" name="companyName" disabled class="layui-input">
         </div>
     </div>
 
@@ -47,8 +46,7 @@
         <label class="layui-form-label">日程标题</label>
 
         <div class="layui-input-block">
-            <input type="text" name="name" disabled lay-verify="required" autocomplete="off" placeholder="请输入展商名称"
-                   class="layui-input">
+            <input type="text" name="title" disabled class="layui-input">
         </div>
     </div>
 
@@ -56,15 +54,16 @@
         <label class="layui-form-label">审核状态</label>
 
         <div class="layui-input-block">
-            <select name="canApply" id="canApply">
-                <option value="0">通过</option>
-                <option value="1">驳回</option>
+            <select name="status" id="status">
+                <option value="1">通过</option>
+                <option value="-1">打回</option>
+                <option value="0">待审</option>
             </select>
         </div>
     </div>
 
     <div class="layui-form-item operate">
-        <button class="layui-btn" type="button" lay-submit lay-filter="ad-add-form">
+        <button class="layui-btn" type="button" lay-submit lay-filter="schedule-review-form">
             <i class="layui-icon">&#xe605;</i>
             保存
         </button>
@@ -73,13 +72,13 @@
             取消
         </button>
     </div>
-
+    <input type="text" name="id" id="id" hidden>
 </form>
 
 <script type="text/javascript" src="../../js/common/module-manage.js"></script>
 <script type="text/javascript" charset="utf8" src="../../frame/layui/layui.js"></script>
 <script type="text/javascript" charset="utf8" src="../../frame/moment.js"></script>
-<script src="../../js/controller/exhibitor/exhibitor-add.js"></script>
+<script src="../../js/controller/schedule/schedule-review.js"></script>
 </body>
 
 </html>

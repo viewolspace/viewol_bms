@@ -76,19 +76,27 @@ layui.config({
 
 		/**
 		 *获取所有的get请求参数信息
+		 * 2018-07-10 修复了如果参数中有等于号，参数值解析错误
 		 */
-		getAllUrlParam: function() {
-		   var url = decodeURI(location.search); //获取url中"?"符后的字串
-		   var theRequest = new Object();
-		   if (url.indexOf("?") != -1) {
-		      var str = url.substr(1);
-		      strs = str.split("&");
-		      for(var i = 0; i < strs.length; i ++) {
-		         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
-		      }
-		   }
-		   return theRequest;
-		},
+        getAllUrlParam: function() {
+            var name,value,num;
+            var url = decodeURI(location.search); //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                var strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    // theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                    num = strs[i].indexOf("=");
+                    if(num>0){
+                        name = strs[i].substring(0, num);
+                        value = strs[i].substr(num + 1);
+                        theRequest[name]=unescape(value);
+                    }
+                }
+            }
+            return theRequest;
+        },
 
 		composeUrl: function(url,data,notEncodeUri,isTransArr) {
 			if(!$.isEmptyObject(data)){

@@ -111,7 +111,7 @@ layui.use(requireModules, function(
 
 
 		delete: function(rowdata) {
-			layer.confirm('确认删除数据?', {
+			layer.confirm('确认取消首页推荐吗?', {
 				icon: 3,
 				title: '提示',
 				closeBtn: 0
@@ -121,11 +121,11 @@ layui.use(requireModules, function(
 				});
 				layer.close(index);
 
-				request.request(userApi.getUrl('deleteUser'), {
+				request.request(exhibitorApi.getUrl('delRecommentHome'), {
 					id: rowdata.id
 				}, function() {
 					layer.closeAll('loading');
-					toast.success('成功删除！');
+					toast.success('取消推荐成功！');
 					MyController.refresh();
 				},true,function(){
 					layer.closeAll('loading');

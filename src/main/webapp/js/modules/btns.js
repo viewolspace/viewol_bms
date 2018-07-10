@@ -357,19 +357,6 @@ layui.define(function(exports) {
                 className = otherOpt.className || className; //自定义样式
             }
 
-            if(event=='row-same-reco'){
-                var lockBtns = "";
-                lockBtns+='{{#  if(d.isSameRecommend == 0){ }}';
-                lockBtns+='<a class="' + className + '" lay-event="'+event+'">' + btnName + '</a>';
-                lockBtns+='{{#  } }}';
-                return lockBtns;
-            } else if(event=='row-cancel-same-reco') {
-                var lockBtns = "";
-                lockBtns+='{{#  if(d.isSameRecommend == 1){ }}';
-                lockBtns+='<a class="' + className + '" lay-event="'+event+'">' + btnName + '</a>';
-                lockBtns+='{{#  } }}';
-                return lockBtns;
-            }
             if(event=='row-home-reco'){
                 var freezeBtns = "";
                 freezeBtns+='{{#  if(d.isRecommend == 0){ }}';
