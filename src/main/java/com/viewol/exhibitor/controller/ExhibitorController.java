@@ -157,8 +157,8 @@ public class ExhibitorController {
         int result = companyService.addCompany(company, categoryIdList);
 
         if(result>0){
-            String userName = "youguu";
-            String password = "123456";
+            String userName = genRandomUserName();
+            String password = "123456";//密码固定
 
             SysUser sysUser = new SysUser();
             sysUser.setUserName(userName);
@@ -183,6 +183,26 @@ public class ExhibitorController {
             rs.setMsg("保存失败");
         }
         return rs;
+    }
+
+    public String genRandomUserName() {
+        int maxNum = 36;
+        int i;
+        int count = 0;
+        char[] str = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+                'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
+                'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+        StringBuffer pwd = new StringBuffer("");
+        Random r = new Random();
+        while (count < 8) {
+            i = Math.abs(r.nextInt(maxNum));
+            if (i >= 0 && i < str.length) {
+                pwd.append(str[i]);
+                count++;
+            }
+        }
+        return pwd.toString();
+
     }
 
     @RequestMapping(value = "/deleteExhibitor")
