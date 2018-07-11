@@ -137,6 +137,41 @@ public class UserController {
 		return rs;
 	}
 
+	/**
+	 * 重置密码
+	 * @param id 用户ID
+	 * @return
+	 */
+	@RequestMapping(value = "/resetPwd", method = RequestMethod.POST)
+	@ResponseBody
+	@MethodLog(module = Constants.SYS_USER, desc = "重置密码")
+	@Repeat
+	public BaseResponse resetPwd(int id) {
+		BaseResponse rs = new BaseResponse();
+
+		SysUser sysUser = sysUserService.getSysUser(id);
+		if(null != sysUser){
+			String new_password = new MD5().getMD5ofStr("123456").toLowerCase();
+			int result = sysUserService.updatePwd(sysUser.getUserName(), sysUser.getPswd(), new_password);
+
+			if(result>0){
+				rs.setStatus(true);
+				rs.setMsg("重置成功");
+			} else {
+				rs.setStatus(false);
+				rs.setMsg("重置失败");
+			}
+		} else {
+			rs.setStatus(false);
+			rs.setMsg("用户不存在");
+		}
+
+
+
+		return rs;
+	}
+
+
 	@RequestMapping(value = "/userlist", method = RequestMethod.POST)
 	@ResponseBody
 	public GridBaseResponse userList(@RequestParam(value="userId", defaultValue="0") int userId,

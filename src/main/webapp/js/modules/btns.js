@@ -185,6 +185,12 @@ layui.define(function(exports) {
             name: '下架',
             event: 'row-down'
         },
+        'row-reset-pwd-layui': {
+            className: baseBtnClass + 'layui-btn-danger layui-btn-xs',
+            icon: '&#x1002;',
+            name: '重置密码',
+            event: 'row-reset-pwd'
+        }
     };
 
     var btns = {

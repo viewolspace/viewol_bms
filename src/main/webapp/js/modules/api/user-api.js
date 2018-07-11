@@ -35,6 +35,10 @@ layui.define('base-url', function(exports) {
 			type: 'POST',
 			url: "updatePwd.do"
 		},
+        "resetPwd": {//重置密码
+            type: 'POST',
+            url: "resetPwd.do"
+        },
 		"onlineUserList": {//查询在线用户
 			url: "onlineUserList.do"
 		},

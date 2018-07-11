@@ -1,6 +1,5 @@
 package com.viewol.schedule.controller;
 
-import com.viewol.category.vo.CategoryVO;
 import com.viewol.common.BaseResponse;
 import com.viewol.common.GridBaseResponse;
 import com.viewol.common.LayeditResponse;
@@ -10,7 +9,6 @@ import com.viewol.pojo.query.ScheduleQuery;
 import com.viewol.schedule.vo.RecommendScheduleVO;
 import com.viewol.schedule.vo.ScheduleVO;
 import com.viewol.service.IScheduleService;
-import com.viewol.shiro.token.TokenManager;
 import com.viewol.sys.interceptor.Repeat;
 import com.viewol.sys.log.annotation.MethodLog;
 import com.viewol.sys.utils.Constants;

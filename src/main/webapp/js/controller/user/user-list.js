@@ -91,7 +91,7 @@ layui.use(requireModules, function(
                     {field: 'lastLoginTime', title: '登录时间', width:160, templet: function (d) {
 						return moment(d.lastLoginTime).format("YYYY-MM-DD HH:mm:ss");
                     }},
-                    {fixed: 'right',width:180, align:'center', toolbar: '#barDemo'}
+                    {fixed: 'right',width:220, align:'center', toolbar: '#barDemo'}
                 ]]
             });
 		},
@@ -140,22 +140,6 @@ layui.use(requireModules, function(
             });
         },
 
-        relateCloud: function(rowdata) {
-            var url = request.composeUrl(webName + '/views/user/user-relate-cloud.html', rowdata);
-            var index = layer.open({
-                type: 2,
-                title: "关联应用账号",
-                area: ['520px', '400px'],
-                offset: '5%',
-                scrollbar: false,
-                content: url,
-                success: function(ly, index) {
-                    // layer.iframeAuto(index);
-                }
-            });
-        },
-
-
 		delete: function(rowdata) {
 			layer.confirm('确认删除数据?', {
 				icon: 3,
@@ -179,6 +163,29 @@ layui.use(requireModules, function(
 			});
 		},
 
+        resetPwd: function(rowdata) {
+            layer.confirm('确认重置用户密码吗?', {
+                icon: 3,
+                title: '提示',
+                closeBtn: 0
+            }, function(index) {
+                layer.load(0, {
+                    shade: 0.5
+                });
+                layer.close(index);
+
+                request.request(userApi.getUrl('resetPwd'), {
+                    id: rowdata.id
+                }, function() {
+                    layer.closeAll('loading');
+                    toast.success('重置成功！');
+                    MyController.refresh();
+                },true,function(){
+                    layer.closeAll('loading');
+                });
+            });
+        },
+
 		refresh: function() {
             mainTable.reload();
 		},
@@ -192,9 +199,10 @@ layui.use(requireModules, function(
                     MyController.modify(data);
                 } else if(obj.event === 'row-delete'){//删除
                     MyController.delete(data);
-                } else if(obj.event === 'row-cloud'){//关联账户
-                    MyController.relateCloud(data);
+                } else if(obj.event === 'row-reset-pwd'){//重置密码
+                    MyController.resetPwd(data);
                 }
+
 
             });
 
