@@ -188,10 +188,10 @@ layui.use(requireModules, function(layer,element,util,authority,login,laytpl,aja
     function addTab(element, elem) {
         console.log(elem);
         var card = 'card'; // 选项卡对象
-        var title = elem.children('a').html(); // 导航栏text
-        var src = elem.children('a').attr('href-url'); // 导航栏跳转URL
+        var title = elem.html(); // 导航栏text
+        var src = elem.attr('href-url'); // 导航栏跳转URL
         var id = new Date().getTime(); // ID
-        var navId = elem.children('a').attr('data-id');
+        var navId = elem.attr('data-id');
         var flag = getTitleId(card, title); // 是否有该选项卡存在
         // 大于0就是有该选项卡了
         if (flag > 0) {
