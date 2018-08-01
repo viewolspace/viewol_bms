@@ -14,6 +14,57 @@
 </head>
 
 <body class="body">
+<div class="condition">
+    <form id="condition" class="layui-form layui-form-pane" action="">
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">展商ID</label>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="companyId" id="companyId" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label class="layui-form-label">产品类别</label>
+                <div class="layui-input-inline">
+                    <select name="categoryId" id="categoryId">
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label class="layui-form-label">产品名称</label>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="name" id="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline">
+                    <select name="status" id="status">
+                        <option value="999">全部</option>
+                        <option value="0">上架</option>
+                        <option value="1">下架</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline fr">
+                <button type="button" id="search-btn" class="layui-btn btn-search mgl-20">
+                    <i class="layui-icon">&#xe615;</i>
+                    查询
+                </button>
+            </div>
+
+        </div>
+
+    </form>
+</div>
 
 <table id="exhibition-list" class="layui-table" lay-filter="test">
 

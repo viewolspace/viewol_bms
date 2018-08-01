@@ -77,9 +77,15 @@ layui.use(requireModules, function(
                     {type:'numbers'},
                     {field: 'name', title: '展商名称', width:200},
                     {field: 'shortName', title: '展商简称', width:100},
-                    {field: 'logo', title: '展商logo', width:100},
-                    {field: 'banner', title: '展商形象图片', width:100},
-                    {field: 'image', title: '展商图片', width:150},
+                    {field: 'logo', title: '展商logo', width:100, templet: function (d) {
+                            return "<a href='"+d.logo+"' target='_blank'><img src='"+d.logo+"' /></a>";
+                        }},
+                    {field: 'banner', title: '展商形象图片', width:100, templet: function (d) {
+                            return "<a href='"+d.banner+"' target='_blank'><img src='"+d.banner+"' /></a>";
+                        }},
+                    {field: 'image', title: '展商图片', width:150, templet: function (d) {
+                            return "<a href='"+d.image+"' target='_blank'><img src='"+d.image+"' /></a>";
+                        }},
                     {field: 'place', title: '展商位置', width:150},
                     {field: 'placeSvg', title: '展商svg位置', width:150},
                     {field: 'productNum', title: '允许上传产品的数量', width:150},

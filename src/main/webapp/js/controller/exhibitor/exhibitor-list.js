@@ -18,7 +18,7 @@ var requireModules = [
 	'authority',
 	'toast',
     'table',
-	'valid-login'
+    'select-api'
 
 ];
 
@@ -39,7 +39,8 @@ layui.use(requireModules, function(
 	btns,
 	authority,
 	toast,
-    table
+    table,
+    selectApi
 ) {
 
 	var $ = layui.jquery;
@@ -61,6 +62,16 @@ layui.use(requireModules, function(
 			$('#page-btns').html(btns.renderBtns(MyController.pageBtns)+btns.renderSwitchBtns(MyController.switchPageBtns));
             btns.renderLayuiTableBtns(MyController.rowIconBtns, $("#barDemo"));
 
+            request.request(
+                selectApi.getUrl('listDataDic'),{
+                    parentId: '0001'
+                }, function(result) {
+                    formUtil.renderSelects('#categoryId', result.data, true);
+                    form.render('select');
+                },
+                false
+            );
+
             mainTable = MyController.renderTable();
 			MyController.bindEvent();
 		},
@@ -80,9 +91,15 @@ layui.use(requireModules, function(
                     {type:'numbers'},
                     {field: 'name', title: '展商名称', width:200},
                     {field: 'shortName', title: '展商简称', width:100},
-                    {field: 'logo', title: '展商logo', width:100},
-                    {field: 'banner', title: '展商形象图片', width:100},
-                    {field: 'image', title: '展商图片', width:150},
+                    {field: 'logo', title: '展商logo', width:100, templet: function (d) {
+                            return "<a href='"+d.logo+"' target='_blank'><img src='"+d.logo+"' /></a>";
+                        }},
+                    {field: 'banner', title: '展商形象图片', width:100, templet: function (d) {
+                            return "<a href='"+d.banner+"' target='_blank'><img src='"+d.banner+"' /></a>";
+                        }},
+                    {field: 'image', title: '展商图片', width:150, templet: function (d) {
+                            return "<a href='"+d.image+"' target='_blank'><img src='"+d.image+"' /></a>";
+                        }},
                     {field: 'place', title: '展商位置', width:150},
                     {field: 'placeSvg', title: '展商svg位置', width:150},
                     {field: 'productNum', title: '允许上传产品的数量', width:150},

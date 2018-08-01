@@ -58,7 +58,7 @@ public class SameRecommendController {
             query.setType(2);//查询产品
         }
 
-        if(null != categoryId && !"".equals(categoryId)){
+        if(null != categoryId && !"".equals(categoryId)&& !"-1".equals(categoryId)){
             query.setCategoryId(categoryId);
         }
         query.setPageIndex(page);

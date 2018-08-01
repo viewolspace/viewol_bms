@@ -20,10 +20,41 @@
 
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">主办方</label>
+                <label class="layui-form-label">展商ID</label>
 
                 <div class="layui-input-inline">
-                    <input type="text" name="name" id="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    <input type="text" name="companyId" id="companyId" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label class="layui-form-label">发布者</label>
+                <div class="layui-input-inline">
+                    <select name="type" id="type">
+                        <option value="999">全部</option>
+                        <option value="0">主办方</option>
+                        <option value="1">展商</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label class="layui-form-label">审核状态</label>
+                <div class="layui-input-inline">
+                    <select name="status" id="status">
+                        <option value="999">全部</option>
+                        <option value="1">通过</option>
+                        <option value="-1">打回</option>
+                        <option value="0">待审</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label class="layui-form-label">关键词</label>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="keyword" id="keyword" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
                 </div>
             </div>
 

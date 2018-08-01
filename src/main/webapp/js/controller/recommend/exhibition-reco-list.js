@@ -83,7 +83,9 @@ layui.use(requireModules, function(
                                 return '<span>上架</span>';
                             }
                         }},
-                    {field: 'image', title: '产品图片', width:100},
+                    {field: 'image', title: '产品图片', width:100, templet: function (d) {
+                            return "<a href='"+d.image+"' target='_blank'><img src='"+d.image+"' /></a>";
+                        }},
                     {field: 'content', title: '产品介绍', width:150},
                     {field: 'pdfUrl', title: '产品说明书', width:150},
                     {field: 'pdfName', title: '说明书的名字', width:150},

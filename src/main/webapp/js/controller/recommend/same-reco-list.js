@@ -62,15 +62,15 @@ layui.use(requireModules, function(
             btns.renderLayuiTableBtns(MyController.rowIconBtns, $("#barDemo"));
 
             //初始化分类下拉列表
-            request.request(
-                selectApi.getUrl('listDataDic'),{
-                    parentId: '0001'
-                }, function(result) {
-                    formUtil.renderSelects('#categoryId', result.data, true);
-                    form.render('select');
-                },
-                false
-            );
+            // request.request(
+            //     selectApi.getUrl('listDataDic'),{
+            //         parentId: '0001'
+            //     }, function(result) {
+            //         formUtil.renderSelects('#categoryId', result.data, true);
+            //         form.render('select');
+            //     },
+            //     false
+            // );
 
             mainTable = MyController.renderTable();
 			MyController.bindEvent();

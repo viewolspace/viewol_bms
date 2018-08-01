@@ -66,9 +66,9 @@ public class ExhibitorController {
     @RequestMapping(value = "/exhibitorList", method = RequestMethod.POST)
     @ResponseBody
     public GridBaseResponse exhibitorList(@RequestParam(value = "name", defaultValue = "") String name,
-                                          @RequestParam(value = "place", defaultValue = "") String place,
-                                   @RequestParam(value = "page", defaultValue = "1") int page,
-                                   @RequestParam(value = "limit", defaultValue = "10") int limit) {
+                                          @RequestParam(value = "categoryId", defaultValue = "") String categoryId,
+                                          @RequestParam(value = "page", defaultValue = "1") int page,
+                                          @RequestParam(value = "limit", defaultValue = "10") int limit) {
 
         GridBaseResponse rs = new GridBaseResponse();
         rs.setCode(0);
@@ -78,7 +78,10 @@ public class ExhibitorController {
         query.setPageIndex(page);
         query.setPageSize(limit);
         query.setName(name);
-        query.setCategoryId("");
+        if(null != categoryId && !"".equals(categoryId) && !"-1".equals(categoryId)){
+            query.setCategoryId(categoryId);
+        }
+
         PageHolder<Company> pageHolder = companyService.queryCompany(query);
         List<ExhibitorVO> list = new ArrayList<>();
 
@@ -88,9 +91,9 @@ public class ExhibitorController {
                 vo.setId(company.getId());
                 vo.setName(company.getName());
                 vo.setShortName(company.getShortName());
-                vo.setLogo(company.getLogo());
-                vo.setBanner(company.getBanner());
-                vo.setImage(company.getImage());
+                vo.setLogo(company.getLogoView());
+                vo.setBanner(company.getBannerView());
+                vo.setImage(company.getImageView());
                 vo.setPlace(company.getPlace());
                 vo.setPlaceSvg(company.getPlaceSvg());
                 vo.setProductNum(company.getProductNum());
@@ -377,9 +380,9 @@ public class ExhibitorController {
                 vo.setId(company.getId());
                 vo.setName(company.getName());
                 vo.setShortName(company.getShortName());
-                vo.setLogo(company.getLogo());
-                vo.setBanner(company.getBanner());
-                vo.setImage(company.getImage());
+                vo.setLogo(company.getLogoView());
+                vo.setBanner(company.getBannerView());
+                vo.setImage(company.getImageView());
                 vo.setPlace(company.getPlace());
                 vo.setPlaceSvg(company.getPlaceSvg());
                 vo.setProductNum(company.getProductNum());

@@ -55,14 +55,18 @@ public class ExhibitionController {
         rs.setMsg("ok");
 
         ProductQuery productQuery = new ProductQuery();
-        if(null != categoryId && !"".equals(categoryId)){
+        if(null != categoryId && !"".equals(categoryId) && !"-1".equals(categoryId)){
             productQuery.setCategoryId(categoryId);
         }
         if(null != name && !"".equals(name)){
             productQuery.setName(name);
         }
         productQuery.setCompanyId(companyId);
-        productQuery.setStatus(status);
+
+        if(null != status && status!=999){
+            productQuery.setStatus(status);
+        }
+
         productQuery.setPageIndex(page);
         productQuery.setPageSize(limit);
 
@@ -78,8 +82,8 @@ public class ExhibitionController {
                 vo.setCategoryId(product.getCategoryId());
                 vo.setStatus(product.getStatus());
                 vo.setPdfName(product.getPdfName());
-                vo.setPdfUrl(product.getPdfUrl());
-                vo.setImage(product.getImage());
+                vo.setPdfUrl(product.getPdfUrlView());
+                vo.setImage(product.getImageView());
                 vo.setcTime(product.getcTime());
                 vo.setmTime(product.getmTime());
 
@@ -198,9 +202,9 @@ public class ExhibitionController {
                 vo.setCategoryId(product.getCategoryId());
                 vo.setStatus(product.getStatus());
                 vo.setName(product.getName());
-                vo.setImage(product.getImage());
-                vo.setContent(product.getContent());
-                vo.setPdfUrl(product.getPdfUrl());
+                vo.setImage(product.getImageView());
+                vo.setContent(product.getContentView());
+                vo.setPdfUrl(product.getPdfUrlView());
                 vo.setPdfName(product.getPdfName());
                 vo.setIsRecommend(product.getIsRecommend());
                 vo.setRecommendNum(product.getRecommendNum());

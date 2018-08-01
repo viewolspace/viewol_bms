@@ -46,8 +46,7 @@ layui.use(requireModules, function(
     var mainTable;
 
     laydate.render({
-        elem: '#createTime',
-        range: true
+        elem: '#time'
     });
 
 	var MyController = {

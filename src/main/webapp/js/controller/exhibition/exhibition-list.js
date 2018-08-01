@@ -17,7 +17,7 @@ var requireModules = [
     'authority',
     'toast',
     'table',
-    'valid-login'
+    'select-api'
 
 ];
 
@@ -37,7 +37,8 @@ layui.use(requireModules, function(
     btns,
     authority,
     toast,
-    table
+    table,
+    selectApi
 ) {
 
     var $ = layui.jquery;
@@ -69,8 +70,23 @@ layui.use(requireModules, function(
                 });
             }
 
+            request.request(
+                selectApi.getUrl('listDataDic'),{
+                    parentId: '0002'
+                }, function(result) {
+                    formUtil.renderSelects('#categoryId', result.data, true);
+                    form.render('select');
+                },
+                false
+            );
+
             mainTable = MyController.renderTable();
             MyController.bindEvent();
+        },
+
+        getQueryCondition: function() {
+            var condition = formUtil.composeData($("#condition"));
+            return condition;
         },
 
         renderTable: function() {

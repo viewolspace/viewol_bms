@@ -61,8 +61,14 @@ public class ScheduleController {
             scheduleQuery.setTime(time);
         }
         scheduleQuery.setCompanyId(companyId);
-        scheduleQuery.setType(type);
-        scheduleQuery.setStatus(status);
+        if(null != type && type!=999){
+            scheduleQuery.setType(type);
+        }
+
+        if(null != status && status!=999){
+            scheduleQuery.setStatus(status);
+        }
+
         scheduleQuery.setKeyword(keyword);
         scheduleQuery.setPageIndex(page);
         scheduleQuery.setPageSize(limit);
@@ -79,7 +85,7 @@ public class ScheduleController {
                 vo.setCompanyName(schedule.getCompanyName());
                 vo.setTitle(schedule.getTitle());
                 vo.setStatus(schedule.getStatus());
-                vo.setContent(schedule.getContent());
+                vo.setContent(schedule.getContentView());
                 vo.setPlace(schedule.getPlace());
                 vo.setsTime(schedule.getsTime());
                 vo.seteTime(schedule.geteTime());
@@ -167,7 +173,10 @@ public class ScheduleController {
         if (null != time && !"".equals(time)) {
             query.setTime(time);
         }
-        query.setType(type);
+        if(null != type && type != 999){
+            query.setType(type);
+        }
+
         query.setPageIndex(page);
         query.setPageSize(limit);
 
@@ -270,7 +279,7 @@ public class ScheduleController {
             e.printStackTrace();
         }
 
-        schedule.setContent(content);
+        schedule.setContentView(content);
         schedule.setPlace(place);
         int result = scheduleService.updateSchedule(schedule);
 
@@ -338,27 +347,10 @@ public class ScheduleController {
 
                 rs.setCode(0);
                 rs.setMsg("上传成功");
-                String httpUrl = imageUrl + path;
+                String httpUrl = imageUrl +File.separator+ midPath + File.separator + fileName;
                 Map<String, String> map = new HashMap<>();
-//                map.put("src", httpUrl);
-                map.put("src", "http://test.youguu.com/mncg/images/code_080.jpg");
-
-
+                map.put("src", httpUrl);
                 rs.setData(map);
-
-                //检查图片是否同步完，同步完成再回显
-//                for (int i = 0; i < 6; i++) {
-//                    Response<String> response = HttpUtil.sendGet(httpUrl, null, "UTF-8");
-//                    if ("0000".equals(response.getCode())) {
-//                        break;
-//                    }
-//                    try {
-//                        Thread.sleep(2000);
-//                    } catch (InterruptedException e) {
-//
-//                    }
-//
-//                }
             } catch (IllegalStateException e) {
                 rs.setCode(1);
                 rs.setMsg("服务器异常");

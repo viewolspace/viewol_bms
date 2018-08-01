@@ -20,14 +20,24 @@
 
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">日期范围</label>
+                <label class="layui-form-label">推荐类型</label>
+                <div class="layui-input-inline">
+                    <select name="type" id="type">
+                        <option value="999">全部</option>
+                        <option value="1">置顶活动</option>
+                        <option value="2">推荐活动</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label class="layui-form-label">推荐时间</label>
 
                 <div class="layui-input-inline">
-                    <input type="text" name="createTime" id="createTime" lay-verify="required" placeholder="请输入"
-                           autocomplete="off" class="layui-input date-range">
+                    <input type="text" name="time" id="time" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
                 </div>
-
             </div>
+
 
             <div class="layui-inline fr">
                 <button type="button" id="search-btn" class="layui-btn btn-search mgl-20">
@@ -35,9 +45,7 @@
                     查询
                 </button>
             </div>
-
         </div>
-
     </form>
 </div>
 
