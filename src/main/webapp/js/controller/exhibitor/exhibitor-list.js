@@ -118,6 +118,14 @@ layui.use(requireModules, function(
                             }
                         }},
                     {field: 'recommendNum', title: '推荐顺序', width:120},
+                    {field: 'topNum', title: '置顶顺序', width:120},
+                    {field: 'award', title: '是否获奖', width:120 ,templet: function (d) {
+                            if(d.award == 1){
+                                return '<span>获奖</span>';
+                            } else {
+                                return '<span>未获奖</span>';
+                            }
+                        }},
                     {field: 'cTime', title: '创建时间', width:160, templet: function (d) {
 						return moment(d.cTime).format("YYYY-MM-DD HH:mm:ss");
                     }},
@@ -257,6 +265,22 @@ layui.use(requireModules, function(
 
         },
 
+        //置顶
+        homeTop: function (rowdata) {
+            var url = request.composeUrl(webName + '/views/exhibitor/top-home.html', rowdata);
+            var index = layer.open({
+                type: 2,
+                title: "展商置顶",
+                area: ['400px', '200px'],
+                offset: '5%',
+                scrollbar: false,
+                content: url,
+                success: function(ly, index) {
+                    layer.iframeAuto(index);
+                }
+            });
+        },
+
 		refresh: function() {
             mainTable.reload();
 		},
@@ -278,7 +302,10 @@ layui.use(requireModules, function(
                     MyController.cancelHomeReco(data);
                 } else if(obj.event === 'row-cancel-same-reco'){//取消同类推荐
                     MyController.cancelSameReco(data);
+                } else if(obj.event === 'row-top'){//置顶展商
+                    MyController.homeTop(data);
                 }
+
             });
 
 			//点击查询按钮

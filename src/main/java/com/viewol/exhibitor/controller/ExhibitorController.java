@@ -102,7 +102,8 @@ public class ExhibitorController {
                 vo.setRecommendNum(company.getRecommendNum());
                 vo.setcTime(company.getcTime());
                 vo.setmTime(company.getmTime());
-
+                vo.setTopNum(company.getTopNum());
+                vo.setAward(company.getAward());
                 list.add(vo);
             }
         }
@@ -141,7 +142,8 @@ public class ExhibitorController {
                                      @RequestParam(value = "recommendNum", defaultValue = "0") int recommendNum,
                                      @RequestParam(value = "productNum", defaultValue = "5") int productNum,
                                      @RequestParam(value = "ids[]") String[] ids,
-                                     @RequestParam(value = "categoryNames[]") String[] categoryNames) {
+                                     @RequestParam(value = "categoryNames[]") String[] categoryNames,
+                                     @RequestParam(value = "award", defaultValue = "0") int award) {
 
         BaseResponse rs = new BaseResponse();
         Company company = new Company();
@@ -155,6 +157,7 @@ public class ExhibitorController {
         company.setProductNum(productNum);
         company.setcTime(new Date());
         company.setmTime(new Date());
+        company.setAward(award);
         List<String> categoryIdList = Arrays.asList(ids);
 
         int result = companyService.addCompany(company, categoryIdList);
@@ -248,7 +251,8 @@ public class ExhibitorController {
                                         @RequestParam(value = "recommendNum", defaultValue = "0") int recommendNum,
                                         @RequestParam(value = "productNum", defaultValue = "5") int productNum,
                                         @RequestParam(value = "ids[]") String[] ids,
-                                        @RequestParam(value = "categoryNames[]") String[] categoryNames) {
+                                        @RequestParam(value = "categoryNames[]") String[] categoryNames,
+                                        @RequestParam(value = "award", defaultValue = "0") int award) {
 
         BaseResponse rs = new BaseResponse();
         Company company = companyService.getCompany(id);
@@ -260,6 +264,7 @@ public class ExhibitorController {
         company.setIsRecommend(isRecommend);
         company.setRecommendNum(recommendNum);
         company.setProductNum(productNum);
+        company.setAward(award);
         company.setmTime(new Date());
         List<String> categoryIdList = Arrays.asList(ids);
 
@@ -391,6 +396,100 @@ public class ExhibitorController {
                 vo.setRecommendNum(company.getRecommendNum());
                 vo.setcTime(company.getcTime());
                 vo.setmTime(company.getmTime());
+
+                list.add(vo);
+            }
+        }
+
+        rs.setData(list);
+        rs.setCount(list.size());
+        return rs;
+    }
+
+    /**
+     * 展商置顶
+     * @param id 展商ID
+     * @param num 置顶顺序
+     * @return
+     */
+    @RequestMapping(value = "/addTop", method = RequestMethod.POST)
+    @ResponseBody
+    @MethodLog(module = Constants.AD, desc = "展商置顶")
+    @Repeat
+    public BaseResponse addTop(@RequestParam(value = "id", defaultValue = "-1") int id,
+                                         @RequestParam(value = "num", defaultValue = "-1") int num) {
+
+        int result = companyService.addTop(id, num);
+
+        BaseResponse rs = new BaseResponse();
+        if(result>0){
+            rs.setStatus(true);
+            rs.setMsg("置顶成功");
+        } else {
+            rs.setStatus(false);
+            rs.setMsg("置顶失败");
+        }
+        return rs;
+    }
+
+
+    /**
+     * 取消展商置顶
+     * @param id 展商ID
+     * @return
+     */
+    @RequestMapping(value = "/delTop", method = RequestMethod.POST)
+    @ResponseBody
+    @MethodLog(module = Constants.AD, desc = "取消展商置顶")
+    @Repeat
+    public BaseResponse delTop(@RequestParam(value = "id", defaultValue = "-1") int id) {
+
+        int result = companyService.delTop(id);
+
+        BaseResponse rs = new BaseResponse();
+        if(result>0){
+            rs.setStatus(true);
+            rs.setMsg("取消置顶成功");
+        } else {
+            rs.setStatus(false);
+            rs.setMsg("取消置顶失败");
+        }
+        return rs;
+    }
+
+    /**
+     * 查询置顶展商列表
+     * @return
+     */
+    @RequestMapping(value = "/queryTopCompany", method = RequestMethod.POST)
+    @ResponseBody
+    public GridBaseResponse queryTopCompany() {
+
+        GridBaseResponse rs = new GridBaseResponse();
+        rs.setCode(0);
+        rs.setMsg("ok");
+
+        List<Company> companyList = companyService.queryTopCompany();
+        List<ExhibitorVO> list = new ArrayList<>();
+
+        if(null != companyList && companyList.size()>0){
+            for(Company company : companyList){
+                ExhibitorVO vo = new ExhibitorVO();
+                vo.setId(company.getId());
+                vo.setName(company.getName());
+                vo.setShortName(company.getShortName());
+                vo.setLogo(company.getLogoView());
+                vo.setBanner(company.getBannerView());
+                vo.setImage(company.getImageView());
+                vo.setPlace(company.getPlace());
+                vo.setPlaceSvg(company.getPlaceSvg());
+                vo.setProductNum(company.getProductNum());
+                vo.setCanApply(company.getCanApply());
+                vo.setIsRecommend(company.getIsRecommend());
+                vo.setRecommendNum(company.getRecommendNum());
+                vo.setcTime(company.getcTime());
+                vo.setmTime(company.getmTime());
+                vo.setTopNum(company.getTopNum());
 
                 list.add(vo);
             }

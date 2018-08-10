@@ -41,6 +41,18 @@ layui.define('base-url', function(exports) {
         "queryRecommentCompany": {//取消首页推荐展商列表
             type: 'POST',
             url: "queryRecommentCompany.do"
+        },
+        "addTop": {//展商置顶
+            type: 'POST',
+            url: "addTop.do"
+        },
+        "delTop": {//取消展商置顶
+            type: 'POST',
+            url: "delTop.do"
+        },
+        "queryTopCompany": {//查询置顶展商列表
+            type: 'POST',
+            url: "queryTopCompany.do"
         }
 
 

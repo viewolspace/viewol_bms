@@ -38,6 +38,18 @@ layui.define('base-url', function(exports) {
         } ,
         "getExhibitionCategory": {
             url: "getExhibitionCategory.do"
+        } ,
+        "addTop": {
+            type: 'POST',
+            url: "addTop.do"
+        } ,
+        "delTop": {
+            type: 'POST',
+            url: "delTop.do"
+        } ,
+        "queryTopProduct": {
+            type: 'POST',
+            url: "queryTopProduct.do"
         }
 	}
 	//下面这种避免不同api相同key取值相同的问题

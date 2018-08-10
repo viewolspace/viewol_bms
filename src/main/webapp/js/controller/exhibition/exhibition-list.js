@@ -127,7 +127,7 @@ layui.use(requireModules, function(
                     {field: 'cTime', title: '录入时间', width:160, templet: function (d) {
                         return moment(d.cTime).format("YYYY-MM-DD HH:mm:ss");
                     }},
-                    {fixed: 'right',width:240, align:'center', toolbar: '#barDemo'}
+                    {fixed: 'right',width:260, align:'center', toolbar: '#barDemo'}
                 ]]
             });
         },
@@ -234,6 +234,22 @@ layui.use(requireModules, function(
             });
         },
 
+        //产品置顶
+        homeTop: function (rowdata) {
+            var url = request.composeUrl(webName + '/views/exhibition/top-home.html', rowdata);
+            var index = layer.open({
+                type: 2,
+                title: "产品置顶",
+                area: ['400px', '200px'],
+                offset: '5%',
+                scrollbar: false,
+                content: url,
+                success: function(ly, index) {
+                    layer.iframeAuto(index);
+                }
+            });
+        },
+
         refresh: function() {
             mainTable.reload();
         },
@@ -251,6 +267,8 @@ layui.use(requireModules, function(
                     MyController.up(data);
                 } else if(obj.event === 'row-down'){//下架
                     MyController.down(data);
+                } else if(obj.event === 'row-top'){//产品置顶
+                    MyController.homeTop(data);
                 }
 
             });

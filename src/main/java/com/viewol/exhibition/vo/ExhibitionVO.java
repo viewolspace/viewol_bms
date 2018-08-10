@@ -16,6 +16,7 @@ public class ExhibitionVO {
     private Integer recommendNum;//'显示推荐的顺序'
     private Date cTime;
     private Date mTime;
+    private int topNum;//置顶顺序
 
     private Integer isSameRecommend;//是否同类推荐，0 非推荐  1 推荐
 
@@ -129,5 +130,13 @@ public class ExhibitionVO {
 
     public void setIsSameRecommend(Integer isSameRecommend) {
         this.isSameRecommend = isSameRecommend;
+    }
+
+    public int getTopNum() {
+        return topNum;
+    }
+
+    public void setTopNum(int topNum) {
+        this.topNum = topNum;
     }
 }

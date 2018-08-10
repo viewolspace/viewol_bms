@@ -17,7 +17,8 @@ public class ExhibitorVO {
     private Integer recommendNum;//显示推荐的顺序
     private Date cTime;
     private Date mTime;
-
+    private int topNum;//置顶顺序
+    private int award;//是否获奖，0 未获奖 1 获奖
 
     private int isSameRecommend;//是否同类推荐，0 非推荐  1 推荐
 
@@ -139,5 +140,21 @@ public class ExhibitorVO {
 
     public void setIsSameRecommend(int isSameRecommend) {
         this.isSameRecommend = isSameRecommend;
+    }
+
+    public int getTopNum() {
+        return topNum;
+    }
+
+    public void setTopNum(int topNum) {
+        this.topNum = topNum;
+    }
+
+    public int getAward() {
+        return award;
+    }
+
+    public void setAward(int award) {
+        this.award = award;
     }
 }

@@ -190,6 +190,12 @@ layui.define(function(exports) {
             icon: '&#x1002;',
             name: '重置密码',
             event: 'row-reset-pwd'
+        },
+        'row-top-layui': {
+            className: baseBtnClass + 'layui-btn-xs',
+            icon: '&#xe642;',
+            name: '置顶',
+            event: 'row-top'
         }
     };
 

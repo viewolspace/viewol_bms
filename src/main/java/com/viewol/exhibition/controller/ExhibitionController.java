@@ -251,4 +251,96 @@ public class ExhibitionController {
 
         return rs;
     }
+
+    /**
+     * 置顶产品
+     * @param id
+     * @param num
+     * @return
+     */
+    @RequestMapping(value = "/addTop", method = RequestMethod.POST)
+    @ResponseBody
+    @MethodLog(module = Constants.AD, desc = "置顶产品")
+    @Repeat
+    public BaseResponse addTop(@RequestParam(value = "id", defaultValue = "-1") int id,
+                                         @RequestParam(value = "num", defaultValue = "-1") int num) {
+
+        int result = productService.addTop(id, num);
+
+        BaseResponse rs = new BaseResponse();
+        if(result>0){
+            rs.setStatus(true);
+            rs.setMsg("置顶成功");
+        } else {
+            rs.setStatus(false);
+            rs.setMsg("置顶失败");
+        }
+        return rs;
+    }
+
+    /**
+     * 取消置顶产品
+     * @param id 产品ID
+     * @return
+     */
+    @RequestMapping(value = "/delTop", method = RequestMethod.POST)
+    @ResponseBody
+    @MethodLog(module = Constants.AD, desc = "取消置顶产品")
+    @Repeat
+    public BaseResponse delTop(@RequestParam(value = "id", defaultValue = "-1") int id) {
+
+        int result = productService.delTop(id);
+
+        BaseResponse rs = new BaseResponse();
+        if(result>0){
+            rs.setStatus(true);
+            rs.setMsg("取消置顶成功");
+        } else {
+            rs.setStatus(false);
+            rs.setMsg("取消置顶失败");
+        }
+        return rs;
+    }
+
+    /**
+     * 查询置顶产品
+     *
+     * @return
+     */
+    @RequestMapping(value = "/queryTopProduct", method = RequestMethod.POST)
+    @ResponseBody
+    public GridBaseResponse queryTopProduct() {
+
+        GridBaseResponse rs = new GridBaseResponse();
+        rs.setCode(0);
+        rs.setMsg("ok");
+
+        List<Product> productList = productService.queryTopProduct();
+        List<ExhibitionVO> list = new ArrayList<>();
+
+        if (null != productList && productList.size() > 0) {
+            for (Product product : productList) {
+                ExhibitionVO vo = new ExhibitionVO();
+                vo.setId(product.getId());
+                vo.setCompanyId(product.getCompanyId());
+                vo.setCategoryId(product.getCategoryId());
+                vo.setStatus(product.getStatus());
+                vo.setName(product.getName());
+                vo.setImage(product.getImageView());
+                vo.setContent(product.getContentView());
+                vo.setPdfUrl(product.getPdfUrlView());
+                vo.setPdfName(product.getPdfName());
+                vo.setIsRecommend(product.getIsRecommend());
+                vo.setRecommendNum(product.getRecommendNum());
+                vo.setcTime(product.getcTime());
+                vo.setmTime(product.getmTime());
+                vo.setTopNum(product.getTopNum());
+                list.add(vo);
+            }
+        }
+
+        rs.setData(list);
+        rs.setCount(list.size());
+        return rs;
+    }
 }
