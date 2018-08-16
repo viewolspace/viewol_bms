@@ -58,7 +58,7 @@ public class ExhibitorController {
     /**
      * 查询展商列表
      * @param name 展商名称
-     * @param place 展位号
+     * @param categoryId 展商类别
      * @param page
      * @param limit
      * @return
@@ -131,7 +131,7 @@ public class ExhibitorController {
      */
     @RequestMapping(value = "/addExhibitor", method = RequestMethod.POST)
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "添加展商")
+    @MethodLog(module = Constants.EXHIBITOR, desc = "添加展商")
     @Repeat
     public BaseResponse addExhibitor(@RequestParam(value = "name", defaultValue = "") String name,
                                      @RequestParam(value = "shortName", defaultValue = "") String shortName,
@@ -213,7 +213,7 @@ public class ExhibitorController {
 
     @RequestMapping(value = "/deleteExhibitor")
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "删除展商")
+    @MethodLog(module = Constants.EXHIBITOR, desc = "删除展商")
     @Repeat
     public BaseResponse deleteExhibitor(@RequestParam(value = "id", defaultValue = "-1") int id) {
         BaseResponse rs = new BaseResponse();
@@ -239,7 +239,7 @@ public class ExhibitorController {
      */
     @RequestMapping(value = "/updateExhibitor", method = RequestMethod.POST)
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "修改展商")
+    @MethodLog(module = Constants.EXHIBITOR, desc = "修改展商")
     @Repeat
     public BaseResponse updateExhibitor(@RequestParam(value = "id", defaultValue = "-1") int id,
                                         @RequestParam(value = "name", defaultValue = "") String name,
@@ -321,7 +321,7 @@ public class ExhibitorController {
      */
     @RequestMapping(value = "/addRecommentHome", method = RequestMethod.POST)
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "推荐展商到首页")
+    @MethodLog(module = Constants.EXHIBITOR, desc = "推荐展商到首页")
     @Repeat
     public BaseResponse addRecommentHome(@RequestParam(value = "id", defaultValue = "-1") int id,
                                          @RequestParam(value = "recommendNum", defaultValue = "-1") int recommendNum) {
@@ -346,7 +346,7 @@ public class ExhibitorController {
      */
     @RequestMapping(value = "/delRecommentHome", method = RequestMethod.POST)
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "取消展商首页推荐")
+    @MethodLog(module = Constants.EXHIBITOR, desc = "取消展商首页推荐")
     @Repeat
     public BaseResponse delRecommentHome(@RequestParam(value = "id", defaultValue = "-1") int id) {
 
@@ -414,7 +414,7 @@ public class ExhibitorController {
      */
     @RequestMapping(value = "/addTop", method = RequestMethod.POST)
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "展商置顶")
+    @MethodLog(module = Constants.EXHIBITOR, desc = "展商置顶")
     @Repeat
     public BaseResponse addTop(@RequestParam(value = "id", defaultValue = "-1") int id,
                                          @RequestParam(value = "num", defaultValue = "-1") int num) {
@@ -440,7 +440,7 @@ public class ExhibitorController {
      */
     @RequestMapping(value = "/delTop", method = RequestMethod.POST)
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "取消展商置顶")
+    @MethodLog(module = Constants.EXHIBITOR, desc = "取消展商置顶")
     @Repeat
     public BaseResponse delTop(@RequestParam(value = "id", defaultValue = "-1") int id) {
 

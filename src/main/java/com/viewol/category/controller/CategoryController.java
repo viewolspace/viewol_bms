@@ -37,7 +37,7 @@ public class CategoryController {
 
     @RequestMapping(value = "/addCategory", method = RequestMethod.POST)
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "添加类别")
+    @MethodLog(module = Constants.CATEGORY, desc = "添加类别")
     @Repeat
     public BaseResponse addCategory(@RequestParam(value = "num", defaultValue = "0") int num,
                                     @RequestParam(value = "type", defaultValue = "0") int type,
@@ -66,7 +66,7 @@ public class CategoryController {
 
     @RequestMapping(value = "/deleteCategory")
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "删除类别")
+    @MethodLog(module = Constants.CATEGORY, desc = "删除类别")
     @Repeat
     public BaseResponse deleteCategory(@RequestParam(value = "id", defaultValue = "") String id) {
         BaseResponse rs = new BaseResponse();
@@ -85,7 +85,7 @@ public class CategoryController {
 
     @RequestMapping(value = "/updateCategory", method = RequestMethod.POST)
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "修改类别")
+    @MethodLog(module = Constants.CATEGORY, desc = "修改类别")
     @Repeat
     public BaseResponse updateCategory(@RequestParam(value = "id", defaultValue = "") String id,
                                        @RequestParam(value = "name", defaultValue = "") String name) {

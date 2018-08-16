@@ -97,7 +97,7 @@ public class SameRecommendController {
      */
     @RequestMapping(value = "/addRecommentSame", method = RequestMethod.POST)
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "同类推荐")
+    @MethodLog(module = Constants.RECOMMEND, desc = "同类推荐")
     @Repeat
     public BaseResponse addRecommentSame(@RequestParam(value = "id", defaultValue = "-1") int id,
                                          @RequestParam(value = "type", defaultValue = "-1") int type) {
@@ -117,7 +117,7 @@ public class SameRecommendController {
 
     @RequestMapping(value = "/cancelRecommend")
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "取消同类推荐")
+    @MethodLog(module = Constants.RECOMMEND, desc = "取消同类推荐")
     @Repeat
     public BaseResponse cancelExhibitor(@RequestParam(value = "id", defaultValue = "") int id) {
         BaseResponse rs = new BaseResponse();

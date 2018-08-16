@@ -103,7 +103,7 @@ public class ExhibitionController {
 
     @RequestMapping(value = "/upExhibition")
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "上架展品")
+    @MethodLog(module = Constants.EXHIBITION, desc = "上架展品")
     @Repeat
     public BaseResponse upExhibition(int id) {
         BaseResponse rs = new BaseResponse();
@@ -122,7 +122,7 @@ public class ExhibitionController {
 
     @RequestMapping(value = "/downExhibition")
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "下架展品")
+    @MethodLog(module = Constants.EXHIBITION, desc = "下架展品")
     @Repeat
     public BaseResponse downExhibition(int id) {
         BaseResponse rs = new BaseResponse();
@@ -141,7 +141,7 @@ public class ExhibitionController {
 
     @RequestMapping(value = "/addRecommentHome", method = RequestMethod.POST)
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "推荐产品到首页")
+    @MethodLog(module = Constants.EXHIBITION, desc = "推荐产品到首页")
     @Repeat
     public BaseResponse addRecommentHome(@RequestParam(value = "id", defaultValue = "-1") int id,
                                          @RequestParam(value = "recommendNum", defaultValue = "-1") int recommendNum) {
@@ -161,7 +161,7 @@ public class ExhibitionController {
 
     @RequestMapping(value = "/delRecommentHome", method = RequestMethod.POST)
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "取消产品首页推荐")
+    @MethodLog(module = Constants.EXHIBITION, desc = "取消产品首页推荐")
     @Repeat
     public BaseResponse delRecommentHome(@RequestParam(value = "id", defaultValue = "-1") int id) {
 
@@ -260,7 +260,7 @@ public class ExhibitionController {
      */
     @RequestMapping(value = "/addTop", method = RequestMethod.POST)
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "置顶产品")
+    @MethodLog(module = Constants.EXHIBITION, desc = "置顶产品")
     @Repeat
     public BaseResponse addTop(@RequestParam(value = "id", defaultValue = "-1") int id,
                                          @RequestParam(value = "num", defaultValue = "-1") int num) {
@@ -285,7 +285,7 @@ public class ExhibitionController {
      */
     @RequestMapping(value = "/delTop", method = RequestMethod.POST)
     @ResponseBody
-    @MethodLog(module = Constants.AD, desc = "取消置顶产品")
+    @MethodLog(module = Constants.EXHIBITION, desc = "取消置顶产品")
     @Repeat
     public BaseResponse delTop(@RequestParam(value = "id", defaultValue = "-1") int id) {
 

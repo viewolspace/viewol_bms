@@ -7,10 +7,10 @@ public class Constants {
 	public static final String SYS_PERMISSION = "权限管理";
 	public static final String SYS_USER = "用户管理";
 
-	public static final String DEVELOPER_CENTER = "开发者中心";
-	public static final String MATCH = "比赛管理";
-	public static final String AD = "广告管理";
-	public static final String API = "API管理";
-
+	public static final String EXHIBITOR = "展商管理";
+	public static final String SCHEDULE = "日程管理";
+	public static final String EXHIBITION = "产品管理";
+	public static final String CATEGORY = "分类管理";
+	public static final String RECOMMEND = "推荐管理";
 
 }
