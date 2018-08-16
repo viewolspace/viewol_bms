@@ -46,6 +46,10 @@ layui.define('base-url', function(exports) {
         "uploadContentImage": {
             type: 'POST',
             url: "uploadContentImage.do"
+        },
+        "scheduleUserList": {//活动报名查询
+            type: 'POST',
+            url: "scheduleUserList.do"
         }
 	}
 	//下面这种避免不同api相同key取值相同的问题

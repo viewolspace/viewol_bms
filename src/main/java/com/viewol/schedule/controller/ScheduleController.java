@@ -4,9 +4,11 @@ import com.viewol.common.BaseResponse;
 import com.viewol.common.GridBaseResponse;
 import com.viewol.common.LayeditResponse;
 import com.viewol.pojo.Schedule;
+import com.viewol.pojo.ScheduleUser;
 import com.viewol.pojo.query.RecommendScheduleQuery;
 import com.viewol.pojo.query.ScheduleQuery;
 import com.viewol.schedule.vo.RecommendScheduleVO;
+import com.viewol.schedule.vo.ScheduleUserVO;
 import com.viewol.schedule.vo.ScheduleVO;
 import com.viewol.service.IScheduleService;
 import com.viewol.sys.interceptor.Repeat;
@@ -361,6 +363,47 @@ public class ScheduleController {
         } else {
             rs.setCode(1);
             rs.setMsg("文件为空");
+        }
+
+        return rs;
+    }
+
+    /**
+     * 日程报名查询
+     *
+     * @return
+     */
+    @RequestMapping(value = "/scheduleUserList", method = RequestMethod.POST)
+    @ResponseBody
+    public GridBaseResponse scheduleUserList(@RequestParam(value = "scheduleId", defaultValue = "-1") int scheduleId,
+                                             @RequestParam(value = "page", defaultValue = "1") int page,
+                                             @RequestParam(value = "limit", defaultValue = "10") int limit) {
+
+        GridBaseResponse rs = new GridBaseResponse();
+        rs.setCode(0);
+        rs.setMsg("ok");
+
+        PageHolder<ScheduleUser> pageHolder = scheduleService.queryScheduleUser(scheduleId, page, limit);
+
+        List<ScheduleUserVO> voList = new ArrayList<>();
+        if (null != pageHolder && null != pageHolder.getList() && pageHolder.getList().size() > 0) {
+            for (ScheduleUser scheduleUser : pageHolder.getList()) {
+                ScheduleUserVO vo = new ScheduleUserVO();
+                vo.setUserId(scheduleUser.getUserId());
+                vo.setUserName(scheduleUser.getUserName());
+                vo.setPhone(scheduleUser.getPhone());
+                vo.setCompany(scheduleUser.getCompany());
+                vo.setPosition(scheduleUser.getPosition());
+                vo.setEmail(scheduleUser.getEmail());
+                vo.setAge(scheduleUser.getAge());
+                vo.setReminderTime(scheduleUser.getReminderTime());
+                vo.setcTime(scheduleUser.getcTime());
+                vo.setReminderFlag(scheduleUser.getReminderFlag());
+                voList.add(vo);
+            }
+
+            rs.setData(voList);
+            rs.setCount(pageHolder.getTotalCount());
         }
 
         return rs;

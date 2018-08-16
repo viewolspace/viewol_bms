@@ -196,6 +196,12 @@ layui.define(function(exports) {
             icon: '&#xe642;',
             name: '置顶',
             event: 'row-top'
+        },
+        'row-view-detail-layui': {
+            className: baseBtnClass + 'layui-btn-xs',
+            icon: '&#xe642;',
+            name: '查看数据',
+            event: 'row-view-detail'
         }
     };
 
