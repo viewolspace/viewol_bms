@@ -77,8 +77,8 @@ layui.use(requireModules, function(
                 ,cols: [[ //表头
                     {type:'numbers'},
                     {field: 'id', title: '用户ID', width:100},
-                    {field: 'userName', title: '账号', width:100},
-                    {field: 'realName', title: '真实姓名', width:100},
+                    {field: 'userName', title: '账号', width:120},
+                    {field: 'realName', title: '真实姓名', width:220},
                     {field: 'phone', title: '手机号', width:150},
                     {field: 'userStatus', title: '状态', width:100, templet: function (d) {
                         if(d.userStatus == 1){
