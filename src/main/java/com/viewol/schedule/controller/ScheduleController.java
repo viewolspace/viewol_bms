@@ -15,6 +15,7 @@ import com.viewol.service.IScheduleService;
 import com.viewol.sys.interceptor.Repeat;
 import com.viewol.sys.log.annotation.MethodLog;
 import com.viewol.sys.utils.Constants;
+import com.viewol.sys.utils.HtmlUtil;
 import com.youguu.core.util.PageHolder;
 import com.youguu.core.util.PropertiesUtil;
 import org.springframework.stereotype.Controller;
@@ -247,10 +248,8 @@ public class ScheduleController {
                                     @RequestParam(value = "place", defaultValue = "") String place) {
 
         BaseResponse rs = new BaseResponse();
-        if(!"".equals(content)){
-            content = content.replaceAll("lang=\"EN-US\"", "");
-        }
-        int result = scheduleService.addSchedule(title, place, content, sTime, eTime);
+
+        int result = scheduleService.addSchedule(title, place, HtmlUtil.stringFilter(content), sTime, eTime);
         if (result > 0) {
             rs.setStatus(true);
             rs.setMsg("添加成功");
@@ -285,10 +284,7 @@ public class ScheduleController {
             e.printStackTrace();
         }
 
-        if(!"".equals(content)){
-            content = content.replaceAll("lang=\"EN-US\"", "");
-        }
-        schedule.setContentView(content);
+        schedule.setContentView(HtmlUtil.stringFilter(content));
         schedule.setPlace(place);
         int result = scheduleService.updateSchedule(schedule);
 
