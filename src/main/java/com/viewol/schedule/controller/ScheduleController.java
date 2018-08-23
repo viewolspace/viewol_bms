@@ -247,6 +247,9 @@ public class ScheduleController {
                                     @RequestParam(value = "place", defaultValue = "") String place) {
 
         BaseResponse rs = new BaseResponse();
+        if(!"".equals(content)){
+            content = content.replaceAll("lang=\"EN-US\"", "");
+        }
         int result = scheduleService.addSchedule(title, place, content, sTime, eTime);
         if (result > 0) {
             rs.setStatus(true);
@@ -282,6 +285,9 @@ public class ScheduleController {
             e.printStackTrace();
         }
 
+        if(!"".equals(content)){
+            content = content.replaceAll("lang=\"EN-US\"", "");
+        }
         schedule.setContentView(content);
         schedule.setPlace(place);
         int result = scheduleService.updateSchedule(schedule);

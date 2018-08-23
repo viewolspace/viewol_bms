@@ -97,9 +97,6 @@ layui.use(requireModules, function(
                     {field: 'banner', title: '展商形象图片', width:100, templet: function (d) {
                             return "<a href='"+d.banner+"' target='_blank'><img src='"+d.banner+"' /></a>";
                         }},
-                    {field: 'image', title: '展商图片', width:150, templet: function (d) {
-                            return "<a href='"+d.image+"' target='_blank'><img src='"+d.image+"' /></a>";
-                        }},
                     {field: 'place', title: '展商位置', width:150},
                     {field: 'placeSvg', title: '展商svg位置', width:150},
                     {field: 'productNum', title: '允许上传产品的数量', width:150},
