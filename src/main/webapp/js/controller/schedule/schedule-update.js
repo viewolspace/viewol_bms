@@ -72,8 +72,7 @@ layui.use(requireModules, function (form,
     var index = layedit.build('content');//活动内容富文本编辑初始化
 
     f.on('submit(schedule-update-form)', function (data) {
-        // alert(layedit.getText(index));
-        var datas = $.extend(true, data.field, {"content": layedit.getText(index)});
+        var datas = $.extend(true, data.field, {"content": layedit.getContent(index)});
         ajax.request(scheduleApi.getUrl('updateSchedule'), datas, function () {
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
