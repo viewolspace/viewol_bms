@@ -7,6 +7,7 @@ import com.viewol.pojo.Schedule;
 import com.viewol.pojo.ScheduleUser;
 import com.viewol.pojo.query.RecommendScheduleQuery;
 import com.viewol.pojo.query.ScheduleQuery;
+import com.viewol.schedule.response.ScheduleResponse;
 import com.viewol.schedule.vo.RecommendScheduleVO;
 import com.viewol.schedule.vo.ScheduleUserVO;
 import com.viewol.schedule.vo.ScheduleVO;
@@ -311,6 +312,38 @@ public class ScheduleController {
             rs.setStatus(false);
             rs.setMsg("删除失败");
         }
+        return rs;
+    }
+
+    @RequestMapping(value = "/getSchedule")
+    @ResponseBody
+    public ScheduleResponse getSchedule(@RequestParam(value = "id", defaultValue = "0") int id) {
+
+        ScheduleResponse rs = new ScheduleResponse();
+        Schedule schedule = scheduleService.getSchedule(id);
+        if (schedule!=null) {
+            rs.setStatus(true);
+            rs.setMsg("查询成功");
+
+            ScheduleVO vo = new ScheduleVO();
+            vo.setId(schedule.getId());
+            vo.setCompanyId(schedule.getCompanyId());
+            vo.setType(schedule.getType());
+            vo.setCompanyName(schedule.getCompanyName());
+            vo.setTitle(schedule.getTitle());
+            vo.setStatus(schedule.getStatus());
+            vo.setContent(schedule.getContentView());
+            vo.setPlace(schedule.getPlace());
+            vo.setsTime(schedule.getsTime());
+            vo.seteTime(schedule.geteTime());
+            vo.setcTime(schedule.getcTime());
+
+            rs.setData(vo);
+        } else {
+            rs.setStatus(false);
+            rs.setMsg("查询失败");
+        }
+
         return rs;
     }
 

@@ -136,8 +136,9 @@ layui.use(requireModules, function(
         },
 
         modify: function(rowdata) {
-            var url = request.composeUrl(webName + '/views/schedule/schedule-update.html', rowdata);
-            var index = layer.open({
+            var url = request.composeUrl(webName + '/views/schedule/schedule-update.html?scheduleId='+rowdata.id);
+
+            layer.open({
                 type: 2,
                 title: "修改日程",
                 area: ['900px', '450px'],
@@ -145,7 +146,7 @@ layui.use(requireModules, function(
                 scrollbar: false,
                 content: url,
                 success: function(ly, index) {
-                    // layer.iframeAuto(index);
+
                 }
             });
         },
@@ -174,6 +175,7 @@ layui.use(requireModules, function(
         },
 
         recommend: function(rowdata) {
+            rowdata.content='';
 			var url = request.composeUrl(webName + '/views/schedule/schedule-recc.html', rowdata);
 			var index = layer.open({
 				type: 2,
@@ -189,6 +191,7 @@ layui.use(requireModules, function(
 		},
 
         review: function(rowdata) {
+            rowdata.content='';
             var url = request.composeUrl(webName + '/views/schedule/schedule-review.html', rowdata);
             var index = layer.open({
                 type: 2,

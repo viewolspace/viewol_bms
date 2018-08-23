@@ -43,6 +43,9 @@ layui.define('base-url', function(exports) {
         "deleteSchedule": {
             url: "deleteSchedule.do"
         },
+        "getSchedule": {//查询单个活动
+            url: "getSchedule.do"
+        },
         "uploadContentImage": {
             type: 'POST',
             url: "uploadContentImage.do"

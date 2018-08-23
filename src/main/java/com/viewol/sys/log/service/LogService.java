@@ -89,6 +89,9 @@ public class LogService implements Ordered {
 				sysLog.setOperContent("上传图片");
 			}
 
+			if(sysLog.getOperContent().length()>5000){
+				sysLog.setOperContent(sysLog.getOperContent().substring(0, 5000));
+			}
 		} catch (Exception e){
 
 		}
