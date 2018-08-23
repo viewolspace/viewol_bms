@@ -14,7 +14,7 @@ public class HtmlUtil {
      */
     public static String stringFilter(String str) throws PatternSyntaxException {
 
-        String regEx = "(?!<(img|p).*?>)<.*?>";
+        String regEx = "(?!<(img|p|br).*?>)<.*?>";
         Pattern p_html = Pattern.compile(regEx, Pattern.CASE_INSENSITIVE);
         Matcher m_html = p_html.matcher(str);
         str = m_html.replaceAll("");
