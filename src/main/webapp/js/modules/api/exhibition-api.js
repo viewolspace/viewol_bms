@@ -50,7 +50,12 @@ layui.define('base-url', function(exports) {
         "queryTopProduct": {
             type: 'POST',
             url: "queryTopProduct.do"
+        } ,
+        "getExhibition": {
+            type: 'POST',
+            url: "getExhibition.do"
         }
+
 	}
 	//下面这种避免不同api相同key取值相同的问题
 	var result = $.extend({}, baseApi, url);

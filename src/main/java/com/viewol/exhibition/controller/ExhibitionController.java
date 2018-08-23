@@ -3,6 +3,7 @@ package com.viewol.exhibition.controller;
 import com.viewol.common.BaseResponse;
 import com.viewol.common.GridBaseResponse;
 import com.viewol.exhibition.response.ExhibitionCategoryResponse;
+import com.viewol.exhibition.response.ExhibitionResponse;
 import com.viewol.exhibition.vo.ExhibitionCategoryVO;
 import com.viewol.exhibition.vo.ExhibitionVO;
 import com.viewol.exhibitor.vo.ExhibitorVO;
@@ -341,6 +342,42 @@ public class ExhibitionController {
 
         rs.setData(list);
         rs.setCount(list.size());
+        return rs;
+    }
+
+    /**
+     * 根据产品ID查询产品
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/getExhibition", method = RequestMethod.POST)
+    @ResponseBody
+    public ExhibitionResponse getExhibition(@RequestParam(value = "id", defaultValue = "") int id) {
+        ExhibitionResponse rs = new ExhibitionResponse();
+        Product product = productService.getProduct(id);
+
+        if(null != product){
+            ExhibitionVO vo = new ExhibitionVO();
+            vo.setId(product.getId());
+            vo.setName(product.getName());
+            vo.setCompanyId(product.getCompanyId());
+            vo.setCategoryId(product.getCategoryId());
+            vo.setStatus(product.getStatus());
+            vo.setPdfName(product.getPdfName());
+            vo.setPdfUrl(product.getPdfUrl());
+            vo.setImage(product.getImageView());
+            vo.setRegImage(product.getReImgView());
+            vo.setContent(product.getContentView());
+            vo.setcTime(product.getcTime());
+            vo.setmTime(product.getmTime());
+
+            rs.setStatus(true);
+            rs.setMsg("ok");
+            rs.setData(vo);
+        } else {
+            rs.setStatus(false);
+            rs.setMsg("无此产品");
+        }
         return rs;
     }
 }

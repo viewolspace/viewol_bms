@@ -167,7 +167,7 @@ layui.use(requireModules, function(
 		},
 
         view: function(rowdata) {
-            var url = request.composeUrl(webName + '/views/exhibitor/user-view.html', rowdata);
+            var url = request.composeUrl(webName + '/views/exhibitor/exhibitor-view.html', rowdata);
             var index = layer.open({
                 type: 2,
                 title: "查看展商",

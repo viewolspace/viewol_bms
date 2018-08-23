@@ -9,6 +9,7 @@ public class ExhibitionVO {
     private Integer status;//0 上架  1 下架
     private String name;//产品名称
     private String image;//产品图片-用于列表展示
+    private String regImage;//产品图片-用于首页推荐
     private String content;//产品介绍
     private String pdfUrl;//产品说明书
     private String pdfName;//说明书的名字
@@ -66,6 +67,14 @@ public class ExhibitionVO {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getRegImage() {
+        return regImage;
+    }
+
+    public void setRegImage(String regImage) {
+        this.regImage = regImage;
     }
 
     public String getContent() {
