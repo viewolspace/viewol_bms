@@ -61,6 +61,8 @@ function registeModule(window,modulesYouWanted,otherModules) {
             'exhibitor-api':'api/exhibitor-api',
             'same-reco-api':'api/same-reco-api',
             'schedule-api':'api/schedule-api',
+            'buser-api':'api/buser-api',
+            'fuser-api':'api/fuser-api',
 			'select-api':'api/select-api'
 		}
 
