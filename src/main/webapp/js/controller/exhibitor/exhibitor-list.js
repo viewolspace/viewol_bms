@@ -89,6 +89,7 @@ layui.use(requireModules, function(
                 ,limits:[10,50,100,200]
                 ,cols: [[ //表头
                     {type:'numbers'},
+                    {field: 'id', title: '展商ID', width:100},
                     {field: 'name', title: '展商名称', width:200},
                     {field: 'shortName', title: '展商简称', width:100},
                     {field: 'logo', title: '展商logo', width:100, templet: function (d) {

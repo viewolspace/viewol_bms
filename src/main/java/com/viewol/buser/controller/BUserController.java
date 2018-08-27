@@ -41,7 +41,7 @@ public class BUserController {
     public GridBaseResponse bUserList(@RequestParam(value = "userName", defaultValue = "") String userName,
                                       @RequestParam(value = "phone", defaultValue = "") String phone,
                                       @RequestParam(value = "companyId", defaultValue = "0") int companyId,
-                                      @RequestParam(value = "status", defaultValue = "0") int status,
+                                      @RequestParam(value = "status", defaultValue = "999") int status,
                                       @RequestParam(value = "page", defaultValue = "1") int page,
                                       @RequestParam(value = "limit", defaultValue = "10") int limit) {
 
@@ -52,13 +52,17 @@ public class BUserController {
         BUserQuery query = new BUserQuery();
         query.setPageIndex(page);
         query.setPageSize(limit);
-        query.setCompanyId(companyId);
-        query.setPhone(phone);
+
+        if(companyId>0){
+            query.setCompanyId(companyId);
+        }
+
         if(status!=999){
             query.setStatus(status);
         }
 
         query.setUserName(userName);
+        query.setPhone(phone);
 
         PageHolder<BUser> pageHolder = bUserService.queryBUser(query);
         List<BUserVO> list = new ArrayList<>();
