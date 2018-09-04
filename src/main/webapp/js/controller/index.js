@@ -108,8 +108,8 @@ layui.use(requireModules, function(layer,element,util,authority,login,laytpl,aja
     // 监听顶部右侧导航
     element.on('nav(side-right)', function(elem) {
         // 修改skin
-        if ($(this).attr('data-skin')) {
-            localStorage.skin = $(this).attr('data-skin');
+        if ($(this).parent().attr('data-skin')) {
+            localStorage.skin = $(this).parent().attr('data-skin');
             skin();
         } else {
             // 添加tab方法
