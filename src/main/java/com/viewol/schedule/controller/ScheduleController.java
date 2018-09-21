@@ -99,7 +99,7 @@ public class ScheduleController {
                 vo.setsTime(schedule.getsTime());
                 vo.seteTime(schedule.geteTime());
                 vo.setcTime(schedule.getcTime());
-
+                vo.setErCode(getScheduleMaErCode(schedule.getId(), 100));
                 voList.add(vo);
             }
 
@@ -453,12 +453,7 @@ public class ScheduleController {
      * 获取展商小程序码
      * @return
      */
-    @RequestMapping(value = "/getScheduleMaErCode", method = RequestMethod.GET)
-    @ResponseBody
-    public ErcodeResponse getScheduleMaErCode(@RequestParam(value = "id", defaultValue = "0") int id,
-                                              @RequestParam(value = "width", defaultValue = "430") int width) {
-        ErcodeResponse rs = new ErcodeResponse();
-
+    public String getScheduleMaErCode(int id, int width) {
         Properties properties = null;
         String url = null;
         try {
@@ -466,12 +461,6 @@ public class ScheduleController {
             url = properties.getProperty("schedule.ercode.url");
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        if(url == null || "".equals(url)){
-            rs.setStatus(false);
-            rs.setMsg("小程序码URL未配置");
-            return rs;
         }
 
         Map<String, String> params = new HashMap<>();
@@ -487,18 +476,9 @@ public class ScheduleController {
             if("0000".equals(object.getString("status"))){
                 String ercode = object.getString("ercode");
 
-                rs.setStatus(true);
-                rs.setMsg("ok");
-                rs.setErcode(ercode);
-            } else {
-                rs.setStatus(false);
-                rs.setMsg("获取小程序码失败");
+                return "data:image/jpeg;base64,"+ercode;
             }
-        } else {
-            rs.setStatus(false);
-            rs.setMsg("获取小程序码失败");
         }
-
-        return rs;
+        return null;
     }
 }

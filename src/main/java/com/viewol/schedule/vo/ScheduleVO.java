@@ -14,6 +14,7 @@ public class ScheduleVO {
     private Date eTime;//活动结束时间
     private String content;//活动内容
     private String place;//活动地点
+    private String erCode;//小程序码
 
     public int getId() {
         return id;
@@ -101,5 +102,13 @@ public class ScheduleVO {
 
     public void setPlace(String place) {
         this.place = place;
+    }
+
+    public String getErCode() {
+        return erCode;
+    }
+
+    public void setErCode(String erCode) {
+        this.erCode = erCode;
     }
 }

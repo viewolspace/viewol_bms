@@ -217,8 +217,16 @@ public class ExhibitorController {
     @Repeat
     public BaseResponse deleteExhibitor(@RequestParam(value = "id", defaultValue = "-1") int id) {
         BaseResponse rs = new BaseResponse();
-        rs.setStatus(true);
-        rs.setMsg("删除成功");
+
+        int result = companyService.delCompany(id);
+
+        if(result>0){
+            rs.setStatus(true);
+            rs.setMsg("删除成功");
+        } else {
+            rs.setStatus(false);
+            rs.setMsg("删除失败");
+        }
 
         return rs;
     }

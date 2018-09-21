@@ -95,16 +95,8 @@ layui.use(requireModules, function(
                             }
                         }},
                     {field: 'companyName', title: '主办方的名称', width:150},
-                    {field: 'id', title: '小程序码', width:100, templet: function (d) {
-                        request.request(scheduleApi.getUrl('getScheduleMaErCode'), {
-                            "width":100,
-                            "id": d.id
-                        }, function(result) {
-                            if(result.status == true){
-                                var base64Str = result.ercode;
-                                return "<img src='"+"data:image/png;base64,"+base64Str+"'/>"
-                            }
-                        });
+                    {field: 'erCode', title: '小程序码', width:120, style:'height:100px;', templet: function (d) {
+                            return "<img src='"+d.erCode+"' />";
                     }},
                     {field: 'title', title: '主题', width:200},
                     {field: 'status', title: '状态', width:100, templet: function (d) {
@@ -127,7 +119,7 @@ layui.use(requireModules, function(
                     {field: 'cTime', title: '创建时间', width:160, templet: function (d) {
                             return moment(d.cTime).format("YYYY-MM-DD HH:mm:ss");
                         }},
-                    {fixed: 'right',width:MyController.toolbarWidth, align:'center', toolbar: '#barDemo'}
+                    {fixed: 'right', style:'height:110px;',width:MyController.toolbarWidth, align:'center', toolbar: '#barDemo'}
                 ]]
             });
 		},

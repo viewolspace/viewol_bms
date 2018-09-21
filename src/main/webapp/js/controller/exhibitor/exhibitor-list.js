@@ -190,7 +190,7 @@ layui.use(requireModules, function(
 				});
 				layer.close(index);
 
-				request.request(userApi.getUrl('deleteUser'), {
+				request.request(exhibitorApi.getUrl('deleteExhibitor'), {
 					id: rowdata.id
 				}, function() {
 					layer.closeAll('loading');
