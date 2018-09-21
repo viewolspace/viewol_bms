@@ -1,5 +1,6 @@
 package com.viewol.schedule.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.viewol.common.BaseResponse;
 import com.viewol.common.GridBaseResponse;
 import com.viewol.common.LayeditResponse;
@@ -7,15 +8,19 @@ import com.viewol.pojo.Schedule;
 import com.viewol.pojo.ScheduleUser;
 import com.viewol.pojo.query.RecommendScheduleQuery;
 import com.viewol.pojo.query.ScheduleQuery;
+import com.viewol.schedule.response.ErcodeResponse;
 import com.viewol.schedule.response.ScheduleResponse;
 import com.viewol.schedule.vo.RecommendScheduleVO;
 import com.viewol.schedule.vo.ScheduleUserVO;
 import com.viewol.schedule.vo.ScheduleVO;
 import com.viewol.service.IScheduleService;
+import com.viewol.shiro.token.TokenManager;
 import com.viewol.sys.interceptor.Repeat;
 import com.viewol.sys.log.annotation.MethodLog;
 import com.viewol.sys.utils.Constants;
 import com.viewol.sys.utils.HtmlUtil;
+import com.youguu.core.pojo.Response;
+import com.youguu.core.util.HttpUtil;
 import com.youguu.core.util.PageHolder;
 import com.youguu.core.util.PropertiesUtil;
 import org.springframework.stereotype.Controller;
@@ -439,6 +444,59 @@ public class ScheduleController {
 
             rs.setData(voList);
             rs.setCount(pageHolder.getTotalCount());
+        }
+
+        return rs;
+    }
+
+    /**
+     * 获取展商小程序码
+     * @return
+     */
+    @RequestMapping(value = "/getScheduleMaErCode", method = RequestMethod.GET)
+    @ResponseBody
+    public ErcodeResponse getScheduleMaErCode(@RequestParam(value = "id", defaultValue = "0") int id,
+                                              @RequestParam(value = "width", defaultValue = "430") int width) {
+        ErcodeResponse rs = new ErcodeResponse();
+
+        Properties properties = null;
+        String url = null;
+        try {
+            properties = PropertiesUtil.getProperties("properties/config.properties");
+            url = properties.getProperty("schedule.ercode.url");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(url == null || "".equals(url)){
+            rs.setStatus(false);
+            rs.setMsg("小程序码URL未配置");
+            return rs;
+        }
+
+        Map<String, String> params = new HashMap<>();
+        params.put("page", "pages/index/index");
+        params.put("scene", "1:"+id);
+        params.put("width", String.valueOf(width));
+
+        Response<String> response = HttpUtil.sendGet(url, params, "UTF-8");
+
+        if("0000".equals(response.getCode())){
+            String result = response.getT();
+            JSONObject object = JSONObject.parseObject(result);
+            if("0000".equals(object.getString("status"))){
+                String ercode = object.getString("ercode");
+
+                rs.setStatus(true);
+                rs.setMsg("ok");
+                rs.setErcode(ercode);
+            } else {
+                rs.setStatus(false);
+                rs.setMsg("获取小程序码失败");
+            }
+        } else {
+            rs.setStatus(false);
+            rs.setMsg("获取小程序码失败");
         }
 
         return rs;

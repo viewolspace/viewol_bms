@@ -53,7 +53,11 @@ layui.define('base-url', function(exports) {
         "scheduleUserList": {//活动报名查询
             type: 'POST',
             url: "scheduleUserList.do"
+        },
+        "getScheduleMaErCode": {//查询小程序码
+            url: "getScheduleMaErCode.do"
         }
+
 	}
 	//下面这种避免不同api相同key取值相同的问题
 	var result = $.extend({}, baseApi, url);

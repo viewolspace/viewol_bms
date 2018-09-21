@@ -74,6 +74,8 @@ layui.use(requireModules, function(
 		},
 		getQueryCondition: function() {
 			var condition = formUtil.composeData($("#condition"));
+			condition.type = 0;//只查询协会日程
+            condition.companyId=-1;
 			return condition;
 		},
 		renderTable: function() {
