@@ -54,9 +54,19 @@ layui.use(requireModules, function (form,
         data.eTime=moment(new Date(parseInt(data.eTime))).format("YYYY-MM-DD HH:mm:ss");
 
         formUtil.renderData($('#schedule-update-form'),data);
+
+        ajax.request(scheduleApi.getUrl('getScheduleMaErCode'), {
+            "id": data.id,
+            "width": 100
+        }, function (result) {
+            $('#imageAvatarId').attr('src', result.ercode);
+        }, false, function (result) {
+
+        });
     }, false, function (result) {
 
     });
+
 
 
 

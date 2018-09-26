@@ -99,7 +99,7 @@ public class ScheduleController {
                 vo.setsTime(schedule.getsTime());
                 vo.seteTime(schedule.geteTime());
                 vo.setcTime(schedule.getcTime());
-                vo.setErCode(getScheduleMaErCode(schedule.getId(), 100));
+//                vo.setErCode(getScheduleMaErCode(schedule.getId(), 100));
                 voList.add(vo);
             }
 
@@ -450,10 +450,15 @@ public class ScheduleController {
     }
 
     /**
-     * 获取展商小程序码
+     * 获取日程小程序码
      * @return
      */
-    public String getScheduleMaErCode(int id, int width) {
+    @RequestMapping(value = "/getScheduleMaErCode", method = RequestMethod.GET)
+    @ResponseBody
+    public ErcodeResponse getScheduleMaErCode(@RequestParam(value = "id", defaultValue = "0") int id,
+                                              @RequestParam(value = "width", defaultValue = "430") int width) {
+        ErcodeResponse rs = new ErcodeResponse();
+
         Properties properties = null;
         String url = null;
         try {
@@ -461,6 +466,12 @@ public class ScheduleController {
             url = properties.getProperty("schedule.ercode.url");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        if(url == null || "".equals(url)){
+            rs.setStatus(false);
+            rs.setMsg("小程序码URL未配置");
+            return rs;
         }
 
         Map<String, String> params = new HashMap<>();
@@ -476,9 +487,17 @@ public class ScheduleController {
             if("0000".equals(object.getString("status"))){
                 String ercode = object.getString("ercode");
 
-                return "data:image/jpeg;base64,"+ercode;
+                rs.setStatus(true);
+                rs.setMsg("ok");
+                rs.setErcode(ercode);
+            } else {
+                rs.setStatus(false);
+                rs.setMsg("获取小程序码失败");
             }
+        } else {
+            rs.setStatus(false);
+            rs.setMsg("获取小程序码失败");
         }
-        return null;
+        return rs;
     }
 }
