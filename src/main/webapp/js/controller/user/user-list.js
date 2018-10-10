@@ -89,7 +89,12 @@ layui.use(requireModules, function(
                     }},
                     {field: 'roleName', title: '角色', width:120},
                     {field: 'lastLoginTime', title: '登录时间', width:160, templet: function (d) {
-						return moment(d.lastLoginTime).format("YYYY-MM-DD HH:mm:ss");
+                    	if(d.lastLoginTime){
+                            return moment(d.lastLoginTime).format("YYYY-MM-DD HH:mm:ss");
+						} else {
+                    		return "";
+						}
+
                     }},
                     {fixed: 'right',width:220, align:'center', toolbar: '#barDemo'}
                 ]]

@@ -59,7 +59,7 @@ layui.use(requireModules, function (form,
             "id": data.id,
             "width": 100
         }, function (result) {
-            $('#imageAvatarId').attr('src', result.ercode);
+            $('#imageAvatarId').attr('src', "data:image/png;base64,"+result.ercode);
         }, false, function (result) {
 
         });
