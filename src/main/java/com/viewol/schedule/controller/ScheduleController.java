@@ -81,8 +81,8 @@ public class ScheduleController {
         scheduleQuery.setKeyword(keyword);
         scheduleQuery.setPageIndex(page);
         scheduleQuery.setPageSize(limit);
-
-        PageHolder<Schedule> pageHolder = scheduleService.querySchedule(scheduleQuery);
+        int expoId = 0;//展会ID
+        PageHolder<Schedule> pageHolder = scheduleService.querySchedule(expoId, scheduleQuery);
 
         List<ScheduleVO> voList = new ArrayList<>();
         if (null != pageHolder && null != pageHolder.getList() && pageHolder.getList().size() > 0) {
@@ -189,7 +189,8 @@ public class ScheduleController {
         query.setPageIndex(page);
         query.setPageSize(limit);
 
-        PageHolder<com.viewol.pojo.ScheduleVO> pageHolder = scheduleService.queryRecommendSchedule(query);
+        int expoId = 0;//展会ID
+        PageHolder<com.viewol.pojo.ScheduleVO> pageHolder = scheduleService.queryRecommendSchedule(expoId, query);
         List<RecommendScheduleVO> voList = new ArrayList<>();
 
         if (null != pageHolder && null != pageHolder.getList() && pageHolder.getList().size() > 0) {
@@ -253,8 +254,9 @@ public class ScheduleController {
                                     @RequestParam(value = "place", defaultValue = "") String place) {
 
         BaseResponse rs = new BaseResponse();
+        int expoId = 0;//展会ID
 
-        int result = scheduleService.addSchedule(title, place, HtmlUtil.stringFilter(content), sTime, eTime);
+        int result = scheduleService.addSchedule(expoId, title, place, HtmlUtil.stringFilter(content), sTime, eTime);
         if (result > 0) {
             rs.setStatus(true);
             rs.setMsg("添加成功");

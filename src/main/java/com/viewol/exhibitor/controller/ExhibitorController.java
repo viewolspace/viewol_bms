@@ -159,8 +159,8 @@ public class ExhibitorController {
         company.setmTime(new Date());
         company.setAward(award);
         List<String> categoryIdList = Arrays.asList(ids);
-
-        int result = companyService.addCompany(company, categoryIdList);
+        int expoId = 0;//展会ID
+        int result = companyService.addCompany(expoId, company, categoryIdList);
 
         if(result>0){
             String userName = genRandomUserName();
@@ -383,8 +383,8 @@ public class ExhibitorController {
         GridBaseResponse rs = new GridBaseResponse();
         rs.setCode(0);
         rs.setMsg("ok");
-
-        List<Company> companyList = companyService.queryRecommentCompany();
+        int expoId = 0;//展会ID
+        List<Company> companyList = companyService.queryRecommentCompany(expoId);
         List<ExhibitorVO> list = new ArrayList<>();
 
         if(null != companyList && companyList.size()>0){
@@ -476,8 +476,8 @@ public class ExhibitorController {
         GridBaseResponse rs = new GridBaseResponse();
         rs.setCode(0);
         rs.setMsg("ok");
-
-        List<Company> companyList = companyService.queryTopCompany();
+        int expoId = 0;//展会ID
+        List<Company> companyList = companyService.queryTopCompany(expoId);
         List<ExhibitorVO> list = new ArrayList<>();
 
         if(null != companyList && companyList.size()>0){

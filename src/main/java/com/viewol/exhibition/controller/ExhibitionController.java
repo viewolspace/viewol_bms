@@ -191,8 +191,8 @@ public class ExhibitionController {
         GridBaseResponse rs = new GridBaseResponse();
         rs.setCode(0);
         rs.setMsg("ok");
-
-        List<Product> productList = productService.queryRecommentProduct();
+        int expoId = 0;//展会ID
+        List<Product> productList = productService.queryRecommentProduct(expoId);
         List<ExhibitionVO> list = new ArrayList<>();
 
         if (null != productList && productList.size() > 0) {
@@ -315,8 +315,8 @@ public class ExhibitionController {
         GridBaseResponse rs = new GridBaseResponse();
         rs.setCode(0);
         rs.setMsg("ok");
-
-        List<Product> productList = productService.queryTopProduct();
+        int expoId = 0;//展会ID
+        List<Product> productList = productService.queryTopProduct(expoId);
         List<ExhibitionVO> list = new ArrayList<>();
 
         if (null != productList && productList.size() > 0) {
