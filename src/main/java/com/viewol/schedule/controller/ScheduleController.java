@@ -81,7 +81,7 @@ public class ScheduleController {
         scheduleQuery.setKeyword(keyword);
         scheduleQuery.setPageIndex(page);
         scheduleQuery.setPageSize(limit);
-        int expoId = 0;//展会ID
+        int expoId = TokenManager.getExpoId();//展会ID
         PageHolder<Schedule> pageHolder = scheduleService.querySchedule(expoId, scheduleQuery);
 
         List<ScheduleVO> voList = new ArrayList<>();
@@ -189,7 +189,7 @@ public class ScheduleController {
         query.setPageIndex(page);
         query.setPageSize(limit);
 
-        int expoId = 0;//展会ID
+        int expoId = TokenManager.getExpoId();//展会ID
         PageHolder<com.viewol.pojo.ScheduleVO> pageHolder = scheduleService.queryRecommendSchedule(expoId, query);
         List<RecommendScheduleVO> voList = new ArrayList<>();
 
@@ -254,7 +254,7 @@ public class ScheduleController {
                                     @RequestParam(value = "place", defaultValue = "") String place) {
 
         BaseResponse rs = new BaseResponse();
-        int expoId = 0;//展会ID
+        int expoId = TokenManager.getExpoId();//展会ID
 
         int result = scheduleService.addSchedule(expoId, title, place, HtmlUtil.stringFilter(content), sTime, eTime);
         if (result > 0) {

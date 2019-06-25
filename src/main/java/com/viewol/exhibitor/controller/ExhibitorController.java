@@ -12,6 +12,7 @@ import com.viewol.pojo.Recommend;
 import com.viewol.pojo.query.CompanyQuery;
 import com.viewol.service.ICompanyService;
 import com.viewol.service.IRecommendService;
+import com.viewol.shiro.token.TokenManager;
 import com.viewol.sys.interceptor.Repeat;
 import com.viewol.sys.log.annotation.MethodLog;
 import com.viewol.sys.pojo.SysUser;
@@ -159,7 +160,7 @@ public class ExhibitorController {
         company.setmTime(new Date());
         company.setAward(award);
         List<String> categoryIdList = Arrays.asList(ids);
-        int expoId = 0;//展会ID
+        int expoId = TokenManager.getExpoId();//展会ID
         int result = companyService.addCompany(expoId, company, categoryIdList);
 
         if(result>0){
@@ -383,7 +384,7 @@ public class ExhibitorController {
         GridBaseResponse rs = new GridBaseResponse();
         rs.setCode(0);
         rs.setMsg("ok");
-        int expoId = 0;//展会ID
+        int expoId = TokenManager.getExpoId();//展会ID
         List<Company> companyList = companyService.queryRecommentCompany(expoId);
         List<ExhibitorVO> list = new ArrayList<>();
 
@@ -476,7 +477,7 @@ public class ExhibitorController {
         GridBaseResponse rs = new GridBaseResponse();
         rs.setCode(0);
         rs.setMsg("ok");
-        int expoId = 0;//展会ID
+        int expoId = TokenManager.getExpoId();//展会ID
         List<Company> companyList = companyService.queryTopCompany(expoId);
         List<ExhibitorVO> list = new ArrayList<>();
 

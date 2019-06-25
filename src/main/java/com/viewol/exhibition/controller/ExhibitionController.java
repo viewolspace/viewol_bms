@@ -191,7 +191,7 @@ public class ExhibitionController {
         GridBaseResponse rs = new GridBaseResponse();
         rs.setCode(0);
         rs.setMsg("ok");
-        int expoId = 0;//展会ID
+        int expoId = TokenManager.getExpoId();//展会ID
         List<Product> productList = productService.queryRecommentProduct(expoId);
         List<ExhibitionVO> list = new ArrayList<>();
 
@@ -315,7 +315,7 @@ public class ExhibitionController {
         GridBaseResponse rs = new GridBaseResponse();
         rs.setCode(0);
         rs.setMsg("ok");
-        int expoId = 0;//展会ID
+        int expoId = TokenManager.getExpoId();//展会ID
         List<Product> productList = productService.queryTopProduct(expoId);
         List<ExhibitionVO> list = new ArrayList<>();
 

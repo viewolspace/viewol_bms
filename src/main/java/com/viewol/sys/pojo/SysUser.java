@@ -28,7 +28,7 @@ public class SysUser implements Serializable {
 	private String roleName;//角色名称
 
 	private int appId;//应用ID，目前设计一个用户最多只有一个应用数据查看权限
-
+	private int expoId;//展会ID
 	public SysUser() {
 	}
 
@@ -155,5 +155,13 @@ public class SysUser implements Serializable {
 
 	public void setAppId(int appId) {
 		this.appId = appId;
+	}
+
+	public int getExpoId() {
+		return expoId;
+	}
+
+	public void setExpoId(int expoId) {
+		this.expoId = expoId;
 	}
 }

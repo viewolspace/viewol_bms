@@ -5,7 +5,6 @@ import com.viewol.common.GridBaseResponse;
 import com.viewol.shiro.token.TokenManager;
 import com.viewol.sys.interceptor.Repeat;
 import com.viewol.sys.log.annotation.MethodLog;
-import com.viewol.sys.pojo.OnlineSysUser;
 import com.viewol.sys.pojo.SysUser;
 import com.viewol.sys.pojo.SysUserRole;
 import com.viewol.sys.response.OnlineUserResponse;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.Date;
-import java.util.Map;
 
 /**
  * Created by leo on 2017/11/29.
@@ -41,7 +39,7 @@ public class UserController {
 	@MethodLog(module = Constants.SYS_USER, desc = "添加用户")
 	@Repeat
 	public BaseResponse addUser(String userName, String password, String email, String phone, String realName, Integer
-			roleId, Integer userStatus) {
+			roleId, Integer userStatus, Integer expoId) {
 		SysUser sysUser = new SysUser();
 		sysUser.setUserName(userName);
 		sysUser.setRealName(realName);
@@ -50,6 +48,7 @@ public class UserController {
 		sysUser.setPswd(new MD5().getMD5ofStr(password).toLowerCase());
 		sysUser.setUserStatus(userStatus);
 		sysUser.setCreateTime(new Date());
+		sysUser.setExpoId(expoId);
 		int result = sysUserService.saveSysUser(sysUser);
 
 		BaseResponse rs = new BaseResponse();
@@ -75,7 +74,7 @@ public class UserController {
 	@MethodLog(module = Constants.SYS_USER, desc = "修改用户")
 	@Repeat
 	public BaseResponse updateUser(Integer id, String userName, String password, String email, String phone,
-								   String realName, Integer roleId, Integer userStatus) {
+								   String realName, Integer roleId, Integer userStatus, Integer expoId) {
 		BaseResponse rs = new BaseResponse();
 		if(TokenManager.getUserId() == id){
 			rs.setStatus(false);
@@ -94,6 +93,7 @@ public class UserController {
 		sysUser.setPhone(phone);
 //		sysUser.setPswd(password);
 		sysUser.setUserStatus(userStatus);
+		sysUser.setExpoId(expoId);
 		int result = sysUserService.updateSysUser(sysUser);
 
 		if(result>0){
