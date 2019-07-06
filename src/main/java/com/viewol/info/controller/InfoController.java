@@ -15,6 +15,7 @@ import com.viewol.sys.utils.Constants;
 import com.youguu.core.util.PageHolder;
 import com.youguu.core.util.PropertiesUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,8 +43,7 @@ public class InfoController {
     @RequestMapping(value = "/infoList", method = RequestMethod.POST)
     @ResponseBody
     public GridBaseResponse infoList(@RequestParam(value = "title", defaultValue = "") String title,
-                                     @RequestParam(value = "startTime", defaultValue = "") String startTime,
-                                     @RequestParam(value = "endTime", defaultValue = "") String endTime,
+                                     @RequestParam(value = "publicTime", defaultValue = "") String publicTime,
                                      @RequestParam(value = "classify", defaultValue = "1") Integer classify,
                                      @RequestParam(value = "companyId", defaultValue = "") Integer companyId,
                                      @RequestParam(value = "status", defaultValue = "") Integer status,
@@ -58,9 +58,9 @@ public class InfoController {
             SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
             InfoQuery infoQuery = new InfoQuery();
             infoQuery.setTitle(title);
-            if (!"".equals(startTime) && !"".equals(endTime)) {
-                infoQuery.setStartTime(dft.parse(startTime));
-                infoQuery.setEndTime(dft.parse(endTime));
+            if (!StringUtils.isEmpty(publicTime)) {
+                infoQuery.setStartTime(dft.parse(publicTime.split(" - ")[0]));
+                infoQuery.setEndTime(dft.parse(publicTime.split(" - ")[1]));
             }
 
             infoQuery.setClassify(classify);

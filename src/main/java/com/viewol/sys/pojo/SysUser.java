@@ -43,6 +43,7 @@ public class SysUser implements Serializable {
 		this.lastLoginTime = user.getLastLoginTime();
 		this.userStatus = user.getUserStatus();
 		this.appId = user.getAppId();
+		this.expoId = user.getExpoId();
 	}
 
 	public int getId() {
