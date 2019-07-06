@@ -63,7 +63,8 @@ function registeModule(window,modulesYouWanted,otherModules) {
             'schedule-api':'api/schedule-api',
             'buser-api':'api/buser-api',
             'fuser-api':'api/fuser-api',
-			'select-api':'api/select-api'
+			'select-api':'api/select-api',
+			'info-api':'api/info-api'
 		}
 
 		//刨除系统自带modules
