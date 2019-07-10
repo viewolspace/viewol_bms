@@ -79,6 +79,7 @@ public class ExhibitorController {
         query.setPageIndex(page);
         query.setPageSize(limit);
         query.setName(name);
+        query.setExpoId(TokenManager.getExpoId());
         if(null != categoryId && !"".equals(categoryId) && !"-1".equals(categoryId)){
             query.setCategoryId(categoryId);
         }
