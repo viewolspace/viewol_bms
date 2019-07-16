@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -60,7 +61,7 @@ public class UeditorController {
         try {
             Properties properties = PropertiesUtil.getProperties("properties/config.properties");
             String imageUrl = properties.getProperty("imageUrl");
-            resMap.put("url", imageUrl + uploader.getUrl());
+            resMap.put("url", imageUrl + File.separator + uploader.getUrl());
         } catch (Exception e) {
             e.printStackTrace();
         }
