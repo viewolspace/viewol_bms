@@ -67,7 +67,7 @@ public class ExhibitionController {
         if(null != status && status!=999){
             productQuery.setStatus(status);
         }
-
+        productQuery.setExpoId(TokenManager.getExpoId());
         productQuery.setPageIndex(page);
         productQuery.setPageSize(limit);
 
