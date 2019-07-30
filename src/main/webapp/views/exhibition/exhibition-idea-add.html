@@ -251,7 +251,7 @@
             <label class="layui-form-label">评审状态</label>
 
             <div class="layui-input-inline">
-                <select id="status" name="status" disabled>
+                <select id="status" name="status">
                     <option value="0">等待评选</option>
                     <option value="1">评选通过</option>
                     <option value="-1">评选失败</option>
@@ -260,11 +260,14 @@
         </div>
     </div>
 
-
     <div class="layui-form-item operate">
+        <button class="layui-btn" type="button" lay-submit lay-filter="exhibition-idea-add-form">
+            <i class="layui-icon">&#xe605;</i>
+            保存
+        </button>
         <button id="cancel" type="button" class="layui-btn layui-btn-primary">
             <i class="layui-icon">&#x1006;</i>
-            关闭
+            取消
         </button>
     </div>
 </form>

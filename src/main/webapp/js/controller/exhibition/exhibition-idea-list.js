@@ -168,16 +168,16 @@ layui.use(requireModules, function (
 
         //产品评选审核
         review: function (rowdata) {
-            var url = request.composeUrl(webName + '/views/exhibition/exhibition-idea-update.html', rowdata);
+            var url = request.composeUrl(webName + '/views/exhibition/exhibition-idea-add.html', rowdata);
             var index = layer.open({
                 type: 2,
                 title: "产品评选",
-                area: ['400px', '200px'],
+                area: ['900px', '450px'],
                 offset: '5%',
                 scrollbar: false,
                 content: url,
                 success: function (ly, index) {
-                    layer.iframeAuto(index);
+                    // layer.iframeAuto(index);
                 }
             });
         },

@@ -4,6 +4,7 @@ import com.viewol.common.BaseResponse;
 import com.viewol.common.GridBaseResponse;
 import com.viewol.exhibition.response.ExhibitionCategoryResponse;
 import com.viewol.exhibition.response.ExhibitionResponse;
+import com.viewol.exhibition.response.ProductIdeaResponse;
 import com.viewol.exhibition.vo.ExhibitionCategoryVO;
 import com.viewol.exhibition.vo.ExhibitionVO;
 import com.viewol.pojo.Category;
@@ -419,6 +420,75 @@ public class ExhibitionController {
 
         rs.setData(pageHolder.getList());
         rs.setCount(pageHolder.getTotalCount());
+
+        return rs;
+    }
+
+    /**
+     * 修改创新产品状态
+     * @param productId
+     * @param status
+     * @return
+     */
+    @RequestMapping(value = "/updateProductIdeaStatus", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse updateProductIdeaStatus(@RequestParam(value = "productId", defaultValue = "") int productId,
+                                                @RequestParam(value = "status", defaultValue = "") Integer status) {
+        BaseResponse rs = new BaseResponse();
+        try {
+            ProductIdea productIdea = productIdeaService.getProductIdea(productId);
+
+            if (null == productIdea) {
+                rs.setStatus(false);
+                rs.setMsg("无此产品");
+                return rs;
+            }
+
+            int result = productIdeaService.updateStatus(productId, status);
+            if (result > 0) {
+                rs.setStatus(true);
+                rs.setMsg("修改成功");
+            } else {
+                rs.setStatus(false);
+                rs.setMsg("修改失败");
+            }
+
+        } catch (Exception e) {
+            rs.setStatus(false);
+            rs.setMsg("无此产品");
+            e.printStackTrace();
+        }
+
+        return rs;
+    }
+
+    /**
+     * 查询创新产品
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/getProductIdea", method = RequestMethod.POST)
+    @ResponseBody
+    public ProductIdeaResponse getProductIdea(@RequestParam(value = "id", defaultValue = "") int id) {
+        ProductIdeaResponse rs = new ProductIdeaResponse();
+        try {
+            ProductIdea productIdea = productIdeaService.getProductIdea(id);
+
+            if (null == productIdea) {
+                rs.setStatus(false);
+                rs.setMsg("无此产品");
+                return rs;
+            }
+
+            rs.setStatus(true);
+            rs.setMsg("ok");
+            rs.setData(productIdea);
+        } catch (Exception e) {
+            rs.setStatus(false);
+            rs.setMsg("无此产品");
+            e.printStackTrace();
+        }
 
         return rs;
     }

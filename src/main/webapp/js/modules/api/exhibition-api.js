@@ -57,6 +57,14 @@ layui.define('base-url', function (exports) {
         "productIdeaList": {
             type: 'POST',
             url: "productIdeaList.do"
+        },
+        "updateProductIdeaStatus": {
+            type: 'POST',
+            url: "updateProductIdeaStatus.do"
+        },
+        "getProductIdea": {
+            type: 'POST',
+            url: "getProductIdea.do"
         }
     };
 
