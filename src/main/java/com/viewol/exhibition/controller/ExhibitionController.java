@@ -402,7 +402,7 @@ public class ExhibitionController {
     @RequestMapping(value = "/productIdeaList", method = RequestMethod.POST)
     @ResponseBody
     public GridBaseResponse productIdeaList(@RequestParam(value = "productName", defaultValue = "") String productName,
-                                            @RequestParam(value = "status", defaultValue = "") Integer status,
+                                            @RequestParam(value = "status", defaultValue = "99") Integer status,
                                             @RequestParam(value = "page", defaultValue = "1") int page,
                                             @RequestParam(value = "limit", defaultValue = "10") int limit) {
 
@@ -412,7 +412,9 @@ public class ExhibitionController {
 
         ProductIdeaQuery productIdeaQuery = new ProductIdeaQuery();
         productIdeaQuery.setProductName(productName);
-        productIdeaQuery.setStatus(status);
+        if(99 != status){
+            productIdeaQuery.setStatus(status);
+        }
         productIdeaQuery.setPageIndex(page);
         productIdeaQuery.setPageSize(limit);
 

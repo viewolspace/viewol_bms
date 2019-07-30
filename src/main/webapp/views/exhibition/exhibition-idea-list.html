@@ -19,37 +19,22 @@
 
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">展商ID</label>
-
-                <div class="layui-input-inline">
-                    <input type="text" name="companyId" id="companyId" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-
-            <div class="layui-inline">
-                <label class="layui-form-label">产品类别</label>
-                <div class="layui-input-inline">
-                    <select name="categoryId" id="categoryId">
-
-                    </select>
-                </div>
-            </div>
-
-            <div class="layui-inline">
                 <label class="layui-form-label">产品名称</label>
 
                 <div class="layui-input-inline">
-                    <input type="text" name="name" id="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    <input type="text" name="productName" id="productName" placeholder="请输入" autocomplete="off"
+                           class="layui-input">
                 </div>
             </div>
 
             <div class="layui-inline">
-                <label class="layui-form-label">状态</label>
+                <label class="layui-form-label">评审状态</label>
                 <div class="layui-input-inline">
-                    <select name="status" id="status">
-                        <option value="999">全部</option>
-                        <option value="0">上架</option>
-                        <option value="1">下架</option>
+                    <select id="status" name="status">
+                        <option value="99">全部</option>
+                        <option value="0">等待评选</option>
+                        <option value="1">评选通过</option>
+                        <option value="-1">评选失败</option>
                     </select>
                 </div>
             </div>
