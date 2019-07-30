@@ -131,6 +131,12 @@ layui.define(function(exports) {
             name: '审核',
             event: 'row-review'
         },
+        'row-apply-layui': {
+            className: baseBtnClass + 'layui-btn-xs',
+            icon: '&#xe605;',
+            name: '申请创新产品',
+            event: 'row-apply'
+        },
         'row-cancel-reco-layui': {
             className: baseBtnClass + 'layui-btn-xs',
             icon: '&#xe642;',

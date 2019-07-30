@@ -6,12 +6,13 @@ import com.viewol.exhibition.response.ExhibitionCategoryResponse;
 import com.viewol.exhibition.response.ExhibitionResponse;
 import com.viewol.exhibition.vo.ExhibitionCategoryVO;
 import com.viewol.exhibition.vo.ExhibitionVO;
-import com.viewol.exhibitor.vo.ExhibitorVO;
 import com.viewol.pojo.Category;
-import com.viewol.pojo.Company;
 import com.viewol.pojo.Product;
+import com.viewol.pojo.ProductIdea;
+import com.viewol.pojo.query.ProductIdeaQuery;
 import com.viewol.pojo.query.ProductQuery;
 import com.viewol.service.ICategoryService;
+import com.viewol.service.IProductIdeaService;
 import com.viewol.service.IProductService;
 import com.viewol.shiro.token.TokenManager;
 import com.viewol.sys.interceptor.Repeat;
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,11 +40,13 @@ public class ExhibitionController {
     private IProductService productService;
     @Resource
     private ICategoryService categoryService;
+    @Resource
+    private IProductIdeaService productIdeaService;
 
 
     @RequestMapping(value = "/exhibitionList", method = RequestMethod.POST)
     @ResponseBody
-    public GridBaseResponse exhibitionList(@RequestParam(value = "categoryId", defaultValue ="") String categoryId,
+    public GridBaseResponse exhibitionList(@RequestParam(value = "categoryId", defaultValue = "") String categoryId,
                                            @RequestParam(value = "companyId", defaultValue = "") Integer companyId,
                                            @RequestParam(value = "name", defaultValue = "") String name,
                                            @RequestParam(value = "status", defaultValue = "") Integer status,
@@ -56,15 +58,15 @@ public class ExhibitionController {
         rs.setMsg("ok");
 
         ProductQuery productQuery = new ProductQuery();
-        if(null != categoryId && !"".equals(categoryId) && !"-1".equals(categoryId)){
+        if (null != categoryId && !"".equals(categoryId) && !"-1".equals(categoryId)) {
             productQuery.setCategoryId(categoryId);
         }
-        if(null != name && !"".equals(name)){
+        if (null != name && !"".equals(name)) {
             productQuery.setName(name);
         }
         productQuery.setCompanyId(companyId);
 
-        if(null != status && status!=999){
+        if (null != status && status != 999) {
             productQuery.setStatus(status);
         }
         productQuery.setExpoId(TokenManager.getExpoId());
@@ -110,7 +112,7 @@ public class ExhibitionController {
         BaseResponse rs = new BaseResponse();
         int result = productService.updateStatus(id, Product.STATUS_ON);
 
-        if(result>0){
+        if (result > 0) {
             rs.setStatus(true);
             rs.setMsg("上架成功");
         } else {
@@ -129,7 +131,7 @@ public class ExhibitionController {
         BaseResponse rs = new BaseResponse();
         int result = productService.updateStatus(id, Product.STATUS_OFF);
 
-        if(result>0){
+        if (result > 0) {
             rs.setStatus(true);
             rs.setMsg("下架成功");
         } else {
@@ -150,7 +152,7 @@ public class ExhibitionController {
         int result = productService.addRecomment(id, recommendNum);
 
         BaseResponse rs = new BaseResponse();
-        if(result>0){
+        if (result > 0) {
             rs.setStatus(true);
             rs.setMsg("推荐成功");
         } else {
@@ -169,7 +171,7 @@ public class ExhibitionController {
         int result = productService.delRecomment(id);
 
         BaseResponse rs = new BaseResponse();
-        if(result>0){
+        if (result > 0) {
             rs.setStatus(true);
             rs.setMsg("取消推荐成功");
         } else {
@@ -223,6 +225,7 @@ public class ExhibitionController {
 
     /**
      * 查询产品所属分类
+     *
      * @param categoryId
      * @return
      */
@@ -231,7 +234,7 @@ public class ExhibitionController {
     public ExhibitionCategoryResponse getExhibitionCategory(@RequestParam(value = "categoryId", defaultValue = "") String categoryId) {
         ExhibitionCategoryResponse rs = new ExhibitionCategoryResponse();
         Category category = categoryService.getCategory(categoryId);
-        if(null != category){
+        if (null != category) {
             List<String> idsList = new ArrayList<>();
             List<String> namesList = new ArrayList<>();
 
@@ -255,6 +258,7 @@ public class ExhibitionController {
 
     /**
      * 置顶产品
+     *
      * @param id
      * @param num
      * @return
@@ -264,12 +268,12 @@ public class ExhibitionController {
     @MethodLog(module = Constants.EXHIBITION, desc = "置顶产品")
     @Repeat
     public BaseResponse addTop(@RequestParam(value = "id", defaultValue = "-1") int id,
-                                         @RequestParam(value = "num", defaultValue = "-1") int num) {
+                               @RequestParam(value = "num", defaultValue = "-1") int num) {
 
         int result = productService.addTop(id, num);
 
         BaseResponse rs = new BaseResponse();
-        if(result>0){
+        if (result > 0) {
             rs.setStatus(true);
             rs.setMsg("置顶成功");
         } else {
@@ -281,6 +285,7 @@ public class ExhibitionController {
 
     /**
      * 取消置顶产品
+     *
      * @param id 产品ID
      * @return
      */
@@ -293,7 +298,7 @@ public class ExhibitionController {
         int result = productService.delTop(id);
 
         BaseResponse rs = new BaseResponse();
-        if(result>0){
+        if (result > 0) {
             rs.setStatus(true);
             rs.setMsg("取消置顶成功");
         } else {
@@ -347,6 +352,7 @@ public class ExhibitionController {
 
     /**
      * 根据产品ID查询产品
+     *
      * @param id
      * @return
      */
@@ -356,7 +362,7 @@ public class ExhibitionController {
         ExhibitionResponse rs = new ExhibitionResponse();
         Product product = productService.getProduct(id);
 
-        if(null != product){
+        if (null != product) {
             ExhibitionVO vo = new ExhibitionVO();
             vo.setId(product.getId());
             vo.setName(product.getName());
@@ -378,6 +384,42 @@ public class ExhibitionController {
             rs.setStatus(false);
             rs.setMsg("无此产品");
         }
+        return rs;
+    }
+
+    /**
+     * 创新产品列表
+     *
+     * @param categoryId
+     * @param companyId
+     * @param name
+     * @param status
+     * @param page
+     * @param limit
+     * @return
+     */
+    @RequestMapping(value = "/productIdeaList", method = RequestMethod.POST)
+    @ResponseBody
+    public GridBaseResponse productIdeaList(@RequestParam(value = "productName", defaultValue = "") String productName,
+                                            @RequestParam(value = "status", defaultValue = "") Integer status,
+                                            @RequestParam(value = "page", defaultValue = "1") int page,
+                                            @RequestParam(value = "limit", defaultValue = "10") int limit) {
+
+        GridBaseResponse rs = new GridBaseResponse();
+        rs.setCode(0);
+        rs.setMsg("ok");
+
+        ProductIdeaQuery productIdeaQuery = new ProductIdeaQuery();
+        productIdeaQuery.setProductName(productName);
+        productIdeaQuery.setStatus(status);
+        productIdeaQuery.setPageIndex(page);
+        productIdeaQuery.setPageSize(limit);
+
+        PageHolder<ProductIdea> pageHolder = productIdeaService.queryProductIdea(productIdeaQuery);
+
+        rs.setData(pageHolder.getList());
+        rs.setCount(pageHolder.getTotalCount());
+
         return rs;
     }
 }

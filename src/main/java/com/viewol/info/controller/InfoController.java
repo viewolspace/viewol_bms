@@ -68,6 +68,7 @@ public class InfoController {
             if (null != status && status != 99) {
                 infoQuery.setStatus(status);
             }
+
             infoQuery.setPageIndex(page);
             infoQuery.setPageSize(limit);
 
