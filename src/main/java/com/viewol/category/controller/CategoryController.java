@@ -10,10 +10,7 @@ import com.viewol.service.ICategoryService;
 import com.viewol.shiro.token.TokenManager;
 import com.viewol.sys.interceptor.Repeat;
 import com.viewol.sys.log.annotation.MethodLog;
-import com.viewol.sys.pojo.SysPermission;
-import com.viewol.sys.response.AllPermissionResponse;
 import com.viewol.sys.utils.Constants;
-import com.viewol.sys.vo.PermissionVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,7 +50,7 @@ public class CategoryController {
         category.setcTime(new Date());
 
         String id = categoryService.addCategory(category);
-        if(null == id || "".equals(id)){
+        if (null == id || "".equals(id)) {
             rs.setStatus(false);
             rs.setMsg("添加失败");
         } else {
@@ -72,7 +69,7 @@ public class CategoryController {
         BaseResponse rs = new BaseResponse();
 
         int result = categoryService.delCategory(id);
-        if(result>0){
+        if (result > 0) {
             rs.setStatus(true);
             rs.setMsg("删除成功");
         } else {
@@ -95,7 +92,7 @@ public class CategoryController {
         category.setName(name);
         int result = categoryService.updateCategory(category);
 
-        if(result>0){
+        if (result > 0) {
             rs.setStatus(true);
             rs.setMsg("修改成功");
         } else {
@@ -115,50 +112,98 @@ public class CategoryController {
         rs.setStatus(true);
         rs.setMsg("ok");
 
-        CategoryVO vo1 = new CategoryVO();
-        vo1.setId("0001");
-        vo1.setName("展商分类");
-        vo1.setpId("0");
-        vo1.setType(1);
-        vo1.setNum(1);
-        vo1.setcTime(new Date());
-
-        CategoryVO vo2 = new CategoryVO();
-        vo2.setId("0002");
-        vo2.setName("产品分类");
-        vo2.setpId("0");
-        vo2.setType(2);
-        vo2.setNum(2);
-        vo2.setcTime(new Date());
-
+        int expoId = TokenManager.getExpoId();//展会ID， 1：安防展，2：消防展
         List<CategoryVO> list = new ArrayList<>();
-        list.add(vo1);
-        list.add(vo2);
 
-        List<Category> companyList = categoryService.listAll("0001");
-        List<Category> productList = categoryService.listAll("0002");
+        if (expoId == 1) {
+            CategoryVO vo1 = new CategoryVO();
+            vo1.setId("0001");
+            vo1.setName("展商分类");
+            vo1.setpId("0");
+            vo1.setType(1);
+            vo1.setNum(1);
+            vo1.setcTime(new Date());
 
-        if(null!=companyList && companyList.size()>0){
-            for(Category category : companyList){
-                CategoryVO vo = new CategoryVO();
-                vo.setId(category.getId());
-                vo.setName(category.getName());
-                vo.setpId(category.getParentId());
-                vo.setType(category.getType());
-                vo.setcTime(category.getcTime());
-                list.add(vo);
+            CategoryVO vo2 = new CategoryVO();
+            vo2.setId("0002");
+            vo2.setName("产品分类");
+            vo2.setpId("0");
+            vo2.setType(2);
+            vo2.setNum(2);
+            vo2.setcTime(new Date());
+            list.add(vo1);
+            list.add(vo2);
+
+            List<Category> companyList = categoryService.listAll("0001");
+            List<Category> productList = categoryService.listAll("0002");
+            if (null != companyList && companyList.size() > 0) {
+                for (Category category : companyList) {
+                    CategoryVO vo = new CategoryVO();
+                    vo.setId(category.getId());
+                    vo.setName(category.getName());
+                    vo.setpId(category.getParentId());
+                    vo.setType(category.getType());
+                    vo.setcTime(category.getcTime());
+                    list.add(vo);
+                }
             }
-        }
 
-        if(null!=productList && productList.size()>0){
-            for(Category category : productList){
-                CategoryVO vo = new CategoryVO();
-                vo.setId(category.getId());
-                vo.setName(category.getName());
-                vo.setpId(category.getParentId());
-                vo.setType(category.getType());
-                vo.setcTime(category.getcTime());
-                list.add(vo);
+            if (null != productList && productList.size() > 0) {
+                for (Category category : productList) {
+                    CategoryVO vo = new CategoryVO();
+                    vo.setId(category.getId());
+                    vo.setName(category.getName());
+                    vo.setpId(category.getParentId());
+                    vo.setType(category.getType());
+                    vo.setcTime(category.getcTime());
+                    list.add(vo);
+                }
+            }
+        } else {
+            CategoryVO vo3 = new CategoryVO();
+            vo3.setId("0003");
+            vo3.setName("消防展商分类");
+            vo3.setpId("0");
+            vo3.setType(1);
+            vo3.setNum(3);
+            vo3.setcTime(new Date());
+
+            CategoryVO vo4 = new CategoryVO();
+            vo4.setId("0004");
+            vo4.setName("消防产品分类");
+            vo4.setpId("0");
+            vo4.setType(2);
+            vo4.setNum(4);
+            vo4.setcTime(new Date());
+
+            list.add(vo3);
+            list.add(vo4);
+
+            List<Category> fireCompanyList = categoryService.listAll("0003");
+            List<Category> fireProductList = categoryService.listAll("0004");
+
+            if (null != fireCompanyList && fireCompanyList.size() > 0) {
+                for (Category category : fireCompanyList) {
+                    CategoryVO vo = new CategoryVO();
+                    vo.setId(category.getId());
+                    vo.setName(category.getName());
+                    vo.setpId(category.getParentId());
+                    vo.setType(category.getType());
+                    vo.setcTime(category.getcTime());
+                    list.add(vo);
+                }
+            }
+
+            if (null != fireProductList && fireProductList.size() > 0) {
+                for (Category category : fireProductList) {
+                    CategoryVO vo = new CategoryVO();
+                    vo.setId(category.getId());
+                    vo.setName(category.getName());
+                    vo.setpId(category.getParentId());
+                    vo.setType(category.getType());
+                    vo.setcTime(category.getcTime());
+                    list.add(vo);
+                }
             }
         }
 
@@ -175,9 +220,9 @@ public class CategoryController {
 
         List<Category> list = categoryService.listByParent("0001");
 
-        if(list!=null && list.size()>0){
+        if (list != null && list.size() > 0) {
             List<CategoryTreeVO> volist = new ArrayList<>();
-            for(Category category : list){
+            for (Category category : list) {
                 CategoryTreeVO vo = new CategoryTreeVO();
                 vo.setChecked(false);
                 vo.setId(category.getId());
@@ -200,9 +245,9 @@ public class CategoryController {
 
         List<Category> list = categoryService.listByParent(categoryId);
 
-        if(list!=null && list.size()>0){
+        if (list != null && list.size() > 0) {
             List<CategoryTreeVO> volist = new ArrayList<>();
-            for(Category category : list){
+            for (Category category : list) {
                 CategoryTreeVO vo = new CategoryTreeVO();
                 vo.setChecked(false);
                 vo.setId(category.getId());
