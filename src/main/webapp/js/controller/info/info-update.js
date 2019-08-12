@@ -41,8 +41,7 @@ layui.use(requireModules, function (
     laydate.render({
         elem: '#pubTime',
         type: 'datetime',
-        format: 'yyyy-MM-dd HH:mm:ss',
-        value: moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
+        format: 'yyyy-MM-dd HH:mm:ss'
     });
 
     //上传图片
