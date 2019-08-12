@@ -9,9 +9,33 @@
     <link rel="stylesheet" href="../../frame/layui/css/layui.css">
     <link href="../../frame/ueditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
 </head>
-<body class="body">
-
+<body class="body" style="margin-top: 10px">
+<blockquote class="layui-elem-quote">
+    站外新闻只需要填写，资讯类型，发布日期，标题，资讯链接。
+    站内新闻只需要填写，资讯类型，标题，描述，图片，资讯内容。
+</blockquote>
 <form id="info-add-form" class="layui-form">
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">资讯类型</label>
+
+            <div class="layui-input-inline">
+                <select id="site" name="site">
+                    <option value="1">站内</option>
+                    <option value="2">站外</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">发布日期</label>
+
+            <div class="layui-input-inline">
+                <input type="text" name="pubTime" id="pubTime" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">标题</label>
@@ -19,6 +43,14 @@
             <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="请输入标题" class="layui-input">
         </div>
     </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">站外链接</label>
+        <div class="layui-input-block" style="max-width: 600px;">
+            <input type="text" name="contentUrl" autocomplete="off" placeholder="请输入站外链接" class="layui-input">
+        </div>
+    </div>
+
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">描述</label>
         <div class="layui-input-block" style="max-width: 800px;">

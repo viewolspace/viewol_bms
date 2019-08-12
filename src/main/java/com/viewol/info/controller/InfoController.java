@@ -124,17 +124,33 @@ public class InfoController {
     public BaseResponse addInfo(@RequestParam(value = "title", defaultValue = "") String title,
                                 @RequestParam(value = "summary", defaultValue = "") String summary,
                                 @RequestParam(value = "imageAvatar", defaultValue = "") String imageAvatar,
-                                @RequestParam(value = "content", defaultValue = "") String content) {
+                                @RequestParam(value = "content", defaultValue = "") String content,
+                                @RequestParam(value = "site", defaultValue = "1") int site,
+                                @RequestParam(value = "pubTime", defaultValue = "") String pubTime,
+                                @RequestParam(value = "contentUrl", defaultValue = "") String contentUrl) {
 
         BaseResponse rs = new BaseResponse();
         Info info = new Info();
         info.setTitle(title);
         info.setSummary(summary);
-        info.setPubTime(new Date());
+        info.setSite(site);
+        if(StringUtils.isEmpty(pubTime)){
+            info.setPubTime(new Date());
+        } else {
+            try{
+                SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                info.setPubTime(dft.parse(pubTime));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
         info.setPicUrl(imageAvatar);
         info.setCreateTime(new Date());
         info.setStatus(0);//-1 打回  0 待审 1 发布
         info.setContent(content);
+
+        info.setContentUrl(contentUrl);
         info.setClassify(TokenManager.getExpoId());
         info.setCompanyId(-1);
 
@@ -158,14 +174,29 @@ public class InfoController {
                                    @RequestParam(value = "title", defaultValue = "") String title,
                                    @RequestParam(value = "summary", defaultValue = "") String summary,
                                    @RequestParam(value = "imageAvatar", defaultValue = "") String imageAvatar,
-                                   @RequestParam(value = "content", defaultValue = "") String content) {
+                                   @RequestParam(value = "content", defaultValue = "") String content,
+                                   @RequestParam(value = "site", defaultValue = "1") int site,
+                                   @RequestParam(value = "pubTime", defaultValue = "") String pubTime,
+                                   @RequestParam(value = "contentUrl", defaultValue = "") String contentUrl) {
 
         BaseResponse rs = new BaseResponse();
         Info info = infoService.getInfo(id);
         info.setTitle(title);
+        info.setSite(site);
+        if(StringUtils.isEmpty(pubTime)){
+            info.setPubTime(new Date());
+        } else {
+            try{
+                SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                info.setPubTime(dft.parse(pubTime));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
         info.setSummary(summary);
         info.setPicUrl(imageAvatar);
         info.setContent(content);
+        info.setContentUrl(contentUrl);
         info.setmTime(new Date());
         int result = infoService.updateInfo(info);
 
