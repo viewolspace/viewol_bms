@@ -149,7 +149,8 @@ layui.use(requireModules, function (
         },
 
         view: function (rowdata) {
-            var url = request.composeUrl(webName + '/views/exhibition/exhibition-idea-view.html', rowdata);
+            var productId = rowdata.productId;
+            var url = request.composeUrl(webName + '/views/exhibition/exhibition-idea-view.html?productId='+productId);
             var index = layer.open({
                 type: 2,
                 title: "查看创新产品",
@@ -165,7 +166,8 @@ layui.use(requireModules, function (
 
         //产品评选审核
         review: function (rowdata) {
-            var url = request.composeUrl(webName + '/views/exhibition/exhibition-idea-add.html', rowdata);
+            var productId = rowdata.productId;
+            var url = request.composeUrl(webName + '/views/exhibition/exhibition-idea-add.html?productId='+productId);
             var index = layer.open({
                 type: 2,
                 title: "产品评选",

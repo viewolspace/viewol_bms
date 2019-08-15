@@ -48,14 +48,14 @@ layui.use(requireModules, function (form,
                 $("#otherCategoryDiv").val("");
             }
 
-            $('#promisePicAvatarId').attr('src', param.promisePic);
-            $('#promisePic').val(param.promisePic);
+            $('#promisePicAvatarId').attr('src', productIdeaData.promisePic);
+            $('#promisePic').val(productIdeaData.promisePic);
 
-            $('#productPicAvatarId').attr('src', param.productPic);
-            $('#productPic').val(param.productPic);
+            $('#productPicAvatarId').attr('src', productIdeaData.productPic);
+            $('#productPic').val(productIdeaData.productPic);
 
-            $('#comLogoAvatarId').attr('src', param.comLogo);
-            $('#comLogo').val(param.comLogo);
+            $('#comLogoAvatarId').attr('src', productIdeaData.comLogo);
+            $('#comLogo').val(productIdeaData.comLogo);
         }
     });
 
