@@ -41,14 +41,21 @@ layui.use(requireModules, function (form,
         if (!$.isEmptyObject(productIdeaData)) {
             formUtil.renderData($('#exhibition-idea-add-form'), productIdeaData);
 
-            $('#logoAvatarId').attr('src', param.image);
-            $('#logo').val(param.image);
+            if(productIdeaData.categoryId == '其它'){
+                $("#otherCategoryDiv").show();
+            } else {
+                $("#otherCategoryDiv").hide();
+                $("#otherCategoryDiv").val("");
+            }
 
-            $('#productPicAvatarId').attr('src', param.image);
-            $('#productPic').val(param.image);
+            $('#promisePicAvatarId').attr('src', param.promisePic);
+            $('#promisePic').val(param.promisePic);
 
-            $('#comLogoAvatarId').attr('src', param.image);
-            $('#comLogo').val(param.image);
+            $('#productPicAvatarId').attr('src', param.productPic);
+            $('#productPic').val(param.productPic);
+
+            $('#comLogoAvatarId').attr('src', param.comLogo);
+            $('#comLogo').val(param.comLogo);
         }
     });
 

@@ -14,3 +14,4 @@ build
 release
 webapp/WEB-INF/classes
 .idea
+gradle*

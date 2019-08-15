@@ -99,29 +99,23 @@ layui.use(requireModules, function (
                 , limits: [10, 50, 100, 200]
                 , cols: [[ //表头
                     {field: 'productId', title: '展品ID', width: 100},
-                    {field: 'productName', title: '展品名称', width: 100},
+                    {field: 'productName', title: '展品名称', width: 200},
                     // {field: 'companyId', title: '展商ID', width: 100},
-                    {field: 'companyName', title: '展商名称', width: 100},
+                    {field: 'companyName', title: '展商名称', width: 200},
                     {field: 'companyPlace', title: '展位号', width: 100},
                     {field: 'liaisonMan', title: '联系人', width: 100},
-                    {field: 'phone', title: '手机', width: 100},
-                    {field: 'landLine', title: '座机', width: 100},
-                    {field: 'website', title: '网站', width: 100},
-                    {field: 'email', title: '邮箱', width: 100},
-                    {field: 'categoryId', title: '产品类别', width: 100},
-                    {
-                        field: 'logo', title: '产品商标', width: 150, templet: function (d) {
-                            return "<a href='" + d.logo + "' target='_blank'><img src='" + d.logo + "' /></a>";
-                        }
-                    },
-                    {field: 'des', title: '产品概况', width: 100},
-                    {field: 'quota', title: '关键技术指标', width: 100},
-                    {field: 'ideaPoint', title: '产品创新点', width: 100},
-                    {field: 'extend', title: '国内外市场推广情况', width: 100},
-                    {field: 'productPic', title: '展品图片', width: 100},
-                    {field: 'comLogo', title: '公司logo', width: 100},
+                    {field: 'phone', title: '手机', width: 160},
+                    // {field: 'landLine', title: '座机', width: 100},
+                    {field: 'website', title: '网站', width: 200},
+                    {field: 'email', title: '邮箱', width: 150},
+                    {field: 'categoryId', title: '产品类别', width: 120},
+                    // {
+                    //     field: 'logo', title: '产品商标', width: 150, templet: function (d) {
+                    //         return "<a href='" + d.logo + "' target='_blank'><img src='" + d.logo + "' /></a>";
+                    //     }
+                    // },
                     // {field: 'ext', title: '相关证书(证书打包上传)', width: 100},
-                    {field: 'model', title: '展品ID', width: 100},
+                    {field: 'model', title: '型号', width: 100},
                     {
                         field: 'status', title: '状态', width: 100, templet: function (d) {
                             if (d.status == 0) {
@@ -135,6 +129,9 @@ layui.use(requireModules, function (
                             }
                         }
                     },
+                    {field: 'seeNum', title: '围观数', width: 100},
+                    {field: 'praiseNum', title: '点赞数', width: 100},
+                    {field: 'commentNum', title: '评论数', width: 100},
                     {
                         field: 'mTime', title: '修改时间', width: 160, templet: function (d) {
                             return moment(d.mTime).format("YYYY-MM-DD HH:mm:ss");
@@ -156,7 +153,7 @@ layui.use(requireModules, function (
             var index = layer.open({
                 type: 2,
                 title: "查看创新产品",
-                area: ['900px', '450px'],
+                area: ['1100px', '500px'],
                 offset: '5%',
                 scrollbar: false,
                 content: url,
@@ -172,7 +169,7 @@ layui.use(requireModules, function (
             var index = layer.open({
                 type: 2,
                 title: "产品评选",
-                area: ['900px', '450px'],
+                area: ['1100px', '500px'],
                 offset: '5%',
                 scrollbar: false,
                 content: url,

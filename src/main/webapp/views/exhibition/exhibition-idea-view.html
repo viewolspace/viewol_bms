@@ -42,7 +42,8 @@
             <label class="layui-form-label">产品ID</label>
 
             <div class="layui-input-inline">
-                <input type="text" name="productId" disabled lay-verify="required" autocomplete="off" placeholder="请输入产品ID"
+                <input type="text" name="productId" disabled lay-verify="required" autocomplete="off"
+                       placeholder="请输入产品ID"
                        class="layui-input">
             </div>
         </div>
@@ -51,7 +52,8 @@
             <label class="layui-form-label">产品名称</label>
 
             <div class="layui-input-inline">
-                <input type="text" name="productName" disabled lay-verify="required" autocomplete="off" placeholder="请输入产品名称"
+                <input type="text" name="productName" disabled lay-verify="required" autocomplete="off"
+                       placeholder="请输入产品名称"
                        class="layui-input">
             </div>
         </div>
@@ -62,7 +64,8 @@
             <label class="layui-form-label">展商ID</label>
 
             <div class="layui-input-inline">
-                <input type="text" name="companyId" disabled lay-verify="required" autocomplete="off" placeholder="请输入展商ID"
+                <input type="text" name="companyId" disabled lay-verify="required" autocomplete="off"
+                       placeholder="请输入展商ID"
                        class="layui-input">
             </div>
         </div>
@@ -71,7 +74,8 @@
             <label class="layui-form-label">展商名称</label>
 
             <div class="layui-input-inline">
-                <input type="text" name="companyName" disabled lay-verify="required" autocomplete="off" placeholder="请输入展商名称"
+                <input type="text" name="companyName" disabled lay-verify="required" autocomplete="off"
+                       placeholder="请输入展商名称"
                        class="layui-input">
             </div>
         </div>
@@ -82,7 +86,8 @@
             <label class="layui-form-label">展位号</label>
 
             <div class="layui-input-inline">
-                <input type="text" name="companyPlace" disabled lay-verify="required" autocomplete="off" placeholder="请输入展位号"
+                <input type="text" name="companyPlace" disabled lay-verify="required" autocomplete="off"
+                       placeholder="请输入展位号"
                        class="layui-input">
             </div>
         </div>
@@ -102,27 +107,29 @@
             <label class="layui-form-label">手机</label>
 
             <div class="layui-input-inline">
-                <input type="text" name="phone" disabled lay-verify="required" autocomplete="off" placeholder="18866669999"
+                <input type="text" name="phone" disabled lay-verify="required" autocomplete="off"
+                       placeholder="18866669999"
                        class="layui-input">
             </div>
         </div>
 
-        <div class="layui-inline">
-            <label class="layui-form-label">座机</label>
+        <!-- <div class="layui-inline">
+             <label class="layui-form-label">座机</label>
 
-            <div class="layui-input-inline">
-                <input type="text" name="landLine" disabled lay-verify="required" autocomplete="off" placeholder="010-66660000"
-                       class="layui-input">
-            </div>
-        </div>
+             <div class="layui-input-inline">
+                 <input type="text" name="landLine" disabled lay-verify="required" autocomplete="off" placeholder="010-66660000"
+                        class="layui-input">
+             </div>
+         </div>-->
     </div>
 
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">网站</label>
+            <label class="layui-form-label">展商网站</label>
 
             <div class="layui-input-inline">
-                <input type="text" name="website" disabled lay-verify="required" autocomplete="off" placeholder="http://www.baidu.com"
+                <input type="text" name="website" disabled lay-verify="required" autocomplete="off"
+                       placeholder="http://www.baidu.com"
                        class="layui-input">
             </div>
         </div>
@@ -131,7 +138,8 @@
             <label class="layui-form-label">邮箱</label>
 
             <div class="layui-input-inline">
-                <input type="text" name="email" disabled lay-verify="required" autocomplete="off" placeholder="zhangsan@163.com"
+                <input type="text" name="email" disabled lay-verify="required" autocomplete="off"
+                       placeholder="zhangsan@163.com"
                        class="layui-input">
             </div>
         </div>
@@ -142,15 +150,31 @@
             <label class="layui-form-label">展品分类</label>
 
             <div class="layui-input-inline">
-                <select id="categoryId" name="categoryId" disabled>
-                    <option value="防护">防护</option>
-                    <option value="救援">救援</option>
-                    <option value="车辆机械">车辆机械</option>
-                    <option value="灭火">灭火</option>
-                    <option value="报警及监控">报警及监控</option>
-                    <option value="防火及灭火">防火及灭火</option>
-                    <option value="其他">其他</option>
+                <select lay-filter="categoryId" id="categoryId" name="categoryId" disabled>
+                    <option value="消防装备类">消防装备类</option>
+                    <option value="建筑防火类">建筑防火类</option>
+
+                    <optgroup label="消防装备类">
+                        <option value="防护">防护</option>
+                        <option value="救援">救援</option>
+                        <option value="车辆机械">车辆机械</option>
+                        <option value="灭火">灭火</option>
+                        <option value="其它">其它</option>
+                    </optgroup>
+                    <optgroup label="建筑防火类">
+                        <option value="报警及监控">报警及监控</option>
+                        <option value="防火及灭火">防火及灭火</option>
+                        <option value="其它">其它</option>
+                    </optgroup>
                 </select>
+            </div>
+        </div>
+
+        <div class="layui-inline" id="otherCategoryDiv" style="display: none">
+            <label class="layui-form-label">其它分类</label>
+
+            <div class="layui-input-inline">
+                <input type="text" name="otherCategory" placeholder="请输入其它分类" class="layui-input" disabled>
             </div>
         </div>
 
@@ -165,55 +189,28 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">产品商标<br>162x162px</label>
+        <label class="layui-form-label">申报技术产品的名称及规格型号</label>
+
+        <div class="layui-input-block">
+            <textarea name="quota" disabled class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">申报技术产品概述</label>
+
+        <div class="layui-input-block">
+            <textarea name="des" disabled class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">申报技术产品图片</label>
         <div class="layui-input-block">
             <div class="layui-upload-drag">
                 <a href=" javascript:void(0); ">
-                    <img id="logoAvatarId" src="../../image/default_upload_z.png" alt="上传图片" width="162" height="162">
-                </a>
-                <input type="hidden" id="logo" name="logo" value="">
-            </div>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">产品概况</label>
-
-        <div class="layui-input-block">
-            <textarea name="des" lay-verify="required" disabled autocomplete="off" placeholder="请输入产品概况" class="layui-textarea"></textarea>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">关键技术指标</label>
-
-        <div class="layui-input-block">
-            <textarea name="quota" lay-verify="required" disabled autocomplete="off" placeholder="请输入关键技术指标" class="layui-textarea"></textarea>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">产品创新点</label>
-
-        <div class="layui-input-block">
-            <textarea name="ideaPoint" lay-verify="required" disabled autocomplete="off" placeholder="请输入产品创新点" class="layui-textarea"></textarea>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">国内外市场推广情况</label>
-
-        <div class="layui-input-block">
-            <textarea name="extend" lay-verify="required" disabled autocomplete="off" placeholder="请输入该产品国内外市场推广情况" class="layui-textarea"></textarea>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">展品图片<br>162x162px</label>
-        <div class="layui-input-block">
-            <div class="layui-upload-drag">
-                <a href=" javascript:void(0); ">
-                    <img id="productPicAvatarId" src="../../image/default_upload_z.png" alt="上传图片" width="162" height="162">
+                    <img id="productPicAvatarId" src="../../image/default_upload_z.png" alt="上传图片" width="162"
+                         height="162">
                 </a>
                 <input type="hidden" id="productPic" name="productPic" value="">
             </div>
@@ -222,11 +219,12 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">公司logo<br>162x162px</label>
+        <label class="layui-form-label">申报单位LOGO</label>
         <div class="layui-input-block">
             <div class="layui-upload-drag">
                 <a href=" javascript:void(0); ">
-                    <img id="comLogoAvatarId" src="../../image/default_upload_z.png" alt="上传图片" width="162" height="162">
+                    <img id="comLogoAvatarId" src="../../image/default_upload_z.png" alt="上传图片" width="162"
+                         height="162">
                 </a>
                 <input type="hidden" id="comLogo" name="comLogo" value="">
             </div>
@@ -235,7 +233,7 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">相关证书</label>
+        <label class="layui-form-label">相关证明文件</label>
 
         <div class="layui-input-inline" style="width: 400px;">
             <input type="text" name="ext" id="ext" disabled autocomplete="off" placeholder="" class="layui-input">
@@ -245,6 +243,20 @@
             <button type="button" class="layui-btn" id="downloadBtn"><i class="layui-icon"></i>下载</button>
         </div>
     </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">申报单位承诺</label>
+        <div class="layui-input-block">
+            <div class="layui-upload-drag">
+                <a href=" javascript:void(0); ">
+                    <img id="promisePicAvatarId" src="../../image/default_upload_z.png" alt="上传图片" width="162"
+                         height="162">
+                </a>
+                <input type="hidden" id="promisePic" name="promisePic" value="">
+            </div>
+        </div>
+    </div>
+
 
     <div class="layui-form-item">
         <div class="layui-inline">
