@@ -15,6 +15,7 @@ public class ScheduleVO {
     private String content;//活动内容
     private String place;//活动地点
     private String erCode;//小程序码
+    private Integer bbs;
 
     public int getId() {
         return id;
@@ -110,5 +111,13 @@ public class ScheduleVO {
 
     public void setErCode(String erCode) {
         this.erCode = erCode;
+    }
+
+    public Integer getBbs() {
+        return bbs;
+    }
+
+    public void setBbs(Integer bbs) {
+        this.bbs = bbs;
     }
 }

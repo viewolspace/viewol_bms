@@ -64,10 +64,23 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">活动地点</label>
+        <div class="layui-inline">
+            <label class="layui-form-label">活动地点</label>
 
-        <div class="layui-input-block">
-            <input type="text" name="place" autocomplete="off" placeholder="请输入活动地点" class="layui-input">
+            <div class="layui-input-inline">
+                <input type="text" name="place" autocomplete="off" placeholder="请输入活动地点" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">活动类型</label>
+
+            <div class="layui-input-inline">
+                <select name="bbs" id="bbs">
+                    <option value="1">论坛</option>
+                    <option value="0">其它</option>
+                </select>
+            </div>
         </div>
     </div>
 

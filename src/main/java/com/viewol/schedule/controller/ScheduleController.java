@@ -35,7 +35,13 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Random;
 
 /**
  * 日程(活动)管理
@@ -59,6 +65,7 @@ public class ScheduleController {
                                          @RequestParam(value = "type", defaultValue = "") Integer type,
                                          @RequestParam(value = "status", defaultValue = "") Integer status,
                                          @RequestParam(value = "keyword", defaultValue = "") String keyword,
+                                         @RequestParam(value = "bbs", defaultValue = "0") Integer bbs,
                                          @RequestParam(value = "page", defaultValue = "1") int page,
                                          @RequestParam(value = "limit", defaultValue = "10") int limit) {
 
@@ -70,15 +77,16 @@ public class ScheduleController {
             scheduleQuery.setTime(time);
         }
         scheduleQuery.setCompanyId(companyId);
-        if(null != type && type!=999){
+        if (null != type && type != 999) {
             scheduleQuery.setType(type);
         }
 
-        if(null != status && status!=999){
+        if (null != status && status != 999) {
             scheduleQuery.setStatus(status);
         }
 
         scheduleQuery.setKeyword(keyword);
+        scheduleQuery.setBbs(bbs);
         scheduleQuery.setPageIndex(page);
         scheduleQuery.setPageSize(limit);
         int expoId = TokenManager.getExpoId();//展会ID
@@ -99,6 +107,7 @@ public class ScheduleController {
                 vo.setsTime(schedule.getsTime());
                 vo.seteTime(schedule.geteTime());
                 vo.setcTime(schedule.getcTime());
+                vo.setBbs(schedule.getBbs());
 //                vo.setErCode(getScheduleMaErCode(schedule.getId(), 100));
                 voList.add(vo);
             }
@@ -182,7 +191,7 @@ public class ScheduleController {
         if (null != time && !"".equals(time)) {
             query.setTime(time);
         }
-        if(null != type && type != 999){
+        if (null != type && type != 999) {
             query.setType(type);
         }
 
@@ -251,12 +260,13 @@ public class ScheduleController {
                                     @RequestParam(value = "sTime", defaultValue = "") String sTime,
                                     @RequestParam(value = "eTime", defaultValue = "") String eTime,
                                     @RequestParam(value = "content", defaultValue = "") String content,
-                                    @RequestParam(value = "place", defaultValue = "") String place) {
+                                    @RequestParam(value = "place", defaultValue = "") String place,
+                                    @RequestParam(value = "bbs", defaultValue = "0") Integer bbs) {
 
         BaseResponse rs = new BaseResponse();
         int expoId = TokenManager.getExpoId();//展会ID
 
-        int result = scheduleService.addSchedule(expoId, title, place, HtmlUtil.stringFilter(content), sTime, eTime);
+        int result = scheduleService.addSchedule(expoId, title, place, HtmlUtil.stringFilter(content), sTime, eTime, bbs);
         if (result > 0) {
             rs.setStatus(true);
             rs.setMsg("添加成功");
@@ -277,7 +287,8 @@ public class ScheduleController {
                                        @RequestParam(value = "sTime", defaultValue = "") String sTime,
                                        @RequestParam(value = "eTime", defaultValue = "") String eTime,
                                        @RequestParam(value = "content", defaultValue = "") String content,
-                                       @RequestParam(value = "place", defaultValue = "") String place) {
+                                       @RequestParam(value = "place", defaultValue = "") String place,
+                                       @RequestParam(value = "bbs", defaultValue = "0") Integer bbs) {
 
         BaseResponse rs = new BaseResponse();
 
@@ -293,6 +304,7 @@ public class ScheduleController {
 
         schedule.setContentView(HtmlUtil.stringFilter(content));
         schedule.setPlace(place);
+        schedule.setBbs(bbs);
         int result = scheduleService.updateSchedule(schedule);
 
         if (result > 0) {
@@ -330,7 +342,7 @@ public class ScheduleController {
 
         ScheduleResponse rs = new ScheduleResponse();
         Schedule schedule = scheduleService.getSchedule(id);
-        if (schedule!=null) {
+        if (schedule != null) {
             rs.setStatus(true);
             rs.setMsg("查询成功");
 
@@ -346,6 +358,7 @@ public class ScheduleController {
             vo.setsTime(schedule.getsTime());
             vo.seteTime(schedule.geteTime());
             vo.setcTime(schedule.getcTime());
+            vo.setBbs(schedule.getBbs());
 
             rs.setData(vo);
         } else {
@@ -358,6 +371,7 @@ public class ScheduleController {
 
     /**
      * 展品富文本上传图片
+     *
      * @param file
      * @return
      */
@@ -391,7 +405,7 @@ public class ScheduleController {
 
                 rs.setCode(0);
                 rs.setMsg("上传成功");
-                String httpUrl = imageUrl +File.separator+ midPath + File.separator + fileName;
+                String httpUrl = imageUrl + File.separator + midPath + File.separator + fileName;
                 Map<String, String> map = new HashMap<>();
                 map.put("src", httpUrl);
                 rs.setData(map);
@@ -453,6 +467,7 @@ public class ScheduleController {
 
     /**
      * 获取日程小程序码
+     *
      * @return
      */
     @RequestMapping(value = "/getScheduleMaErCode", method = RequestMethod.GET)
@@ -470,7 +485,7 @@ public class ScheduleController {
             e.printStackTrace();
         }
 
-        if(url == null || "".equals(url)){
+        if (url == null || "".equals(url)) {
             rs.setStatus(false);
             rs.setMsg("小程序码URL未配置");
             return rs;
@@ -478,15 +493,15 @@ public class ScheduleController {
 
         Map<String, String> params = new HashMap<>();
         params.put("page", "pages/index/index");
-        params.put("scene", "1:"+id);
+        params.put("scene", "1:" + id);
         params.put("width", String.valueOf(width));
 
         Response<String> response = HttpUtil.sendGet(url, params, "UTF-8");
 
-        if("0000".equals(response.getCode())){
+        if ("0000".equals(response.getCode())) {
             String result = response.getT();
             JSONObject object = JSONObject.parseObject(result);
-            if("0000".equals(object.getString("status"))){
+            if ("0000".equals(object.getString("status"))) {
                 String ercode = object.getString("ercode");
 
                 rs.setStatus(true);
