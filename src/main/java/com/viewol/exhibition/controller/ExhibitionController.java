@@ -10,9 +10,12 @@ import com.viewol.exhibition.vo.ExhibitionVO;
 import com.viewol.pojo.Category;
 import com.viewol.pojo.Product;
 import com.viewol.pojo.ProductIdea;
+import com.viewol.pojo.ProductIdeaNew;
+import com.viewol.pojo.query.ProductIdeaNewQuery;
 import com.viewol.pojo.query.ProductIdeaQuery;
 import com.viewol.pojo.query.ProductQuery;
 import com.viewol.service.ICategoryService;
+import com.viewol.service.IProductIdeaNewService;
 import com.viewol.service.IProductIdeaService;
 import com.viewol.service.IProductService;
 import com.viewol.shiro.token.TokenManager;
@@ -42,7 +45,7 @@ public class ExhibitionController {
     @Resource
     private ICategoryService categoryService;
     @Resource
-    private IProductIdeaService productIdeaService;
+    private IProductIdeaNewService productIdeaNewService;
 
 
     @RequestMapping(value = "/exhibitionList", method = RequestMethod.POST)
@@ -410,7 +413,7 @@ public class ExhibitionController {
         rs.setCode(0);
         rs.setMsg("ok");
 
-        ProductIdeaQuery productIdeaQuery = new ProductIdeaQuery();
+        ProductIdeaNewQuery productIdeaQuery = new ProductIdeaNewQuery();
         productIdeaQuery.setProductName(productName);
         if(99 != status){
             productIdeaQuery.setStatus(status);
@@ -418,7 +421,7 @@ public class ExhibitionController {
         productIdeaQuery.setPageIndex(page);
         productIdeaQuery.setPageSize(limit);
 
-        PageHolder<ProductIdea> pageHolder = productIdeaService.queryProductIdea(productIdeaQuery);
+        PageHolder<ProductIdeaNew> pageHolder = productIdeaNewService.queryProductIdea(productIdeaQuery);
 
         rs.setData(pageHolder.getList());
         rs.setCount(pageHolder.getTotalCount());
@@ -438,7 +441,7 @@ public class ExhibitionController {
                                                 @RequestParam(value = "status", defaultValue = "") Integer status) {
         BaseResponse rs = new BaseResponse();
         try {
-            ProductIdea productIdea = productIdeaService.getProductIdea(productId);
+            ProductIdeaNew productIdea = productIdeaNewService.getProductIdea(productId);
 
             if (null == productIdea) {
                 rs.setStatus(false);
@@ -446,7 +449,7 @@ public class ExhibitionController {
                 return rs;
             }
 
-            int result = productIdeaService.updateStatus(productId, status);
+            int result = productIdeaNewService.updateStatus(productId, status);
             if (result > 0) {
                 rs.setStatus(true);
                 rs.setMsg("修改成功");
@@ -475,7 +478,7 @@ public class ExhibitionController {
     public ProductIdeaResponse getProductIdea(@RequestParam(value = "id", defaultValue = "") int id) {
         ProductIdeaResponse rs = new ProductIdeaResponse();
         try {
-            ProductIdea productIdea = productIdeaService.getProductIdea(id);
+            ProductIdeaNew productIdea = productIdeaNewService.getProductIdea(id);
 
             if (null == productIdea) {
                 rs.setStatus(false);
