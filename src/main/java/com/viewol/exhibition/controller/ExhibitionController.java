@@ -24,6 +24,7 @@ import com.viewol.sys.log.annotation.MethodLog;
 import com.viewol.sys.utils.Constants;
 import com.youguu.core.util.PageHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -484,6 +485,12 @@ public class ExhibitionController {
                 rs.setStatus(false);
                 rs.setMsg("无此产品");
                 return rs;
+            } else {
+                if (StringUtils.isEmpty(productIdea.getVideo())) {
+                    productIdea.setProVideo("否");
+                } else {
+                    productIdea.setProVideo("是");
+                }
             }
 
             rs.setStatus(true);

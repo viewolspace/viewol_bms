@@ -32,115 +32,96 @@
             cursor: pointer;
             color: #999;
         }
+
+        .layui-form-label{
+            width: 180px;
+        }
+
+        .layui-input-block {
+            margin-left: 210px;
+        }
     </style>
 </head>
 
 <body class="body">
-<form id="exhibition-idea-add-form" class="layui-form" action="">
+<form id="exhibition-idea-add-form" class="layui-form" action="" lay-filter="example">
+    <!--产品ID-->
+    <input type="hidden" id="productId" name="productId" value="">
+    <!--申报单位ID-->
+    <input type="hidden" id="companyId" name="companyId" value="">
+
     <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">产品ID</label>
-
-            <div class="layui-input-inline">
-                <input type="text" name="productId" disabled  autocomplete="off"
-                       placeholder="请输入产品ID"
-                       class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-inline">
+        <div class="layui-form-item">
             <label class="layui-form-label">产品名称</label>
 
-            <div class="layui-input-inline">
-                <input type="text" name="productName" disabled  autocomplete="off"
-                       placeholder="请输入产品名称"
-                       class="layui-input">
+            <div class="layui-input-block">
+                <input type="text" name="productName" id="productName" disabled autocomplete="off" placeholder="请输入产品名称" class="layui-input">
             </div>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">展商ID</label>
-
-            <div class="layui-input-inline">
-                <input type="text" name="companyId" disabled  autocomplete="off"
-                       placeholder="请输入展商ID"
-                       class="layui-input">
+        <label class="layui-form-label">申报技术产品图片</label>
+        <div class="layui-input-block">
+            <div class="layui-upload-drag">
+                <a href=" javascript:void(0); ">
+                    <img id="productPicAvatarId" src="../../image/default_upload_z.png" alt="上传图片" width="80" height="80">
+                </a>
+                <input type="hidden" id="productPic" name="productPic" value="">
             </div>
+
+            <button type="button" class="layui-btn" id="productPicBtn">
+                <i class="layui-icon"></i>
+                上传图片
+            </button>
+
+            <input class="layui-upload-file" type="file" name="file">
         </div>
+    </div>
 
-        <div class="layui-inline">
-            <label class="layui-form-label">展商名称</label>
+    <div class="layui-form-item">
+        <div class="layui-form-item">
+            <label class="layui-form-label">申报单位全称</label>
 
-            <div class="layui-input-inline">
-                <input type="text" name="companyName" disabled  autocomplete="off"
-                       placeholder="请输入展商名称"
-                       class="layui-input">
+            <div class="layui-input-block">
+                <input type="text" name="companyName" id="companyName" disabled autocomplete="off" placeholder="请输入申报单位全称" class="layui-input">
             </div>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">展位号</label>
-
-            <div class="layui-input-inline">
-                <input type="text" name="companyPlace" disabled  autocomplete="off"
-                       placeholder="请输入展位号"
-                       class="layui-input">
+        <label class="layui-form-label">申报单位LOGO</label>
+        <div class="layui-input-block">
+            <div class="layui-upload-drag">
+                <a href=" javascript:void(0); ">
+                    <img id="comLogoAvatarId" src="../../image/default_upload_z.png" alt="上传图片" width="80" height="80">
+                </a>
+                <input type="hidden" id="comLogo" name="comLogo" value="">
             </div>
-        </div>
 
-        <div class="layui-inline">
-            <label class="layui-form-label">联系人</label>
-
-            <div class="layui-input-inline">
-                <input type="text" name="liaisonMan" disabled  autocomplete="off" placeholder="张三"
-                       class="layui-input">
-            </div>
+            <button type="button" class="layui-btn" id="comLogoBtn">
+                <i class="layui-icon"></i>
+                上传图片
+            </button>
+            <input class="layui-upload-file" type="file" name="file">
         </div>
     </div>
 
     <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">手机</label>
+        <div class="layui-form-item">
+            <label class="layui-form-label">通信地址和邮编</label>
 
-            <div class="layui-input-inline">
-                <input type="text" name="phone" disabled  autocomplete="off"
-                       placeholder="18866669999"
-                       class="layui-input">
+            <div class="layui-input-block">
+                <input type="text" name="address" disabled autocomplete="off" placeholder="请输入通信地址和邮编" class="layui-input">
             </div>
         </div>
-
-        <!--        <div class="layui-inline">
-                    <label class="layui-form-label">座机</label>
-
-                    <div class="layui-input-inline">
-                        <input type="text" name="landLine" disabled  autocomplete="off" placeholder="010-66660000"
-                               class="layui-input">
-                    </div>
-                </div>-->
     </div>
-
     <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">展商网站</label>
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系人及移动电话</label>
 
-            <div class="layui-input-inline">
-                <input type="text" name="website" disabled  autocomplete="off"
-                       placeholder="http://www.baidu.com"
-                       class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-inline">
-            <label class="layui-form-label">邮箱</label>
-
-            <div class="layui-input-inline">
-                <input type="text" name="email" disabled  autocomplete="off"
-                       placeholder="zhangsan@163.com"
-                       class="layui-input">
+            <div class="layui-input-block">
+                <input type="text" name="phone" disabled autocomplete="off" placeholder="请输入联系人及移动电话" class="layui-input">
             </div>
         </div>
     </div>
@@ -151,19 +132,54 @@
 
             <div class="layui-input-inline">
                 <select lay-filter="categoryId" id="categoryId" name="categoryId" disabled>
-                    <option value="消防装备类">消防装备类</option>
-                    <option value="建筑防火类">建筑防火类</option>
+                    <option value="">请选择分类</option>
 
-                    <optgroup label="消防装备类">
-                        <option value="防护">防护</option>
-                        <option value="救援">救援</option>
-                        <option value="车辆机械">车辆机械</option>
-                        <option value="灭火">灭火</option>
-                        <option value="其它">其它</option>
+                    <optgroup label="智慧消防">
+                        <option value="智慧消防技术产品">智慧消防技术产品</option>
+                        <option value="消防信息化技术产品">消防信息化技术产品</option>
                     </optgroup>
-                    <optgroup label="建筑防火类">
-                        <option value="报警及监控">报警及监控</option>
-                        <option value="防火及灭火">防火及灭火</option>
+                    <optgroup label="灭火系统和消防器具">
+                        <option value="喷水灭火产品">喷水灭火产品</option>
+                        <option value="泡沫灭火设备产品">泡沫灭火设备产品</option>
+                        <option value="干粉灭火设备产品">干粉灭火设备产品</option>
+                        <option value="气体灭火设备产品">气体灭火设备产品</option>
+                        <option value="灭火剂">灭火剂</option>
+                        <option value="灭火器">灭火器</option>
+                        <option value="消防给水设备产品">消防给水设备产品</option>
+                    </optgroup>
+                    <optgroup label="应急救援装备及职业健康">
+                        <option value="消防车辆">消防车辆</option>
+                        <option value="消防灭火装备">消防灭火装备</option>
+                        <option value="消防员防护装备">消防员防护装备</option>
+                        <option value="消防抢险救援装备">消防抢险救援装备</option>
+                        <option value="消防特种装备">消防特种装备</option>
+                        <option value="消防训练装备">消防训练装备</option>
+                        <option value="消防员职业健康">消防员职业健康</option>
+                        <option value="应急救援装备">应急救援装备</option>
+                        <option value="消防通信产品">消防通信产品</option>
+                    </optgroup>
+                    <optgroup label="火灾防护及逃生自救">
+                        <option value="火灾探测器">火灾探测器</option>
+                        <option value="电气火灾监控系统">电气火灾监控系统</option>
+                        <option value="消防联动控制系统">消防联动控制系统</option>
+                        <option value="可燃气体报警产品">可燃气体报警产品</option>
+                        <option value="消防应急照明产品">消防应急照明产品</option>
+                        <option value="消防安全疏散指示产品">消防安全疏散指示产品</option>
+                        <option value="消防安全标志">消防安全标志</option>
+                        <option value="防火涂料">防火涂料</option>
+                        <option value="防火堵料">防火堵料</option>
+                        <option value="防火门">防火门</option>
+                        <option value="防火窗">防火窗</option>
+                        <option value="防火卷帘">防火卷帘</option>
+                        <option value="防火玻璃">防火玻璃</option>
+                        <option value="建筑防烟排烟设施">建筑防烟排烟设施</option>
+                        <option value="逃生自救">逃生自救</option>
+                    </optgroup>
+                    <optgroup label="消防科研及火灾事故调查">
+                        <option value="消防科研技术设备">消防科研技术设备</option>
+                        <option value="火灾事故调查技术设备">火灾事故调查技术设备</option>
+                    </optgroup>
+                    <optgroup label="其它">
                         <option value="其它">其它</option>
                     </optgroup>
                 </select>
@@ -174,87 +190,147 @@
             <label class="layui-form-label">其它分类</label>
 
             <div class="layui-input-inline">
-                <input type="text" name="otherCategory" placeholder="请输入其它分类" class="layui-input" disabled>
-            </div>
-        </div>
-
-        <div class="layui-inline">
-            <label class="layui-form-label">型号</label>
-
-            <div class="layui-input-inline">
-                <input type="text" name="model" disabled  autocomplete="off" placeholder="M11"
-                       class="layui-input">
+                <input type="text" name="otherCategory" disabled placeholder="请输入其它分类" class="layui-input">
             </div>
         </div>
     </div>
 
-
     <div class="layui-form-item">
-        <label class="layui-form-label">申报技术产品的名称及规格型号</label>
+        <label class="layui-form-label">申报消防技术产品的具体名称和规格、型号（每张申报表填写1项）</label>
 
         <div class="layui-input-block">
-            <textarea name="quota" disabled class="layui-textarea"></textarea>
+            <textarea name="des" disabled autocomplete="off" placeholder="" class="layui-textarea"></textarea>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">申报技术产品概述</label>
+        <label class="layui-form-label">采用了哪些新技术、新材料、新工艺，实现了哪些新功能或者开辟了哪些新的应用领域</label>
 
         <div class="layui-input-block">
-            <textarea name="des" disabled class="layui-textarea"></textarea>
+            <textarea name="quota" disabled autocomplete="off" placeholder="请输入申报技术产品的名称及规格型号" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">与同类技术产品比较，主要包括：性价比，适用性，安全性、可靠性，市场和应用前景如何</label>
+
+        <div class="layui-input-block">
+            <textarea name="ideaPoint" disabled autocomplete="off" placeholder="" class="layui-textarea"></textarea>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">申报技术产品图片</label>
-        <div class="layui-input-block">
-            <div class="layui-upload-drag">
-                <a href=" javascript:void(0); ">
-                    <img id="productPicAvatarId" src="../../image/default_upload_z.png" alt="上传图片" width="162"
-                         height="162">
-                </a>
-                <input type="hidden" id="productPic" name="productPic" value="">
-            </div>
+        <label class="layui-form-label">2019年1月1日至今，获得的发明专利或实用新型专利授权、软件著作权等</label>
 
+        <div class="layui-input-block">
+            <textarea name="achievement" disabled autocomplete="off" placeholder="" class="layui-textarea"></textarea>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">申报单位LOGO</label>
-        <div class="layui-input-block">
-            <div class="layui-upload-drag">
-                <a href=" javascript:void(0); ">
-                    <img id="comLogoAvatarId" src="../../image/default_upload_z.png" alt="上传图片" width="162"
-                         height="162">
-                </a>
-                <input type="hidden" id="comLogo" name="comLogo" value="">
-            </div>
-
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">相关证明文件</label>
+        <label class="layui-form-label">专利，软著相关图片（ZIP压缩包）</label>
 
         <div class="layui-input-inline" style="width: 400px;">
-            <input type="text" name="ext" id="ext" disabled autocomplete="off" placeholder="" class="layui-input">
+            <input type="text" name="achievementZip" id="achievementZip" disabled autocomplete="off" placeholder="" class="layui-input">
         </div>
 
         <div class="layui-input-inline">
-            <button type="button" class="layui-btn" id="downloadBtn"><i class="layui-icon"></i>下载</button>
+            <button type="button" class="layui-btn" id="achievementZipBtn"><i class="layui-icon"></i>上传压缩文件(最大10M)</button>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">申报单位承诺</label>
+        <label class="layui-form-label">针对申报的消防技术产品，是否已经编制发布了企业标准，标准名称、发布时间及编号</label>
+
+        <div class="layui-input-block">
+            <textarea name="standard" disabled autocomplete="off" placeholder="" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">何时通过何种评价机构和评定方式，证明核心、关键技术指标达到国内领先或国际先进水平</label>
+
+        <div class="layui-input-block">
+            <textarea name="core" disabled autocomplete="off" placeholder="" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">相关证明（ZIP压缩包）</label>
+
+        <div class="layui-input-inline" style="width: 400px;">
+            <input type="text" name="corePic" id="corePic" disabled autocomplete="off" placeholder="" class="layui-input">
+        </div>
+
+        <div class="layui-input-inline">
+            <button type="button" class="layui-btn" id="corePicBtn"><i class="layui-icon"></i>上传压缩文件(最大10M)</button>
+
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">申报单位承诺（上述申报资料全部真实有效。加盖单位公章，日期。拍照上传）</label>
         <div class="layui-input-block">
             <div class="layui-upload-drag">
                 <a href=" javascript:void(0); ">
-                    <img id="promisePicAvatarId" src="../../image/default_upload_z.png" alt="上传图片" width="162"
-                         height="162">
+                    <img id="promisePicAvatarId" src="../../image/default_upload_z.png" alt="上传图片" width="160" height="80">
                 </a>
                 <input type="hidden" id="promisePic" name="promisePic" value="">
             </div>
+
+            <button type="button" class="layui-btn" id="promisePicBtn">
+                <i class="layui-icon"></i>
+                上传图片
+            </button>
+            <input class="layui-upload-file" type="file" name="file">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否提供现场答疑</label>
+        <div class="layui-input-block">
+            <input type="radio" lay-filter="proAsk1" name="proAsk" value="是" title="是" disabled>
+            <input type="radio" lay-filter="proAsk1" name="proAsk" value="否" title="否" disabled>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否提供现场产品演示</label>
+        <div class="layui-input-block">
+            <input type="radio" name="proView" value="是" title="是" disabled>
+            <input type="radio" name="proView" value="否" title="否" disabled>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否参与产品展示推介活动</label>
+        <div class="layui-input-block">
+            <input type="radio" name="proEvent" value="是" title="是" disabled>
+            <input type="radio" name="proEvent" value="否" title="否" disabled>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">所提供视频是否可以在媒体公开宣传</label>
+        <div class="layui-input-block">
+            <input type="radio" lay-filter="proVideo1" name="proVideo" value="是" title="是" disabled>
+            <input type="radio" lay-filter="proVideo1" name="proVideo" value="否" title="否" checked="true" disabled>
+            选择是，需要上传宣传视频
+        </div>
+    </div>
+
+    <div class="layui-form-item" id="publicityVideoDiv" style="display: none">
+        <label class="layui-form-label">上传视频（分辨率：1920x1080 （横版）；时长：10分钟以内；格式：mp4；内容：仅限参选产品介绍）</label>
+
+        <div class="layui-input-inline" style="width: 400px;">
+            <input type="text" name="video" id="video" disabled autocomplete="off" placeholder="" class="layui-input">
+        </div>
+
+        <div class="layui-input-inline">
+            <button type="button" class="layui-btn" id="videoBtn"><i class="layui-icon"></i>上传视频(1920x1080/10分钟以内/mp4)</button>
         </div>
     </div>
 
@@ -264,13 +340,14 @@
 
             <div class="layui-input-inline">
                 <select id="status" name="status">
-                    <option value="0">等待评选</option>
+                    <option value="0" selected>等待评选</option>
                     <option value="1">评选通过</option>
                     <option value="-1">评选失败</option>
                 </select>
             </div>
         </div>
     </div>
+
 
     <div class="layui-form-item operate">
         <button class="layui-btn" type="button" lay-submit lay-filter="exhibition-idea-add-form">
@@ -282,6 +359,7 @@
             取消
         </button>
     </div>
+    <input type="hidden" id="id" name="id" value="">
 </form>
 
 <script type="text/javascript">

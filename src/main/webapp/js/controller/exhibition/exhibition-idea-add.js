@@ -39,7 +39,20 @@ layui.use(requireModules, function (form,
     }, function (result) {
         productIdeaData = result.data;
         if (!$.isEmptyObject(productIdeaData)) {
+            productIdeaData.proAsk = [productIdeaData.proAsk];
+            productIdeaData.proView = [productIdeaData.proView];
+            productIdeaData.proEvent = [productIdeaData.proEvent];
+            productIdeaData.proVideo = [productIdeaData.proVideo];
+
+            if (productIdeaData.proVideo[0] == '否') {
+                $("#publicityVideoDiv").hide();
+                $("#video").val("");
+            } else {
+                $("#publicityVideoDiv").show();
+            }
+
             formUtil.renderData($('#exhibition-idea-add-form'), productIdeaData);
+            form.render(); //更新全部
 
             if(productIdeaData.categoryId == '其它'){
                 $("#otherCategoryDiv").show();
