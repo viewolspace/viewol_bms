@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>添加资讯</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../frame/layui/css/layui.css">
+    <link href="../../frame/ueditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+    <style type="text/css">
+        .operate{
+            text-align: center;
+            bottom: 0;
+            position: relative;
+            left: 0;
+            right: 0;
+        }
+    </style>
+</head>
+<body class="body">
+<form id="performance-form" class="layui-form" action="">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">手机号</label>
+            <div class="layui-input-inline">
+                <input id="phone" type="text" name="phone" placeholder="请输入手机号码" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-inline">
+                <input id="email" type="text" name="email" placeholder="请输入邮箱" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">微信号</label>
+            <div class="layui-input-inline">
+                <input id="openId" type="text" name="openId" placeholder="请输入微信号" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">所需面积（平米）</label>
+            <div class="layui-input-inline">
+                <input id="area" type="text" name="area" placeholder="请输入所需面积（数字）" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">展演类别</label>
+            <div class="layui-input-inline">
+                <input id="performanceCategory" type="text" name="performanceCategory" placeholder="请输入展演类别" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">展演产品</label>
+            <div class="layui-input-inline">
+                <input id="performanceProduct" type="text" name="performanceProduct" placeholder="请输入展演产品" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">产品优势及特性</label>
+        <div class="layui-input-block">
+            <textarea id="feature" name="feature" autocomplete="off" placeholder="" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">需辅助服务及功能需求</label>
+        <div class="layui-input-block">
+            <textarea id="needHelp" name="needHelp" autocomplete="off" placeholder="" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">展演时段（地点：E4馆外）</label>
+            <div class="layui-input-inline">
+                <select name="performanceTime">
+                    <option value="上午">上午</option>
+                    <option value="下午">下午</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">广告及媒体需求</label>
+            <div class="layui-input-inline">
+                <select name="adPositon">
+                    <option value="馆外大屏">馆外大屏</option>
+                    <option value="馆内大屏">馆内大屏</option>
+                    <option value="官媒">官媒</option>
+                    <option value="自媒体">自媒体</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item" pane="">
+        <label class="layui-form-label">广告方式</label>
+        <div class="layui-input-block" id="adPositon-adMethod-div">
+
+        </div>
+    </div>
+
+    <div class="layui-form-item operate">
+<!--        <button class="layui-btn" type="button" lay-submit lay-filter="performance-form">-->
+<!--            <i class="layui-icon">&#xe605;</i>-->
+<!--            保存-->
+<!--        </button>-->
+        <button id="cancel" type="button" class="layui-btn layui-btn-primary">
+            <i class="layui-icon">&#x1006;</i>
+            关闭
+        </button>
+    </div>
+    <input type="hidden" id="id" name="id" value="">
+</form>
+
+<script id="container" name="content" type="text/plain"></script>
+<script type="text/javascript" src="../../js/common/module-manage.js"></script>
+<script type="text/javascript" src="../../frame/layui/layui.js"></script>
+<script type="text/javascript" charset="utf8" src="../../frame/jquery-1.12.4.js"></script>
+<script type="text/javascript" charset="utf8" src="../../frame/moment.js"></script>
+<script type="text/javascript" charset="utf8" src="../../frame/form-srializeJSON.js"></script>
+
+<script type="text/javascript" charset="utf8" src="../../js/controller/performance/performance-update.js"></script>
+</body>
+</html>

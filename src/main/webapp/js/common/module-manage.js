@@ -65,7 +65,9 @@ function registeModule(window,modulesYouWanted,otherModules) {
             'fuser-api':'api/fuser-api',
 			'select-api':'api/select-api',
 			'info-api':'api/info-api',
-			'billboard-api':'api/billboard-api'
+			'billboard-api':'api/billboard-api',
+			'performance-api':'api/performance-api',
+			'tech-report-api':'api/tech-report-api'
 		}
 
 		//刨除系统自带modules
