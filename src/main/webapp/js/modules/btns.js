@@ -107,6 +107,12 @@ layui.define(function(exports) {
             name: '编辑',
             event: 'row-edit'
         },
+        'row-reply-layui': {
+            className: baseBtnClass + 'layui-btn-xs',
+            icon: '&#xe642;',
+            name: '回复',
+            event: 'row-reply'
+        },
         'row-delete-layui': {
             className: baseBtnClass + 'layui-btn-danger layui-btn-xs',
             icon: '&#x1006;',
