@@ -79,11 +79,10 @@ layui.use(requireModules, function (form,
         }
     });
 
-    var index = layedit.build('content');//活动内容富文本编辑初始化
+    // var index = layedit.build('content');//活动内容富文本编辑初始化
 
     f.on('submit(schedule-update-form)', function (data) {
-        var datas = $.extend(true, data.field, {"content": layedit.getContent(index)});
-        ajax.request(scheduleApi.getUrl('updateSchedule'), datas, function () {
+        ajax.request(scheduleApi.getUrl('updateSchedule'), data.field, function () {
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.list.refresh();

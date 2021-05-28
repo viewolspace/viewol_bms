@@ -41,7 +41,7 @@ layui.use(requireModules, function (form,
             type: 'POST'
         }
     });
-    var index = layedit.build('content');
+    // var index = layedit.build('content');
 
     laydate.render({
         elem: '#sTime',
@@ -58,8 +58,7 @@ layui.use(requireModules, function (form,
     });
 
     f.on('submit(schedule-add-form)', function (data) {
-        var datas = $.extend(true, data.field, {"content": layedit.getContent(index)});
-        ajax.request(scheduleApi.getUrl('addSchedule'), datas, function () {
+        ajax.request(scheduleApi.getUrl('addSchedule'), data.field, function () {
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.list.refresh();
